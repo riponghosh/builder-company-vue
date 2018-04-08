@@ -1,0 +1,39 @@
+<div id="divOccupancyColumnChart" class="{{ResizeClass($parent.$parent.OccupancyColumnChart_FullWidth,'occupancy')}}" ng-show="$parent.$parent.Widget_OccupancyColumnChart">
+                                                    <div class="panel panel-primary text-left no-boder" >
+									<div class="panel-heading">
+											<i class="fa fa-bar-chart-o fa-fw"></i>
+											<a class="widgetTitle" ng-click="OccupancyChartcollapsed=(OccupancyChartcollapsed==null?false:!OccupancyChartcollapsed);">
+											Hotel Statistics Chart for {{SelectedHotel.Name}}
+											</a>
+											<div class="pull-right">
+												<a ng-click="ResizeIt('divOccupancyColumnChart','OccupancyChart')">Resize</a>
+												<a ng-click="ShowHelpPopup('OccupancyColumnChart_help.html');"><img src="images/Apps-Help-icon.png" width="20px" height="25px"></a>
+											</div>
+
+										</div>
+
+
+								<div class="panel-body yellow" ng-show="(OccupancyChartcollapsed==null?true:OccupancyChartcollapsed)">
+									<div class="row">
+										<div class="sk-wave" ng-show="isOccupancyInfoLoading">
+											<div class="sk-rect sk-rect1"></div>
+											<div class="sk-rect sk-rect2"></div>
+											<div class="sk-rect sk-rect3"></div>
+											<div class="sk-rect sk-rect4"></div>
+											<div class="sk-rect sk-rect5"></div>
+										  </div>
+										<!-- <div class="col-lg-12">
+										
+											<div class="panel-body">
+												
+												<div id="OccupancyChart" style="min-width: 150px; height: 300px; margin: 0 auto"></div>
+											</div>
+												
+										</div> -->
+										<div  id="OccupancyChart"  ng-show="!isOccupancyInfoLoading" style="height: auto; width: auto" ></div>
+									
+									</div>
+								</div>
+								
+							</div>
+                                                </div>

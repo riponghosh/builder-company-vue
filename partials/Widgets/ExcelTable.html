@@ -1,0 +1,663 @@
+<div id="Drag_ExcelTable" class="col-lg-12" ng-show="$parent.$parent.Widget_ExcelTable">
+							<div class="panel panel-primary text-left no-boder" ng-show="$parent.$parent.ExcelFormType=='LIST'">
+									<div class="panel-heading">
+											<i class="fa fa-bar-chart-o fa-fw"></i>
+											<a class="widgetTitle" ng-click="ExcelTablecollapsed=(ExcelTablecollapsed==null?false:!ExcelTablecollapsed);">
+											Daily Consumption Detail for {{SelectedHotel.Name}} 
+											</a>
+											<!--<div class="pull-right">
+												<div class="btn-group" ng-show="(ExcelTablecollapsed==null?true:ExcelTablecollapsed)">
+													<ul class="nav site-nav">
+													<li class=flyout>
+													
+														<a style="background-color:white; color:black; line-height:1.2; padding:0.2em;" href=''><strong>Actions</strong></a>
+														
+														
+														<ul class="flyout-content nav stacked" ng-show="ExcelList.length>0">
+															<li><a ng-click="$parent.$parent.ExcelFormType='PRINT';ShowExcelPrintPageForm()" ng-show="ExcelTable_PrintPage">Daily Operations Meeting : Energy Detail</a></li>
+															<li><a ng-click="$parent.$parent.ExcelFormType= 'GRAPH';ShowExcelGraphs()" ng-show="ExcelTable_Graphs" >Energy Consumption Graph</a></li>
+														</ul>
+												
+													</li>
+													</ul>
+													
+												</div>
+												<a ng-click="ShowHelpPopup('ExcelTable_help.html');"><img src="images/Apps-Help-icon.png" width="20px" height="25px"></a>
+											</div>-->
+
+											<div class="btn-group btn-group-warning pull-right" ng-show="(ExcelTablecollapsed==null?true:ExcelTablecollapsed)">
+	  
+											  <button data-toggle="dropdown" class="btn btn-warning btn-xs dropdown-toggle" type="button">
+												  <span class="caret"></span></button>
+											  <ul class="dropdown-menu">
+												  
+												  <li><a ng-click="$parent.$parent.ExcelFormType='PRINT';ShowExcelPrintPageForm()" ng-show="ExcelTable_PrintPage">Daily Summary Page</a></li>
+															<li><a ng-click="$parent.$parent.ExcelFormType= 'GRAPH';ShowExcelGraphs()" ng-show="ExcelTable_Graphs" >Energy Consumption Graph</a></li>
+												  <li class="divider"></li>
+												  <li><a ng-click="ShowHelpPopup('ExcelTable_help.html');">Help</a></li>
+											  </ul>
+										  	</div>
+										</div>
+
+
+								<div class="panel-body yellow" ng-show="(ExcelTablecollapsed==null?true:ExcelTablecollapsed)">
+									<div class="row">
+										
+										<div class="col-lg-12">
+										<input type="text" ng-model="$parent.$parent.ExcelFilterStartDate" height="1px" ng-click="ShowDatePicker('ExcelFilterStartDate')" id="ExcelFilterStartDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" /> 
+										<input type="text" height="1px" ng-model="$parent.$parent.ExcelFilterEndDate" ng-click="ShowDatePicker('ExcelFilterEndDate')" id="ExcelFilterEndDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" />
+										
+										<button ng-click="ReloadExcelInformation()">Search</button> &nbsp; 
+                                                                                </div>
+																				<div class="sk-wave" ng-show="$parent.$parent.isExcelInfoLoading">
+                                                                                                <div class="sk-rect sk-rect1"></div>
+                                                                                                <div class="sk-rect sk-rect2"></div>
+                                                                                                <div class="sk-rect sk-rect3"></div>
+                                                                                                <div class="sk-rect sk-rect4"></div>
+                                                                                                <div class="sk-rect sk-rect5"></div>
+                                                                                          </div>  
+                                                                                <div class="col-lg-12" ng-init="$parent.$parent.activeExcelInfoTab=1;" ng-show="!isExcelInfoLoading">
+											<ul class="nav nav-tabs">
+											<li ng-show="$parent.$parent.ExcelTable_kWh" ng-class="{'active' : $parent.$parent.activeExcelInfoTab == 1}"><a href="" ng-click="$parent.$parent.activeExcelInfoTab=1"><strong>Energy Breakdown</strong></a></li>
+											<li ng-show="$parent.$parent.ExcelTable_Cost" ng-class="{'active' : $parent.$parent.activeExcelInfoTab == 2}"><a href="" ng-click="$parent.$parent.activeExcelInfoTab=2"><strong>Cost Breakdown</strong></a></li>
+
+											
+											</ul>
+                                                                                  
+                                                                                    <div class="tab-content">
+                                                                                        <div ng-show="$parent.$parent.ExcelTable_kWh && $parent.$parent.activeExcelInfoTab==1">
+                                                                                            
+                                                                                            
+                                                                                            
+                                                                                            <div class="table-responsive" ng-show="!isExcelInfoLoading"></br>
+												<div><strong>Daily Energy Breakdown (kWh)</strong></div>
+												<table class="table table-bordered table-hover table-striped">
+													<thead>
+														<tr>
+															<!-- <th>Hotel Name</th> -->
+															<th>Date</th>
+															<th>Total kWh</th>
+															<th>Night Low Achieved kWh</th>
+															<th>F&B (kWh)</th>
+															<th>C&B (kWh)</th>
+															<th>H&F (kWh)</th>
+															<th>House Keeping (kWh)</th>
+															<th>Plant (kWh)</th>
+															<th>General (kWh)</th>
+															<!-- <th>HitDayMax</th> -->
+															<th>First Peak (kW)</th>
+															<th>First Peak Time</th>
+															<th>Last Peak (kW)</th>
+															<th>Last Peak Time</th>
+															<th>No Hours above</th>
+															<th  ng-show="1==2"></th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr ng-repeat='ExcelItem in ExcelList | orderBy:Excelpredicate:ExcelPagingreverse | filter:Excelpaginate'>
+															<!-- <td>{{ExcelItem.HotelName}}</td> -->
+															<!--<td>{{ExcelItem.date}}</td>-->
+                                                                                                                        <td>{{formatDateDayUK(ExcelItem.date)}}</td>
+															<td>{{ExcelItem.total}}</td>
+                                                                                                                        <td ng-style="{'background-color':ExcelItem.cellbgcolor }">{{ExcelItem.nightlow}}</td>
+															<!--<td>{{ExcelItem.fb}}</td>
+															<td>{{ExcelItem.cb}}</td>
+															<td>{{ExcelItem.hf}}</td>
+															<td>{{ExcelItem.hk}}</td>
+															<td>{{ExcelItem.plant}}</td>
+															<td>{{ExcelItem.General}}</td>-->
+															<td><span ng-show="ExcelItem.fb_IsValid=='1'">{{ExcelItem.fb}}</span></td>
+															<td><span ng-show="ExcelItem.cb_IsValid=='1'">{{ExcelItem.cb}}</span></td>
+															<td><span ng-show="ExcelItem.hf_IsValid=='1'">{{ExcelItem.hf}}</span></td>
+															<td><span ng-show="ExcelItem.hk_IsValid=='1'">{{ExcelItem.hk}}</span></td>
+															<td><span ng-show="ExcelItem.plant_IsValid=='1'">{{ExcelItem.plant}}</span></td>
+															<td><span ng-show="ExcelItem.General_IsValid=='1'">{{ExcelItem.General}}</span></td>
+															<!-- <td><input type="checkbox" disabled ng-model="ExcelItem.hitdaymax"/></td> -->
+															<td  ng-style="{'background-color':ExcelItem.cellbgcolor2 }">{{ExcelItem.firstday}}</td>
+															<td  ng-style="{'background-color':ExcelItem.cellbgcolor2 }">{{ExcelItem.fdtime | limitTo:5 }}</td>
+															<td  ng-style="{'background-color':ExcelItem.cellbgcolor2 }">{{ExcelItem.lastday}}</td>
+															<td  ng-style="{'background-color':ExcelItem.cellbgcolor2 }">{{ExcelItem.ldtime | limitTo:5}}</td>
+															<td>{{ExcelItem.hitdaymax}}</td>
+															<td  ng-show="1==2"><a title='Edit'  ng-click="EditExcel(ExcelItem);"><img src="images/edit-icon.png" /></a> 
+															<!-- | <a href='' ng-click="doDeleteUser(userItem)"><img src="images/delete-icon.png" /></a> -->
+															</td>
+														</tr>
+														
+
+													</tbody>
+												</table>
+												<div>
+													<pagination total-items="$parent.$parent.ExceltotalItems" ng-model="$parent.$parent.ExcelPagingcurrentPage"  
+													max-size="5" boundary-links="true"  
+													items-per-page="$parent.$parent.ExcelPagingnumPerPage" class="pagination-sm">  
+													</pagination> 
+												</div>
+												
+                                                                                            </div>
+                                                                                            
+                                                                                        </div>
+                                                                                        
+                                                                                        <div ng-show="$parent.$parent.ExcelTable_Cost && $parent.$parent.activeExcelInfoTab==2">
+                                                                                            <div class="sk-wave" ng-show="$parent.$parent.isExcelInfoLoading">
+                                                                                            <div class="sk-rect sk-rect1"></div>
+                                                                                            <div class="sk-rect sk-rect2"></div>
+                                                                                            <div class="sk-rect sk-rect3"></div>
+                                                                                            <div class="sk-rect sk-rect4"></div>
+                                                                                            <div class="sk-rect sk-rect5"></div>
+                                                                                                </div>
+                                                                                            <div class="table-responsive" ng-show="!isExcelInfoLoading"></br>
+												
+												<!-- Money -->
+												<div><strong>Daily Cost Breakdown ( &pound; )</strong></div>
+												<table class="table table-bordered table-hover table-striped">
+													<thead>
+														<tr>
+															<!-- <th>Hotel Name</th> -->
+															<th>Date</th>
+															<th>Total Cost</th>
+															
+															<th>F&B (Cost)</th>
+															<th>C&B (Cost)</th>
+															<th>H&F (Cost)</th>
+															<th>House Keeping (Cost)</th>
+															<th>Plant (Cost)</th>
+															<th>General (Cost)</th>
+															<th>Cost of Lowest Overnight Hour</th>
+															<th>Annualised O/N Waste</th>
+															
+															<th  ng-show="1==2"></th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr ng-repeat='ExcelItem in ExcelList | orderBy:Excelpredicate:ExcelPagingreverse | filter:Excelpaginate'>
+															<!-- <td>{{ExcelItem.HotelName}}</td> -->
+															<!--<td>{{ExcelItem.date}}</td>-->
+                                                                                                                        <td>{{formatDateDayUK(ExcelItem.date)}}</td>
+                                                                                                                        
+															<!--<td>&pound;{{ExcelItem.total * 0.08992454 | number:0}}</td>
+															<td>&pound;{{ExcelItem.nightlow * 0.08992454 | number:0}}</td>
+															<td>&pound;{{ExcelItem.fb * 0.08992454 | number:0}}</td>
+															<td>&pound;{{ExcelItem.cb * 0.08992454 | number:0}}</td>
+															<td>&pound;{{ExcelItem.hf * 0.08992454 | number:0}}</td>
+															<td>&pound;{{ExcelItem.hk * 0.08992454 | number:0}}</td>
+															<td>&pound;{{ExcelItem.plant * 0.08992454 | number:0}}</td>
+															<td>&pound;{{ExcelItem.General * 0.08992454 | number:0}}</td>-->
+															
+															<td>&pound;{{ExcelItem.total * 0.08992454 | number:0}}</td>
+															
+															<td><span ng-show="ExcelItem.fb_IsValid=='1'">&pound;{{ExcelItem.fb * 0.08992454 | number:0}}</span></td>
+															<td><span ng-show="ExcelItem.cb_IsValid=='1'">&pound;{{ExcelItem.cb * 0.08992454 | number:0}}</span></td>
+															<td><span ng-show="ExcelItem.hf_IsValid=='1'">&pound;{{ExcelItem.hf * 0.08992454 | number:0}}</span></td>
+															<td><span ng-show="ExcelItem.hk_IsValid=='1'">&pound;{{ExcelItem.hk * 0.08992454 | number:0}}</span></td>
+															<td><span ng-show="ExcelItem.plant_IsValid=='1'">&pound;{{ExcelItem.plant * 0.08992454 | number:0}}</span></td>
+															<td><span ng-show="ExcelItem.General_IsValid=='1'">&pound;{{ExcelItem.General * 0.08992454 | number:0}}</span></td>
+															<td>&pound;{{ExcelItem.nightlow * 0.08992454 | number:2}}</td>
+                                                            <td ng-style="{'color':GetONWasteStyle(ExcelItem) }" ><strong>&pound;{{GetONWasteValue(ExcelItem) | number:0}}</strong></td>
+															<!--<td >&pound;{{(ExcelItem.nightlow-ExcelItem.smcontrol[0].nightlow)*ExcelItem.smcontrol[0].kwcost*8*365 | number:0}}</td>-->
+															
+															
+															<td ng-show="1==2"><a title='Edit'  ng-click="EditExcel(ExcelItem);"><img src="images/edit-icon.png" /></a> 
+															<!-- | <a href='' ng-click="doDeleteUser(userItem)"><img src="images/delete-icon.png" /></a> -->
+															</td>
+														</tr>
+														
+
+													</tbody>
+												</table>
+												<div>
+													<pagination total-items="$parent.$parent.ExceltotalItems" ng-model="$parent.$parent.ExcelPagingcurrentPage"  
+													max-size="5" boundary-links="true"  
+													items-per-page="$parent.$parent.ExcelPagingnumPerPage" class="pagination-sm">  
+													</pagination> 
+												</div>
+
+											</div>
+											
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+										
+										<!-- <button ng-click="ShowAddOccupancyForm()" ng-show="ShowOccupancyAdd==true;">Add</button> -->
+										<!-- <button ng-click="ShowExcelPrintPageForm()">Print Page</button> -->
+											
+												
+										
+										
+									
+									</div>
+									
+									
+								
+								</div>
+								
+							</div>
+						</div>
+                        
+                        
+                        
+                        <!-- print page -->
+						<div class="col-lg-12" ng-show="$parent.$parent.ExcelFormType=='PRINT'">
+							<div class="panel panel-primary text-left no-boder" >
+									<div class="panel-heading">
+											<i class="fa fa-bar-chart-o fa-fw"></i>Daily Summary Page
+											<!--<div class="pull-right">
+												<div class="btn-group">
+													
+													<ul class="nav site-nav">
+													<li class=flyout>
+													
+														<a style="background-color:white; color:black; line-height:1.2; padding:0.2em;" href=''><strong>Actions</strong></a>
+														
+														
+														<ul class="flyout-content nav stacked">
+															<li><a ng-click="CancelExcelPrintPageForm()">Daily Consumption Detail</a></li>
+															<li><a ng-click="$parent.$parent.ExcelFormType='GRAPH';ShowExcelGraphs()" ng-show="ExcelTable_Graphs">Energy Consumption Graph</a></li>
+														</ul>
+												
+													</li>
+													</ul>
+												</div>
+												<a ng-click="ShowHelpPopup('DailyOperationsMeeting_EnergyDetail.html');"><img src="images/Apps-Help-icon.png" width="20px" height="25px"></a>
+											</div>-->
+
+											<div class="btn-group btn-group-warning pull-right" ng-show="(ExcelTablecollapsed==null?true:ExcelTablecollapsed)">
+	  
+											  <button data-toggle="dropdown" class="btn btn-warning btn-xs dropdown-toggle" type="button">
+												  <span class="caret"></span></button>
+											  <ul class="dropdown-menu">
+												  
+												  <li><a ng-click="CancelExcelPrintPageForm()">Daily Consumption Detail</a></li>
+															<li><a ng-click="$parent.$parent.ExcelFormType='GRAPH';ShowExcelGraphs()" ng-show="ExcelTable_Graphs">Energy Consumption Graph</a></li>
+												  <li class="divider"></li>
+												  <li><a ng-click="ShowHelpPopup('DailyOperationsMeeting_EnergyDetail.html');">Help</a></li>
+											  </ul>
+										  	</div>
+										</div>
+
+
+								<div class="panel-body yellow">
+											
+									<!-- print page-->
+									
+										<div class="col-lg-12">
+										
+											<div class="table-responsive" >
+                                                                                            <div class="sk-wave" ng-show="$parent.$parent.isExcelPrintInfoLoading">
+                                                                                                                                    <div class="sk-rect sk-rect1"></div>
+                                                                                                                                    <div class="sk-rect sk-rect2"></div>
+                                                                                                                                    <div class="sk-rect sk-rect3"></div>
+                                                                                                                                    <div class="sk-rect sk-rect4"></div>
+                                                                                                                                    <div class="sk-rect sk-rect5"></div>
+                                                                                                                              </div>
+											<table width="100%" >
+													
+														<tr>
+															<td ><button ng-show="ExcelTable_PrintPage_Print" ng-click="SendToPrinter('ExcelTableToBePrinted',ExcelPrintItem)" class="button">Print</button></td>
+														</tr>
+											</table>
+												<table width="100%" id="ExcelTableToBePrinted" class="table table-bordered table-hover table-striped">
+													<tbody>
+														<tr>
+															<td>
+                                                                                                                                
+																<table width="100%" class="table table-bordered table-hover table-striped">
+																	<tr>
+																		<td colspan="6" align="right"></td>
+																	</tr>
+																	<tr>
+																		<td width="40%">Print Ready by 7am - Report Covering</td>
+																		<td >
+																		<!-- <strong>{{ExcelPrintItem.dname}}</strong> &nbsp;&nbsp; <strong>{{ExcelPrintItem.dt1}} 
+																		</strong>  -->
+																		<input type="text" ng-model="ExcelPrintItem.date" ng-change="ExelPrintDateChanges(ExcelPrintItem)" ng-click="ShowDatePicker('ExcelPrintItemdate')" id="ExcelPrintItemdate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" />
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>Yesterday {{ExcelPrintItem.hotelName}} used:</td>
+																		<td ><strong>&pound;{{ExcelPrintItem.totelSumNew}}</strong>&nbsp; which is <strong>{{ExcelPrintItem.totelSumDownOrUp}}</strong>&nbsp; by&nbsp; <strong>&pound;{{ExcelPrintItem.totelSumDownBy | number : 2}}</strong>&nbsp; or <strong>{{ExcelPrintItem.totelSumDownPercent}}%</strong>&nbsp;</td>
+
+																	</tr>
+																	<tr>
+																		<td >{{ExcelPrintItem.hotelName}}'s High Daytime Consumption Threshold is</td>
+																		<td ><strong>{{ExcelPrintItem.HotelSettings.DayMax}} kWh</strong> &nbsp; which is <strong>&pound;{{(ExcelPrintItem.HotelSettings.DayMax * ExcelPrintItem.settings.kwcost) | number : 2 }}</strong> &nbsp; per hour.</td>
+										
+																	</tr>
+																	<tr>
+																		<td>{{ExcelPrintItem.FirstDayTimeHthresholdText}}</td>
+																		<td ><strong>{{ExcelPrintItem.FirstDayNew}} kWh</strong> &nbsp; at &nbsp; <strong>{{ExcelPrintItem.FirstDayTimeNew}}</strong> &nbsp; (First occasion) </td>
+																		
+																	</tr>
+																	<tr>
+																		<td></td>
+																		<td ><strong>{{ExcelPrintItem.LastDayNew}} kWh</strong> &nbsp; at &nbsp; <strong>{{ExcelPrintItem.LastDayTimeNew}}</strong> &nbsp; (Last occasion) </td>
+																		
+																	</tr>
+<tr>
+                  <td>Our Overnight Low was </td>
+                  <td ><strong>{{ExcelPrintItem.NightLowNew}} kWh</strong> &nbsp; against a target of &nbsp; <strong>{{ExcelPrintItem.HotelSettings.NightLow}}</strong> kWh &nbsp; annual wastage rate &nbsp; <strong>&pound;{{GetONWasteValueForExcelPrint(((ExcelPrintItem.NightLowNew - ExcelPrintItem.HotelSettings.NightLow)*ExcelPrintItem.settings.kwcost*8*365)) | number : 0}}</strong> </td>
+
+																		
+                  
+                 </tr>																</table>
+															</td>
+														</tr>
+														
+														
+														<tr>
+															<td >Overnight Alerts were received for: </td>
+															
+														</tr>
+														<tr>
+															<td >
+																<table width="100%" class="table table-bordered table-hover table-striped">
+																	<thead>
+																		<tr>
+																			<th width="10%"></th>
+																			<th width="20%">Number Of Alerts</th>
+																			<th>Finding upon investigation...</th>
+																			
+																		</tr>
+																	</thead>
+																	<tbody>
+																		
+																		<tr>
+																			<td >F&B =</td>
+																			<td ><strong>{{ExcelPrintItem.FBAlertCount}}</strong></td>
+																			<td ><input ng-disabled="!ExcelTable_PrintPage_Save" class="form-control" maxlength="150" ng-model="ExcelPrintItem.fbFN" type="text"></td>
+																		</tr>
+																		<tr>
+																			<td >C&B = </td>
+																			<td ><strong>{{ExcelPrintItem.FunctionsAlertCount}}</strong></td>
+																			<td ><input ng-disabled="!ExcelTable_PrintPage_Save" class="form-control" maxlength="150"  ng-model="ExcelPrintItem.cbFN"  type="text"></td>
+																		</tr>
+																		<tr>
+																			<td >H&F = </td>
+																			<td ><strong>{{ExcelPrintItem.HFAlertCount}}</strong></td>
+																			<td ><input ng-disabled="!ExcelTable_PrintPage_Save" class="form-control" maxlength="150"  ng-model="ExcelPrintItem.hfFN"  type="text"></td>
+																		</tr>
+																		<tr>
+																			<td >House Keeping = </td>
+																			<td ><strong>{{ExcelPrintItem.HouseKeepingAlertCount}}</strong></td>
+																			<td ><input ng-disabled="!ExcelTable_PrintPage_Save" class="form-control" maxlength="150"  ng-model="ExcelPrintItem.hkFN"  type="text"></td>
+																		</tr>
+																		<tr>
+																			<td >General = </td>
+																			<td ><strong>{{ExcelPrintItem.GeneralAlertCount}}</strong></td>
+																			<td ><input ng-disabled="!ExcelTable_PrintPage_Save" class="form-control" maxlength="150"  ng-model="ExcelPrintItem.generalFN"  type="text"></td>
+																		</tr>
+																		<tr>
+																			<td >Plant = </td>
+																			<td ><strong>{{ExcelPrintItem.PlantAlertCount}}</strong></td>
+																			<td ><input ng-disabled="!ExcelTable_PrintPage_Save" class="form-control" maxlength="150"  ng-model="ExcelPrintItem.plantFN"  type="text"></td>
+																		</tr>
+																	</tbody>
+																</table>
+															</td>
+														</tr>
+														<tr>
+															<td >Rounds Report: </td>
+															
+														</tr>
+														<tr>
+															<td >
+																<table width="100%" class="table table-bordered table-hover table-striped">
+																	
+																	<tbody>
+																		
+																		<tr>
+																			<td><textarea ng-disabled="!ExcelTable_PrintPage_Save" rows="10" cols="150" ng-model="ExcelPrintItem.reportText"></textarea></td>
+																			
+																		</tr>
+																		
+																	</tbody>
+																</table>
+															</td>
+														</tr>
+														<tr>
+															<td ><button ng-click="SaveExcelPrintPageForm()" ng-show="ExcelTable_PrintPage_Save" >Save Changes</button></td>
+															
+														</tr>
+														<tr>
+															<td >Department Summary, compared to yesterday: </td>
+															
+														</tr>
+														<tr>
+															<td >
+																<table width="100%" class="table table-bordered table-hover table-striped">
+																	
+																	<tbody>
+																		
+																		<tr>
+																			<td >F&B :</td>
+																			<td ></td>
+																			<td ><strong>&pound;{{ExcelPrintItem.FBNew}}</strong></td>
+																			<td >which is </td>
+																			<td ><strong>{{ExcelPrintItem.FBUPDOWN}}</strong></td>
+																			<td >by </td>
+																			<td ><strong>&pound;{{(ExcelPrintItem.FBUPDOWNValue | number : 2)}}</strong></td>
+																			<td >or</td>
+																			<td ><strong>{{ExcelPrintItem.FBUPDOWNPercent}}%</strong></td>
+																		</tr>
+																		<tr>
+																			<td >C&B :</td>
+																			<td ></td>
+																			<td ><strong>&pound;{{ExcelPrintItem.CBNew}}</strong></td>
+																			<td >which is </td>
+																			<td ><strong>{{ExcelPrintItem.CBUPDOWN}}</strong></td>
+																			<td >by </td>
+																			<td ><strong>&pound;{{(ExcelPrintItem.CBUPDOWNValue | number : 2)}}</strong></td>
+																			<td >or</td>
+																			<td ><strong>{{ExcelPrintItem.CBUPDOWNPercent}}%</strong></td>
+																		</tr>
+																		<tr>
+																			<td >H&F :</td>
+																			<td ></td>
+																			<td ><strong>&pound;{{ExcelPrintItem.HFNew}}</strong></td>
+																			<td >which is </td>
+																			<td ><strong>{{ExcelPrintItem.HFUPDOWN}}</strong></td>
+																			<td >by </td>
+																			<td ><strong>&pound;{{(ExcelPrintItem.HFUPDOWNValue | number : 2)}}</strong></td>
+																			<td >or</td>
+																			<td ><strong>{{ExcelPrintItem.HFUPDOWNPercent}}%</strong></td>
+																		</tr>
+																		<tr>
+																			<td >House Keeping :</td>
+																			<td ></td>
+																			<td ><strong>&pound;{{ExcelPrintItem.HKNew}}</strong></td>
+																			<td >which is </td>
+																			<td ><strong>{{ExcelPrintItem.HKUPDOWN}}</strong></td>
+																			<td >by </td>
+																			<td ><strong>&pound;{{(ExcelPrintItem.HKUPDOWNValue | number : 2)}}</strong></td>
+																			<td >or</td>
+																			<td ><strong>{{ExcelPrintItem.HKUPDOWNPercent}}%</strong></td>
+																		</tr>
+																		<tr>
+																			<td >General :</td>
+																			<td ></td>
+																			<td ><strong>&pound;{{ExcelPrintItem.GeneralNew}}</strong></td>
+																			<td >which is </td>
+																			<td ><strong>{{ExcelPrintItem.GeneralUPDOWN}}</strong></td>
+																			<td >by </td>
+																			<td ><strong>&pound;{{(ExcelPrintItem.GeneralUPDOWNValue | number : 2)}}</strong></td>
+																			<td >or</td>
+																			<td ><strong>{{ExcelPrintItem.GeneralUPDOWNPercent}}%</strong></td>
+																		</tr>
+																		<tr>
+																			<td >Plant :</td>
+																			<td ></td>
+																			<td ><strong>&pound;{{ExcelPrintItem.PlantNew}}</strong></td>
+																			<td >which is </td>
+																			<td ><strong>{{ExcelPrintItem.PlantUPDOWN}}</strong></td>
+																			<td >by </td>
+																			<td ><strong>&pound;{{(ExcelPrintItem.PlantUPDOWNValue | number : 2)}}</strong></td>
+																			<td >or</td>
+																			<td ><strong>{{ExcelPrintItem.PlantUPDOWNPercent}}%</strong></td>
+																		</tr>
+																	</tbody>
+																</table>
+															</td>
+														</tr>
+														<tr>
+															<td >Top Hotel Actions </td>
+															
+														</tr>
+														<tr>
+															<td >
+																<table width="100%" class="table table-bordered table-hover table-striped">
+																	<thead>
+																		<tr>
+																		<!--	<td ><strong>Type</strong></td> -->
+																			<td ><strong>Discovered Date</strong></td>
+																			<td ><strong>Where</strong></td>
+																			<td ><strong>What</strong></td>
+																			<td ><strong>Short Description</strong></td>
+																			<td ><strong>Successful Close Criteria</strong></td>
+																			<td ><strong>Value Per Annum</strong></td>
+																			<th><strong>RefID</strong></th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		
+																		<tr ng-repeat='OBS in ExcelPrintItem.TopTenOBS'>
+																		<!--	<td >{{OBS.Code}}</td> -->
+																			<td >{{formatDateUK(OBS.DiscoveredDate)}}</td>
+																			<td >{{OBS.wherename}}</td>
+																			<td >{{OBS.what}}</td>
+																			<td >{{OBS.ShortDescription}}</td>
+																			<td >{{OBS.SuccessCloseCriteria}}</td>
+																			<td >&pound;{{OBS.ValuePerAnnum}}</td>
+																			<td>{{OBS.ID}}</td>
+																		</tr>
+																		
+																</table>
+															</td>
+														</tr>
+														<tr>
+															<td >Any issues, please contact: support@responsiblepower.co.uk
+															
+															</td>
+															
+														</tr>
+													</tbody>
+												</table>
+												
+												
+
+											</div>
+											
+												
+										</div>
+										
+									
+									
+								
+								
+								</div>
+								
+							</div>
+						</div>
+                        
+                        
+                        <!-- Excel Graph-->
+						<div id="excelGraphMainDiv" class="col-lg-12" ng-show="$parent.$parent.ExcelFormType=='GRAPH'">
+							<div class="panel panel-primary text-left no-boder" >
+									<div class="panel-heading">
+											<i class="fa fa-bar-chart-o fa-fw"></i>Energy Consumption Graph
+											<!--<div class="pull-right">
+												<div class="btn-group">
+													
+													<ul class="nav site-nav">
+													<li class=flyout>
+													
+														<a style="background-color:white; color:black; line-height:1.2; padding:0.2em;" href=''><strong>Actions</strong></a>
+														
+														
+														<ul class="flyout-content nav stacked">
+															<li><a ng-click="$parent.$parent.ExcelFormType='LIST'">Daily Consumption Detail</a></li>
+															<li><a ng-click="$parent.$parent.ExcelFormType='PRINT';ShowExcelPrintPageForm()" ng-show="ExcelTable_PrintPage">Daily Operations Meeting : Energy Detail</a></li>
+														</ul>
+												
+													</li>
+													</ul>
+												</div>
+												<a ng-click="ShowHelpPopup('EnergyConsumptionGraph.html');"><img src="images/Apps-Help-icon.png" width="20px" height="25px"></a>
+											</div>-->
+
+											<div class="btn-group btn-group-warning pull-right" ng-show="(ExcelTablecollapsed==null?true:ExcelTablecollapsed)">
+	  
+											  <button data-toggle="dropdown" class="btn btn-warning btn-xs dropdown-toggle" type="button">
+												  <span class="caret"></span></button>
+											  <ul class="dropdown-menu">
+												  
+												  <li><a ng-click="$parent.$parent.ExcelFormType='LIST'">Daily Consumption Detail</a></li>
+															<li><a ng-click="$parent.$parent.ExcelFormType='PRINT';ShowExcelPrintPageForm()" ng-show="ExcelTable_PrintPage">Daily Summary Page</a></li>
+												  <li class="divider"></li>
+												  <li><a ng-click="ShowHelpPopup('EnergyConsumptionGraph.html');">Help</a></li>
+											  </ul>
+										  	</div>
+										</div>
+
+
+								<div class="panel-body">
+									
+                                                                    <input type="text" ng-model="$parent.$parent.ExcelFilterStartDate" height="1px" ng-click="ShowDatePicker('ExcelFilterStartDateGraph')" id="ExcelFilterStartDateGraph" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" /> 
+										<input type="text" height="1px" ng-model="$parent.$parent.ExcelFilterEndDate" ng-click="ShowDatePicker('ExcelFilterEndDateGraph')" id="ExcelFilterEndDateGraph" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" />
+										
+										<button ng-click="$parent.$parent.ExcelGraphsList=null;ShowExcelGraphs();">Search</button> &nbsp; 
+								<!--		<button ng-click="ExportOBS('#tblExcelChartDataListForExport','Excel Data');">Export</button> &nbsp; -->
+										<button ng-show="ExcelTable_Graphs_Export_Excel" ng-click="ExportOBS('#tblExcelChartDataListForExport','Excel Data');">Export</button> &nbsp; 
+						
+                                                                                
+									<div class="sk-wave" ng-show="isExcelChartInfoLoading">
+											<div class="sk-rect sk-rect1"></div>
+											<div class="sk-rect sk-rect2"></div>
+											<div class="sk-rect sk-rect3"></div>
+											<div class="sk-rect sk-rect4"></div>
+											<div class="sk-rect sk-rect5"></div>
+										  </div>
+									<!-- print page-->
+									
+									<!--	<div  id="ExcelGraphChart" ng-show="!isExcelChartInfoLoading" style="height: 600px;" class="col-lg-12" ></div> -->
+                                                                               <!-- <div  id="ExcelGraphChart" ng-show="!isExcelChartInfoLoading" style="width:auto; height: auto" ></div>-->
+									
+								                                    <div  id="ExcelGraphChart"style="width: 150px: height: 300px; margin: 0"></div>
+
+							<div ng-show="!isExcelChartInfoLoading" id="ExcelGraphChart" style="height: auto; width: auto" ></div>								
+										
+								
+															<table id="tblExcelChartDataListForExport" ng-show="1==2" class="table table-bordered table-hover table-striped">
+																		<thead>
+																			
+																			<tr>
+																				
+																		        
+																				<th>Date</th>
+																				<th>Total</th>
+																				<th>F&B</th>
+																				<th>C&B</th>
+																				<th>H&F</th>
+																				<th>House Keeping</th>
+																				<th>General</th>
+																				<th>Plant</th>
+																				
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr ng-repeat='citem in ExcelChartDataList'>                                                                                                                                         
+																				<td>{{formatDateUK(citem.date)}}</td>
+																				<td>{{citem.total}}</td>
+																				<td>{{citem.fb}}</td>
+																				<td>{{citem.cb}}</td>
+																				<td>{{citem.hf}}</td>
+																				<td>{{citem.hk}}</td>
+																				<td>{{citem.General}}</td>
+																				<td>{{citem.plant}}</td>
+																			</tr>
+																		</tbody>
+																		</table>
+
+								
+								</div>
+								
+							</div>
+						</div>

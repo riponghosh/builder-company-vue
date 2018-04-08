@@ -1,0 +1,825 @@
+
+  
+<div id="Drag_HottelSettings" class="col-lg-6" ng-show="$parent.$parent.Widget_HotelSettings">
+						
+                                                        <!--widget :  Hotel settings  -->
+							<div class="panel panel-primary text-left no-boder">
+									<div class="panel-heading">
+											<i class="fa fa-bar-chart-o fa-fw"></i>
+											<a class="widgetTitle" ng-click="HotelSettingscollapsed=(HotelSettingscollapsed==null?false:!HotelSettingscollapsed);">Hotel Settings 
+											for {{SelectedHotel.Name}}
+											</a>
+											<!--<div class="pull-right">
+												<div class="btn-group">
+													
+												</div>
+												<a ng-click="ShowHelpPopup('HotelSettings_help.html');"><img src="images/Apps-Help-icon.png" width="20px" height="25px"></a>
+											</div>-->
+											<div class="btn-group btn-group-warning pull-right">
+	  
+											  <button data-toggle="dropdown" class="btn btn-warning btn-xs dropdown-toggle" type="button">
+												  <span class="caret"></span></button>
+											  <ul class="dropdown-menu">
+												  <!--<li><a href="#">Action</a></li>
+												  <li><a href="#">Another action</a></li>
+												  <li><a href="#">Something else here</a></li>
+												  <li class="divider"></li>-->
+												  <li><a ng-click="ShowHelpPopup('HotelSettings_help.html');">Help</a></li>
+											  </ul>
+										  	</div>
+										</div>
+
+
+								<div class="panel-body yellow" ng-show="(HotelSettingscollapsed==null?true:HotelSettingscollapsed)">
+									<div class="row">
+									
+										<div class="sk-wave" ng-show="isHotelSettingsLoading && $parent.$parent.HotelSettingsErrorMessage==''">
+											<div class="sk-rect sk-rect1"></div>
+											<div class="sk-rect sk-rect2"></div>
+											<div class="sk-rect sk-rect3"></div>
+											<div class="sk-rect sk-rect4"></div>
+											<div class="sk-rect sk-rect5"></div>
+										  </div>
+<div ng-show="$parent.$parent.HotelSettingsErrorMessage!=''">{{$parent.$parent.HotelSettingsErrorMessage}}</div>
+										<div class="col-lg-12" ng-init="activeHotelTab=1" ng-show="isHotelSettingsLoading==false && $parent.$parent.HotelSettingsErrorMessage==''">
+											<ul class="nav nav-tabs">
+											<li ng-class="{'active' : activeHotelTab == 1}"><a href="" ng-click="activeHotelTab=1"><strong>Info</strong></a></li>
+											<li ng-class="{'active' : activeHotelTab == 2}"><a href="" ng-click="activeHotelTab=2"><strong>Visit</strong></a></li>
+											<li ng-class="{'active' : activeHotelTab == 3}"><a href="" ng-click="activeHotelTab=3"><strong>Contacts</strong></a></li>
+											<li ng-class="{'active' : activeHotelTab == 5}"><a href="" ng-click="activeHotelTab=5"><strong>Tracker Info</strong></a></li>
+											<li ng-class="{'active' : activeHotelTab == 6}"><a href="" ng-click="activeHotelTab=6"><strong>Target Settings</strong></a></li>
+											<li ng-show="ViewingUser" ng-class="{'active' : activeHotelTab == 4}"><a href="" ng-click="activeHotelTab=(ViewingUser?4:3)">
+											<strong>{{ViewingUser.Username}} [<span ng-click="CloseViewHotelcontactMoreInfo();">X</span>]</strong></a></li>
+											</ul>
+								  
+								  
+								  
+										<!-- <span><strong>
+										<a ng-click="HotelSettingsInfocollapsed=(HotelSettingsInfocollapsed==null?false:!HotelSettingsInfocollapsed);">Hotel Info
+										</a></strong></span> -->
+										
+										
+										<div class="tab-content">
+											<div ng-show="activeHotelTab==1">
+											
+															<form name="HotelSetForm" class="form-horizontal" role="form" ng-show="(HotelSettingsInfocollapsed==null?true:HotelSettingsInfocollapsed)">
+
+																<div class="col-xs-8 col-sm-4 col-md-4 col-lg-4">
+
+																		
+																	   	<div class="form-group">
+																			<label for="password">Annual Consumption</label>
+																			
+																			
+																			<input type="text" ng-disabled="!HotelSettings_Info_Save" class="form-control" name = "annualConsumtion" placeholder="annualConsumtion" ng-model="HotelSettings.AnnualConsumption" required />
+																			<span class="input-group-addon">cost : &pound;<strong>{{(HotelSettings.AnnualConsumption * 0.08992454) | number:2 }}</strong></span>
+																				
+
+																				<!--<div class="input-group">
+																			
+																			<input type="text" ng-disabled="!HotelSettings_Info_Save" class="form-control" name = "annualConsumtion" placeholder="annualConsumtion" ng-model="HotelSettings.AnnualConsumption" required />
+																			<span class="input-group-addon">cost : &pound;<strong>{{(HotelSettings.AnnualConsumption * 0.08992454) | number:2 }}</strong></span>
+																				</div>-->
+																		
+																		</div>
+
+																		
+																		
+																		<div class="form-group">
+																			<label  for="password">Day Max</label>
+																			
+																			<input type="text" ng-disabled="!HotelSettings_Info_Save" class="form-control" name = "DayMax" placeholder="DayMax" ng-model="HotelSettings.DayMax" required />
+
+																		
+																		</div>
+																		<div class="form-group">
+																			<label  for="password">Night Low</label>
+																			
+																			<input type="text" ng-disabled="!HotelSettings_Info_Save" class="form-control" name = "NightLow" placeholder="NightLow" ng-model="HotelSettings.NightLow" required />
+
+																		
+																		</div>
+																		<div class="form-group">
+																			<label  for="password2">SM Start Date</label>
+																			
+                                                                            <div class="input-group">    
+																			<input type="text" ng-disabled="!HotelSettings_Info_Save" class="form-control" id='SMStartDate' ng-click="ShowDatePicker('SMStartDate')" name="SMStartDate"  ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy"  ng-model="HotelSettings.SMStartDate"  required />
+																			<span class="input-group-addon">
+														                        <span ng-click="ShowDatePicker('SMStartDate')" class="glyphicon glyphicon-calendar"></span>
+														                    </span>
+														                </div>
+<!-- <p>Date: <input type="text" id="datepicker" size="30" ng-click="fnsetMygrid('datepicker')" /></p><button ng-click="fnsetMygrid()">test</button> -->
+																		
+																		</div>
+																		<div class="form-group">
+																			<label  for="password2">SM End Date</label>
+																			<div class="input-group">
+																			<input type="text" ng-disabled="!HotelSettings_Info_Save" class="form-control" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" id="SMEndDate" ng-click="ShowDatePicker('SMEndDate')" name="SMEndDate" ng-model="HotelSettings.SMEndDate" required />
+																			<span class="input-group-addon">
+														                        <span ng-click="ShowDatePicker('SMEndDate')" class="glyphicon glyphicon-calendar"></span>
+														                    </span>		
+																			</div>
+																		
+																		</div>
+																		
+																		
+																		
+            
+        </div>
+        <div class="col-xs-16 col-sm-8 col-md-8 col-lg-8">
+            														<!--<div class="form-group" style="padding-left: 10px;">
+																	     
+																	      <label>Hotel Address / Contact info</label><textarea style="resize:none" class="form-control" rows="14" cols="25" ng-model="HotelSettings.Address"></textarea>
+																	    </div>-->
+
+																	    <div class="form-group" style="padding-left: 10px;">
+																	     
+																	      <label>Notes</label>
+																	      <textarea style="resize:none" rows="16" ng-disabled="!HotelSettings_Info_Save" cols="40" class="form-control" placeholder="Notes" name="Notes" ng-model="HotelSettings.Notes"></textarea>
+																	    </div>
+
+																	    <div class="form-group" style="padding-left: 10px;">
+																			
+																				<input  type="checkbox" ng-disabled="!HotelSettings_Info_Save" name="specialMeasures" ng-model="HotelSettings.OnSpecialMeasure" />
+																			<label for="email">On Special Measures</label>
+																			<button type="submit" ng-show="HotelSettings_Info_Save" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveHotelSettingsChanges(HotelSettings)" data-ng-disabled="HotelSetForm.$invalid">
+																					Save Changes
+																				</button>
+																		</div>
+        </div>
+																		 
+																		<!--<div class="form-group">
+																			<span class="lbl col-sm-5"> </span>
+																			
+																			<span class="col-sm-7">
+																			
+																				<button type="submit" ng-show="HotelSettings_Info_Save" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveHotelSettingsChanges(HotelSettings)" data-ng-disabled="HotelSetForm.$invalid">
+																					Save Changes
+																				</button>
+																				
+																				
+																			</span>
+																		</div>-->
+																		
+																		<!--<span class="lbl col-sm-5"> </span>-->
+																		<!-- <div class="col-sm-7">Already have an account? <a href="#/login">SignIn</a> -->
+																		
+														</form>
+										</div>
+											<div ng-show="activeHotelTab==2">
+																<br/>
+																<div class="sk-wave" ng-show="isHotelSettingsVisitInfoLoading">
+																	<div class="sk-rect sk-rect1"></div>
+																	<div class="sk-rect sk-rect2"></div>
+																	<div class="sk-rect sk-rect3"></div>
+																	<div class="sk-rect sk-rect4"></div>
+																	<div class="sk-rect sk-rect5"></div>
+																  </div>
+										  
+																<div class="table-responsive" ng-show="!isHotelSettingsVisitInfoLoading">
+																<div ng-show="HotelVisitFormType=='LIST'">
+																	
+															    <label>List of visits made</label>
+																	  
+																		<!--<div class="container pull-right">
+																		  <button ng-show="HotelVisitFormType=='LIST' && HotelSettings_Visit_Add" ng-click="AddNewHotelVisit()" type="button" class="btn btn-warning btn-sm ">Add</button>
+																		  <button ng-show="HotelVisitFormType=='LIST' && HotelSettings_Visit_Export" ng-click="exportDataToCsv(HotelSettings.HotelVisits,'HotelVisits',$parent.$parent.ExportColumnsHotelSettingsVisits);" type="button" class="btn btn-info btn-sm">Export to CSV</button>
+																		</div>-->
+																	  
+																	 
+
+																		
+
+																		<div class = "btn-group pull-right" ng-show="(HotelSettings_Visit_Add || HotelSettings_Visit_Export ) && HotelVisitFormType=='LIST'">
+																		   <button type = "button" class = "btn btn-success btn-sm">Actions</button>
+																		   
+																		   <button type = "button" class = "btn btn-success btn-sm dropdown-toggle" data-toggle = "dropdown">
+																		      <span class = "caret"></span>
+																		      <span class = "sr-only">Toggle Dropdown</span>
+																		   </button>
+																		   
+																		   <ul class = "dropdown-menu" role = "menu">
+																		      <li ng-show="HotelSettings_Visit_Add"><a ng-click="AddNewHotelVisit()">Add New Visit</a></li>
+																			<li ng-show="HotelSettings_Visit_Export"><a ng-click="exportDataToCsv(HotelSettings.HotelVisits,'HotelVisits',$parent.$parent.ExportColumnsHotelSettingsVisits);">Export to CSV</a></li>
+																			<li><a onclick="javascript:HtmlExportToPDF('HotelVisitTableForPDFExport','Hotel_Visit_info');">Export to PDF</a></li>
+																		      
+																		      <!--<li class = "divider"></li>
+																		      <li><a href = "#">Separated link</a></li>-->
+																		   </ul>
+																		</div>
+																<!--<strong>
+																
+																 <a ng-show="HotelVisitFormType=='LIST' && HotelSettings_Visit_Add" ng-click="AddNewHotelVisit()">Add</a> | 
+																 <a ng-show="HotelVisitFormType=='LIST' && HotelSettings_Visit_Export" ng-click="exportDataToCsv(HotelSettings.HotelVisits,'HotelVisits',$parent.$parent.ExportColumnsHotelSettingsVisits);">Export to CSV</a> 
+																</strong>-->
+																<input class="form-control" type="text" placeholder="Enter to search" ng-model="HotelVisitSearch.Text" />
+																</div>
+																<table ng-show="HotelVisitFormType=='LIST'" id="tblHotelVisitList"" class="table table-bordered table-hover table-striped">
+																	<thead>
+																		<tr>
+																			<!-- <th>Hotel Name</th> -->
+																			<th width="10%">
+																			<a ng-click="HotelVisitorder('Name')">Type</a>
+																			<span class="glyphicon sort-icon" ng-show="$parent.$parent.HotelVisitpredicate=='Name'" ng-class="{'glyphicon-chevron-up':$parent.$parent.HotelVisitPagingreverse,'glyphicon-chevron-down':!$parent.$parent.HotelVisitPagingreverse}"></span>
+																			</th>
+																			<th width="25%">
+																					<a ng-click="HotelVisitorder('VisitDate')">Date</a>
+																			<span class="glyphicon sort-icon" ng-show="$parent.$parent.HotelVisitpredicate=='VisitDate'" ng-class="{'glyphicon-chevron-up':$parent.$parent.HotelVisitPagingreverse,'glyphicon-chevron-down':!$parent.$parent.HotelVisitPagingreverse}"></span>
+																			</th>
+																			<th><a ng-click="HotelVisitorder('VisitedUserName')">By</a>
+																			<span class="glyphicon sort-icon" ng-show="$parent.$parent.HotelVisitpredicate=='VisitedUserName'" ng-class="{'glyphicon-chevron-up':$parent.$parent.HotelVisitPagingreverse,'glyphicon-chevron-down':!$parent.$parent.HotelVisitPagingreverse}"></span></th>
+																			<th><a ng-click="HotelVisitorder('Remark')">Remark</a>
+																			<span class="glyphicon sort-icon" ng-show="$parent.$parent.HotelVisitpredicate=='Remark'" ng-class="{'glyphicon-chevron-up':$parent.$parent.HotelVisitPagingreverse,'glyphicon-chevron-down':!$parent.$parent.HotelVisitPagingreverse}"></span></th>
+																			<th width="1%" ng-show="HotelSettings_Visit_Edit"></th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr dir-paginate='vItem in HotelSettings.HotelVisits | orderBy:HotelVisitpredicate:HotelVisitPagingreverse | filter:HotelVisitSearch.Text|  itemsPerPage:HotelVisitPagingnumPerPage' pagination-id="HotelVisitPagination">
+																			<!-- <td>{{weatherItem.Name}}</td> -->
+																			<td>{{vItem.Name}}</td>
+																			<td>{{formatDateUK(vItem.VisitDate)}}</td>
+																			<td>{{vItem.VisitedUserName}}</td>
+																			<td>{{vItem.Remark}}</td>
+																			<td ng-show="HotelSettings_Visit_Edit">
+
+																				<button ng-click="EditHotelVisit(vItem);" class="btn btn-primary btn-xs" data-title="Edit"  ><span class="glyphicon glyphicon-pencil"></span></button>
+
+																				<!--<a title='Edit'  ng-click="EditHotelVisit(vItem);"><img src="images/edit-icon.png" width="15px" height="17px" /></a>--> 
+																			</td>
+																		</tr>
+																		
+
+																	</tbody>
+																</table>
+																<div ng-show="1==2" id="HotelVisitTableForPDFExport">
+												
+																	<table width="100%" style="border:1px solid black">
+																		<thead>
+																		<tr>
+																			<th width="10%">Type</th>
+																			<th width="25%">Date</th>
+																			<th>By</th>
+																			<th>Remark</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat='vItem in HotelSettings.HotelVisits'>
+																			<td>{{vItem.Name}}</td>
+																			<td>{{formatDateUK(vItem.VisitDate)}}</td>
+																			<td>{{vItem.VisitedUserName}}</td>
+																			<td>{{vItem.Remark}}</td>
+																		</tr>
+																	</tbody>
+																	</table>
+																</div>
+																<div ng-show="HotelVisitFormType=='ADD'"><strong>Add Hotel Visit Info</strong></div>
+																<div ng-show="HotelVisitFormType=='EDIT'"><strong>Edit Hotel Visit Info</strong></div>
+																<form name="HotelVisitSetForm" class="form-horizontal" role="form">
+																<table ng-show="HotelVisitFormType=='ADD' || HotelVisitFormType=='EDIT'" id="tblHotelVisitAdd"" class="table table-bordered table-hover table-striped">
+																	<thead>
+																		<tr>
+																			<!-- <th>Hotel Name</th> -->
+																			<th>Type</th>
+																			<th>Date</th>
+																			<th>By</th>
+																			<th>Remark</th>
+																			<th><button class="btn btn-warning btn-sm" ng-click="$parent.$parent.HotelVisitFormType='LIST'">Cancel</button></th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td><select class="form-control" name="MM_UserIDSelect" ng-model="EditingHotelVisit.VisitTypeID"  id="MM_UserIDSelect" required>
+																					  <option ng-selected="option.ID==EditingHotelVisit.VisitTypeID"  ng-repeat="option in HotelVisitTypes" value="{{option.ID}}">{{option.Name}}</option>
+																					</select></td>
+																			<td><input class="form-control" ng-model="EditingHotelVisit.Vdate" width="5px"  type="text" ng-click="ShowDatePicker('Vdate')" id="Vdate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" /></td>
+																			<td>
+																				<select class="form-control" name="HKHead_UserIDSelect" id="HKHead_UserIDSelect" ng-model="EditingHotelVisit.VisitedUserID" required>
+																					  <option ng-selected="option3.ID==HotelSettings.VisitedUserID"  ng-repeat="option3 in HotelOtherUsers" value="{{option3.ID}}">{{option3.Firstname}}</option>
+																					</select>
+																			</td>
+																			<td><input class="form-control" width="10px" ng-model="EditingHotelVisit.Remark" type="text"></td>
+																			<td >
+																			<button class="btn btn-success btn-sm " type="submit" ng-show="HotelVisitFormType=='ADD'" ng-click="DoSaveHotelVisitChanges(EditingHotelVisit)" data-ng-disabled="HotelVisitSetForm.$invalid">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;</button>
+																			<button class="btn btn-success btn-sm " type="submit" ng-show="HotelVisitFormType=='EDIT'" ng-click="DoSaveHotelVisitChanges(EditingHotelVisit)" data-ng-disabled="HotelVisitSetForm.$invalid">&nbsp;Save&nbsp;</button>
+																			</td>
+																		</tr>
+																		
+
+																	</tbody>
+																</table>
+																</form>
+																<!--<div ng-show="HotelVisitFormType=='LIST'">
+																	<pagination  total-items="$parent.$parent.HotelVisittotalItems" ng-model="$parent.$parent.HotelVisitPagingcurrentPage"  
+																	max-size="5" boundary-links="true"  
+																	items-per-page="$parent.$parent.HotelVisitPagingnumPerPage" class="pagination-sm">  
+																	</pagination> 
+																</div>-->
+
+																<div>
+																	<dir-pagination-controls
+															          max-size="10"
+															          direction-links="true"
+															          pagination-id="HotelVisitPagination"
+															          boundary-links="true" >
+															        </dir-pagination-controls> 
+																</div>
+
+															</div>
+												</div>
+												<div ng-show="activeHotelTab==3">
+														
+														
+														<br/>
+																<div class="table-responsive" >
+																<div ng-show="HotelContactsFormType=='LIST'">
+																	
+																	<!--<p ng-bind-html="HotelSettings.Address | nl2br"></p>-->
+																	<div class="form-group" style="padding-left: 10px;">
+																	     
+																	      <label>Hotel Address / Contact info</label><textarea style="resize:none" class="form-control" rows="5" cols="25" ng-model="HotelSettings.Address"></textarea>
+																	      <button type="submit" ng-show="HotelSettings_Info_Save" class="width-35 pull-left btn btn-sm btn-primary" ng-click="DoSaveHotelSettingsChanges(HotelSettings)" >
+																					Save Address
+																				</button>
+																	    </div>
+																	    
+																<!--<strong>
+																
+																<a ng-show="HotelContactsFormType=='LIST' && HotelSettings_Contacts_Add" ng-click="AddNewHotelContacts()">Add</a> | 
+																<a ng-show="HotelContactsFormType=='LIST' && HotelSettings_Contacts_Export" ng-click="exportDataToCsv(HotelSettings.HotelContacts,'HotelContacts',$parent.$parent.ExportColumnsHotelSettingsContacts);">Export to CSV</a>
+																</strong>-->
+																
+																		<div class = "btn-group pull-right" ng-show="(HotelSettings_Contacts_Add || HotelSettings_Contacts_Export ) && HotelContactsFormType=='LIST'">
+																		   <button type = "button" class = "btn btn-success btn-sm">Actions</button>
+																		   
+																		   <button type = "button" class = "btn btn-success btn-sm dropdown-toggle" data-toggle = "dropdown">
+																		      <span class = "caret"></span>
+																		      <span class = "sr-only">Toggle Dropdown</span>
+																		   </button>
+																		   <!--ng-click="AddNewHotelContacts()"-->
+																		   <ul class = "dropdown-menu" role = "menu">
+																		   	
+																		      <li ng-show="$parent.$parent.HotelSettings_Contacts_Add"><a 
+																		      	 ng-click="$parent.$parent.HotelContactsFormType='ADDNEWUSER'">Add New Contact</a></li>
+																			<li ng-show="$parent.$parent.HotelSettings_Contacts_Export"><a ng-click="exportDataToCsv(HotelSettings.HotelContacts,'HotelContacts',$parent.$parent.ExportColumnsHotelSettingsContacts);">Export to Excel</a></li>
+																			<li><a onclick="javascript:HtmlExportToPDF('HotelContactsTableForPDFExport','Hotel_Contact_info');">Export to PDF</a></li>
+																		      
+																		      <!--<li class = "divider"></li>
+																		      <li><a href = "#">Separated link</a></li>-->
+																		   </ul>
+																		</div>
+
+																		<input class="form-control" type="text" placeholder="Enter to search" ng-model="HotelContactSearch.Text" />
+																</div>
+																
+																<table ng-show="HotelContactsFormType=='LIST' && HotelSettings.HotelContacts.length>0" id="tblHotelContactsList"" class="table table-bordered table-hover table-striped">
+																	<thead>
+																		<tr>
+															
+																			
+																			 <th>
+																			<a ng-click="HotelContactsorder('TitleName')">Title</a>
+																			<span class="glyphicon sort-icon" ng-show="$parent.$parent.HotelContactspredicate=='TitleName'" ng-class="{'glyphicon-chevron-up':$parent.$parent.HotelContactsPagingreverse,'glyphicon-chevron-down':!$parent.$parent.HotelContactsPagingreverse}"></span>
+																			 </th> 
+																			<th>
+																			<a ng-click="HotelContactsorder('NameOfUser')">Name</a>
+																			<span class="glyphicon sort-icon" ng-show="$parent.$parent.HotelContactspredicate=='NameOfUser'" ng-class="{'glyphicon-chevron-up':$parent.$parent.HotelContactsPagingreverse,'glyphicon-chevron-down':!$parent.$parent.HotelContactsPagingreverse}"></span>
+																			</th>
+																			<th><a ng-click="HotelContactsorder('Mobile')">Mobile</a>
+																			<span class="glyphicon sort-icon" ng-show="$parent.$parent.HotelContactspredicate=='Mobile'" ng-class="{'glyphicon-chevron-up':$parent.$parent.HotelContactsPagingreverse,'glyphicon-chevron-down':!$parent.$parent.HotelContactsPagingreverse}"></span></th>
+																			<th><a ng-click="HotelContactsorder('Email')">Email</a>
+																			<span class="glyphicon sort-icon" ng-show="$parent.$parent.HotelContactspredicate=='Email'" ng-class="{'glyphicon-chevron-up':$parent.$parent.HotelContactsPagingreverse,'glyphicon-chevron-down':!$parent.$parent.HotelContactsPagingreverse}"></span></th>
+																			<th><a ng-click="HotelContactsorder('Email')">Active</a>
+																	<!--		<span class="glyphicon sort-icon" ng-show="$parent.$parent.HotelContactspredicate=='Email'" ng-class="{'glyphicon-chevron-up':$parent.$parent.HotelContactsPagingreverse,'glyphicon-chevron-down':!$parent.$parent.HotelContactsPagingreverse}"></span></th>-->
+																	<!--		<input type="checkbox" ng-checked="expression" ng-model="user.Active"/>Active-->
+																			<!--<th width="15%"></th>-->
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr dir-paginate='vItem in HotelSettings.HotelContacts | orderBy:HotelContactspredicate:HotelContactsPagingreverse | filter:HotelContactSearch.Text|  itemsPerPage:HotelContactsPagingcurrentPage' pagination-id="HotelContactPagination"'>
+																			
+																			 <td>{{vItem.TitleName}}</td>
+																		
+																			<td>
+																				
+																				<!--<a ng-click="ViewHotelcontactMoreInfo(vItem)">-->
+																				<a ng-click="ViewHotelcontactMoreInfo(vItem)">{{vItem.NameOfUser}} 
+																				</a>
+																			<!--</a>-->
+																		</td>
+																		<td>{{vItem.Mobile}}</td>
+																				<td>{{vItem.Email}}</td>
+																				<td>{{vItem.Active}}</td>
+																			<!--<td>
+																				
+																			<a ng-show="HotelSettings_Contacts_Edit" title='Edit'  ng-click="EditHotelContacts(vItem);"><img src="images/edit-icon.png" width="15px" height="17px" /></a> | 
+																			<a ng-show="HotelSettings_Contacts_Delete" title='Delete'  ng-click="DoDeleteHotelContacts(vItem);"><img src="images/delete-icon.png" width="15px" height="17px" /></a> 
+																			</td>-->
+																		</tr>
+																		
+
+																	</tbody>
+																</table>
+
+																<div ng-show="1==2" id="HotelContactsTableForPDFExport">
+												
+																	<table width="100%" style="border:1px solid black">
+																		<thead>
+																		<tr>
+																			 <th>Title</th> 
+																			<th>Name</th>
+																			<th>Mobile</th>
+																			<th>Email</th>
+																			<th>Start Date</th>
+																			<th>End Date</th>
+																			<th>Notes</th>
+																			<th>Active</th>
+																		</tr>
+																	</thead>
+																	<tbody> 
+																		<tr ng-repeat='vItem in HotelSettings.HotelContacts'>
+																			<td>{{vItem.TitleName}}</td>
+																		
+																			<td>{{vItem.Firstname}} {{vItem.Lastname}}</td>
+																			<td>{{vItem.Mobile}}</td>
+																				<td>{{vItem.Email}}</td>
+																				<td>{{vItem.CreatedDate}}</td>
+																				<td>{{vItem.EndDate}}</td>
+																				<td>{{vItem.Notes}}</td>
+																				<td>{{vItem.Active}}</td>
+																		</tr>
+																	</tbody>
+																	</table>
+																</div>
+																
+																<div ng-show="HotelContactsFormType=='ADD'"><strong>Add Hotel Contact Info</strong></div>
+																<div ng-show="HotelContactsFormType=='EDIT'"><strong>Edit Hotel Contact Info</strong></div>
+																<form name="HotelContactSetForm" class="form-horizontal" role="form">
+																<table ng-show="HotelContactsFormType=='ADD' || HotelContactsFormType=='EDIT'" id="tblHotelContactsAdd"" class="table table-bordered table-hover table-striped">
+																	<thead>
+																		<tr>
+																			
+																			<!-- <th>Title</th> -->
+																			<th>Name</th>
+																			
+																			<th><button class="form-control" ng-click="$parent.$parent.HotelContactsFormType='LIST'">Cancel</button></th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			
+																			<!-- <td><input placeholder="Enter Title" class="form-control" ng-model="EditingHotelContacts.Title" width="5px" type="text" required ></td> -->
+																			<td>
+																				<select class="form-control" name="HKHead_UserIDSelect" id="HKHead_UserIDSelect2" ng-model="EditingHotelContacts.UserID" required>
+																					  <option ng-selected="option3.ID==HotelSettings.HKHead_UserID"  ng-repeat="option3 in HotelOtherUsers" value="{{option3.ID}}">{{option3.Firstname}}</option>
+																					</select>
+																			</td>
+																		
+																			<td >
+																			<button class="form-control" ng-show="HotelContactsFormType=='ADD'" ng-click="DoSaveHotelContactsChanges(EditingHotelContacts)" data-ng-disabled="HotelContactSetForm.$invalid">Add</button>
+																			<button class="form-control" ng-show="HotelContactsFormType=='EDIT'" ng-click="DoSaveHotelContactsChanges(EditingHotelContacts)" data-ng-disabled="HotelContactSetForm.$invalid">Save</button>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td colspan="3"><a ng-click="HotelContactsFormType='ADDNEWUSER'">Add a new user</a></td>
+																		</tr>
+
+																	</tbody>
+																</table>
+																</form>
+																<!--<div ng-show="HotelContactsFormType=='LIST' && HotelSettings.HotelContacts.length>0">
+																	<pagination  total-items="$parent.$parent.HotelContactstotalItems" ng-model="$parent.$parent.HotelContactsPagingcurrentPage"  
+																	max-size="5" boundary-links="true"  
+																	items-per-page="$parent.$parent.HotelContactsPagingnumPerPage" class="pagination-sm">  
+																	</pagination> 
+																</div>-->
+
+																<div ng-show="HotelContactsFormType=='LIST' && HotelSettings.HotelContacts.length>0">
+																	<dir-pagination-controls
+															          max-size="10"
+															          direction-links="true"
+															          pagination-id="HotelContactPagination"
+															          boundary-links="true" >
+															        </dir-pagination-controls> 
+																</div>
+
+															</div>
+															<div ng-show="HotelContactsFormType=='ADDNEWUSER'">
+																<h4 class="header blue lighter bigger">
+																	Add a new User / contact
+																</h4>
+																
+															<form name="HotelContactsNewUser" class="form-horizontal" role="form">
+																<div class="form-group">
+																	<label class="col-sm-5 control-label " for="username">Username</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																			<input type="text" class="form-control" placeholder="username" name="username" ng-model="user.Username" focus/>
+																			 
+																		</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label " for="email">Email</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																			<input type="text" class="form-control" placeholder="Email" name="email" ng-model="user.Email" focus/>
+																			<span ng-show="HotelContactsNewUser.email.$error.email" class="help-inline">Email is not valid</span> 
+																		</span>
+																	</div>
+																</div>
+															   <div class="form-group" >
+																	<label class="col-sm-5 control-label " for="password">Password</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="password" class="form-control" name = "password" placeholder="Password" ng-model="user.Password" required/>
+																	<small class="errorMessage" data-ng-show="HotelContactsNewUser.password.$dirty && HotelContactsNewUser.password.$invalid"> Enter Password.</small>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group" >
+																	<label class="col-sm-5 control-label " for="password2">Confirm Password</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="password" class="form-control" name="password2" placeholder="Password Again" ng-model="user.ConfirmPassword" password-match="user.Password" required/>                                
+																	<small class="errorMessage" data-ng-show="HotelContactsNewUser.password2.$dirty && HotelContactsNewUser.password2.$error.required"> Enter password again.</small>
+
+																   <small class="errorMessage" data-ng-show="HotelContactsNewUser.password2.$dirty && HotelContactsNewUser.password2.$error.passwordNoMatch && !HotelContactsNewUser.password2.$error.required"> Password do not match.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label " for="name">First Name</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" class="form-control" placeholder="Name" ng-model="user.Firstname" />
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label " for="name">Last Name</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" class="form-control" placeholder="Name" ng-model="user.Lastname" />
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label " for="phone">Mobile</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="user.Mobile"/>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label " for="phone">Title</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<select class="form-control" name="Title" id="uTitle" ng-model="user.Title" required>
+			                                                            <option  ng-repeat="option3 in AllUserTitles" value="{{option3.ID}}">{{option3.Name}}</option>
+			                                                        </select>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label " for="phone">Notes</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<!-- <input type="text" class="form-control" placeholder="Title" name="Title" ng-model="user.Notes"/> -->
+																	<textarea rows="10" cols="20" class="form-control" placeholder="Notes" name="Notes" ng-model="user.Notes"></textarea>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label " for="phone"></label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="checkbox" ng-checked="expression" ng-model="user.Active"/>Active
+																	
+																</span>
+																	</div>
+																</div>
+																
+																<div class="form-group">
+																	<span class="lbl col-sm-5"> </span>
+																	<span class="col-sm-7">
+																		<button  class="width-35 pull-right btn btn-sm btn-primary" ng-click="doCancelHotelContactsAddUser(); HotelContactsFormType='LIST'" >
+																			Cancel
+																		</button>
+																	<span>
+																	<span class="col-sm-7">
+																		<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="doUpdateHotelUserContact(user)" data-ng-disabled="HotelContactsNewUser.$invalid">
+																			Save Changes
+																		</button>
+																	</span>
+																</div>
+															</form>
+															</div>
+														
+												</div>
+												
+			                    <div ng-show="activeHotelTab==5">
+											
+															      <form name="HotelSetForm" class="form-horizontal" role="form" ng-show="(HotelSettingsInfocollapsed==null?true:HotelSettingsInfocollapsed)">
+
+																
+                                                                 <!--   <div class="col-xs-16 col-sm-8 col-md-8 col-lg-8">-->
+                                                                 	<div class="col-lg-12">
+            														      <!--<div class="form-group" style="padding-left: 10px;">
+																	      <label>Hotel Address / Contact info</label><textarea style="resize:none" class="form-control" rows="14" cols="25" ng-model="HotelSettings.Address"></textarea>
+																	      </div>-->
+
+																		<div class="form-group" style="padding-left: 10px;">
+																	     
+																	      <label>Tracker Locations details and contacts</label>
+																	      <textarea style="resize:none" rows="16" ng-disabled="!HotelSettings_Info_Save" cols="100" class="form-control" placeholder="Tracker Info" name="Tracker" ng-model="HotelSettings.Tracker"></textarea>
+																	    </div>
+
+																	    <div class="form-group" style="padding-left: 10px;">
+																			
+																			<button type="submit" ng-show="HotelSettings_Info_Save" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveHotelSettingsChanges(HotelSettings)" data-ng-disabled="HotelSetForm.$invalid">
+																					Save Changes
+																				</button>
+																		</div>
+                                                                    </div>
+																	
+														          </form>
+										                   </div>										
+												
+												
+												
+												
+												
+												
+												
+			  <div ng-show="activeHotelTab==6">
+											
+															        
+
+																
+                                                                 <!--   <div class="col-xs-16 col-sm-8 col-md-8 col-lg-8">-->
+                                                                 <div class="col-lg-12">
+
+            														     <table id="tblHotelTargetSettingsList"" class="table table-bordered table-hover table-striped">
+																	<thead>
+																		<tr>
+																			<th>Date</th>
+																			<th>Night Low</th>
+																			<th>Day Max</th>
+																			<th>Season</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat='vItem in HotelSettings.targetSettings'>
+																			<td>{{vItem.date}}</td>
+																			<td>{{vItem.nl}}</td>
+																			<td>{{vItem.dm}}</td>
+																			<td>{{vItem.season}}</td>
+																		</tr>
+																	</tbody>
+																</table>
+
+																	
+                                                                    </div>
+																	
+														         
+										                   </div>										
+												
+												
+												
+												<div ng-show="activeHotelTab==4">
+												<br/>
+														<div class="table-responsive" >
+															<div class = "btn-group pull-right" ng-show="$parent.$parent.HotelSettings_Contacts_CanEditUsersActiveStatus">
+																		   <button type = "button" class = "btn btn-success btn-sm">Actions</button>
+																		   
+																		   <button type = "button" class = "btn btn-success btn-sm dropdown-toggle" data-toggle = "dropdown">
+																		      <span class = "caret"></span>
+																		      <span class = "sr-only">Toggle Dropdown</span>
+																		   </button>
+																		   <!--ng-click="AddNewHotelContacts()"-->
+																		   <ul class = "dropdown-menu" role = "menu">
+																		   	
+																		      <li ng-show="$parent.$parent.HotelSettings_Contacts_CanEditUsersActiveStatus && ViewingUser.Active==0" ><a ng-click=" updateuseractivestatus(ViewingUser)">Activate this user</a></li>
+																		      <li ng-show="$parent.$parent.HotelSettings_Contacts_CanEditUsersActiveStatus && ViewingUser.Active==1" ><a ng-click=" updateuseractivestatus(ViewingUser)">Deactivate this user</a></li>
+																		      <!--ng-show="$parent.$parent.HotelSettings_Contacts_CanResetUserPassword"-->
+																		      <li  ><a ng-click="$parent.$parent.HotelSettings_ShowPasswordResetForm=true;
+																		      	ViewingUser.resetpwd2=''; ViewingUser.resetpwd1='';">Reset Password</a></li>
+																		      <!--<li class = "divider"></li>
+																		      <li><a href = "#">Separated link</a></li>-->
+																		   </ul>
+																		</div>
+
+    <div ng-show="$parent.$parent.HotelSettings_ShowPasswordResetForm" class="col-sm-10 pull-right list-group" style=" position: absolute; z-index: 2;">
+        <span style="border:solid 1px;" href="#" class="list-group-item active">
+            Reset Password
+            <span class="pull-right" id="slide-submenu">
+                <i class="fa fa-times" ng-click="$parent.$parent.HotelSettings_ShowPasswordResetForm=false;"><font color="white">close</font></i>
+            </span>
+        </span>
+        <div style="border:solid 1px;" class="list-group-item">
+        													<form name="HotelContactsResetPwd" class="form-horizontal" role="form">
+																
+
+																<div class="form-group" >
+																	<label class="col-sm-5 control-label " for="password">Password</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="password" class="form-control" name = "resetpwd1" placeholder="Password" ng-minlength="7" ng-model="ViewingUser.resetpwd1" required/>
+																	<small class="errorMessage" style="color:red" data-ng-show="HotelContactsResetPwd.resetpwd1.$dirty && HotelContactsResetPwd.resetpwd1.$error.required"> Enter Password.</small>
+																	<small style="color:red" ng-show="HotelContactsResetPwd.resetpwd1.$error.minlength">
+        															Should Contain Atleast 7 Characters</small>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group" >
+																	<label class="col-sm-5 control-label " for="password2">Confirm Password</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input ng-minlength="7" type="password" class="form-control" name="resetpwd2" placeholder="Password Again" ng-model="ViewingUser.resetpwd2" password-match="ViewingUser.resetpwd1" required/>                                
+																	<small style="color:red" class="errorMessage" data-ng-show="HotelContactsResetPwd.resetpwd2.$dirty && HotelContactsResetPwd.resetpwd2.$error.required"> Enter password again.</small>
+
+																   <small style="color:red" class="errorMessage" data-ng-show="HotelContactsResetPwd.resetpwd2.$dirty && HotelContactsResetPwd.resetpwd2.$error.passwordNoMatch && !HotelContactsResetPwd.resetpwd2.$error.required"> Password do not match.</small>
+
+																</span>
+																	</div>
+																</div>
+
+																<div class="form-group">
+																	<span class="lbl col-sm-5"> </span>
+																	<span class="col-sm-7">
+																		<button  class="width-35 pull-right btn btn-sm btn-primary" ng-click="$parent.$parent.HotelSettings_ShowPasswordResetForm=false;" >
+																			Cancel
+																		</button>
+																	<span>
+																	<span class="col-sm-7">
+																		<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="ResetUserPassword(ViewingUser)" data-ng-disabled="HotelContactsResetPwd.$invalid">
+																			Submit
+																		</button>
+																	</span>
+																</div>
+															</form>
+        </div>
+    </div>        
+
+																<table width="100%" class="table table-bordered table-hover table-striped">
+																<tr>
+																	<td width="25%">Title</td>
+																	<td>{{ViewingUser.TitleName}}</td>
+																</tr>
+																<tr>
+																	<td>First Name</td>
+																	<td>{{ViewingUser.Firstname}}</td>
+																</tr>
+																<tr>
+																	<td>Last Name</td>
+																	<td>{{ViewingUser.Lastname}}</td>
+																</tr>
+																<tr>
+																	<td>Email</td>
+																	<td>{{ViewingUser.Email}}</td>
+																</tr>
+																<tr>
+																	<td>Mobile</td>
+																	<td>{{ViewingUser.Mobile}}</td>
+																</tr>
+																<tr>
+																	<td>Notes</td>
+																	<td>{{ViewingUser.Notes}}</td>
+																</tr>
+																<tr>
+																	<td>Active</td>
+																	<td> <button ng-show="ViewingUser.Active==1" type = "button" class = "btn btn-success btn-xs">YES</button>
+																	<button ng-show="ViewingUser.Active==0" type = "button" class = "btn btn-danger btn-xs">NO</button>
+																	</td>
+																</tr>
+																<tr>
+																	<td>Assigned Hotel(s)</td>
+																	<td>
+																		
+																		<span ng-repeat="aitem in ViewingUser.associatedHotels">
+																		<span  class="badge badge-pill badge-primary">{{aitem.HotelName}}</span>
+																	    </span>
+																	</td>
+																</tr>
+																</table>
+																</div>
+												</div>
+										</div>
+											                        
+                    
+													
+													
+										</div>
+											
+												
+										</div>
+										
+									
+									</div>
+								
+							</div>
+       </div>
+       
+        

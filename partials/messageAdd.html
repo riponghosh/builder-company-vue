@@ -1,0 +1,83 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <a href="#dashboard">Dashboard</a>
+        </li>
+        <li>
+            <a href="#message">Message</a>
+        </li>
+        <li class="active">Add</li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="row">
+        <div class="space-6"></div>
+        <div class="col-sm-8 col-sm-offset-1">
+            <div id="login-box" class="login-box visible widget-box no-border">
+                <div class="widget-body">
+                <br>
+																<form name="sendMessageForm" class="form-horizontal" role="form">
+																
+																	<div class="form-group">
+																		    <label for="subject">Send to</label>
+																		
+																		  	<!--<select class="form-control col-sm-3" id="gender1">
+																	          <option>Male</option>
+																	          <option>Female</option>
+																	        </select>  -->
+																	        
+
+																	      <select  class="form-control" id="stattype" ng-model="AddMessageFormValues.SendTo" required >
+																			 <option  ng-repeat="opt in AddMessageFormValues.SendToList" value="{{opt.ID}}">{{opt.Name}}</option>
+																		 </select>
+																			
+
+
+															       		
+																  	</div>
+										                            <div class="form-group" ng-show="AddMessageFormValues.SendTo==1">
+																	    <label for="subject">Select User(s)</label>
+																	    <div ng-dropdown-multiselect="" options="AddMessageFormValues.data.Users" selected-model="AddMessageFormValues.SelectedUsers" checkboxes="true" extra-settings="AddMessageFormValues.Settings"></div>
+																	    <!--<pre>Selected Model: {{AddMessageFormValues.SelectedUsers}} | json</pre>-->
+
+																	    
+																	  </div>
+																	  <div class="form-group" ng-show="AddMessageFormValues.SendTo==2">
+																	    <label for="subject">Select Role(s)</label>
+																	    <div ng-dropdown-multiselect="" options="AddMessageFormValues.data.Roles" selected-model="AddMessageFormValues.SelectedRoles" checkboxes="true" extra-settings="AddMessageFormValues.Settings"></div>
+																	    <!--<pre>Selected Model: {{AddMessageFormValues.SelectedRoles}} | json</pre>-->
+
+																	    
+																	  </div>
+																	  <div class="form-group">
+																	    <label for="subject">Subject</label>
+																	    <input type="text" class="form-control" id="Subject" ng-model="AddMessageFormValues.Subject" placeholder="Enter Subject">
+																	    
+																	  </div>
+																	  <div class="form-group">
+																	    <label for="exampleTextarea">Message</label>
+																	    <textarea ng-model="AddMessageFormValues.Message" rows="8" class="form-control" id="exampleTextarea" placeholder="Type in your message" ></textarea>
+																	  </div>
+																			
+																			 <div class="form-group">
+																			
+																				
+																				<button type="submit" ng-click="AddNewMessageByAdmin()" class="btn btn-primary pull-right">Send</button>
+																				</div>
+																		
+																</form>
+																<!--<pre>Selected Model: {{AddMessageFormValues}} | json</pre>-->
+																
+																
+
+												
+					</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- /.page-content -->

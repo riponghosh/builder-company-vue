@@ -1,0 +1,54 @@
+<!--id="divSMDataBarChart"-->
+<div id="Drag_SMDataBarChart" class="col-lg-12" ng-show="$parent.$parent.Widget_SMdataBarChart">
+                                                    <div class="panel panel-primary text-left no-boder">
+									<div class="panel-heading">
+											<i class="fa fa-bar-chart-o fa-fw"></i>
+											<a class="widgetTitle" ng-click="OccupancyChartcollapsed=(OccupancyChartcollapsed==null?false:!OccupancyChartcollapsed);">
+											Daily Comparison: {{SelectedHotel.Name}}
+											</a>
+											<!--<div class="pull-right">
+												<!--<a ng-click="ResizeIt('divSMDataBarChart','SMDataBarChart')">Resize</a>-->
+												<!--<a ng-click="ShowHelpPopup('SMdataBarChart_help.html');"><img src="images/Apps-Help-icon.png" width="20px" height="25px"></a>
+											</div>-->
+											<div class="btn-group btn-group-warning pull-right">
+	  
+											  <button data-toggle="dropdown" class="btn btn-warning btn-xs dropdown-toggle" type="button">
+												  <span class="caret"></span></button>
+											  <ul class="dropdown-menu">
+												  
+												  
+												  <li><a ng-click="ShowHelpPopup('SMdataBarChart_help.html');">Help</a></li>
+											  </ul>
+										  	</div>
+										</div>
+
+
+								<div class="panel-body yellow" ng-show="(OccupancyChartcollapsed==null?true:OccupancyChartcollapsed)">
+								
+								<input type="text" ng-model="$parent.$parent.SMDatBarChartFilterStartDate" height="1px" ng-click="ShowDatePicker('SMDatBarChartFilterStartDate')" id="SMDatBarChartFilterStartDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" /> 
+										<input type="text" height="1px" ng-model="$parent.$parent.SMDatBarChartFilterEndDate" ng-click="ShowDatePicker('SMDatBarChartFilterEndDate')" id="SMDatBarChartFilterEndDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" />
+										<button ng-click="LoadSMDataBarChart()">Search</button>
+										<input ng-model="$parent.$parent.SMDatBarChart_chkShowLastWeek" ng-change="LoadSMDataBarChart()" type="checkbox">Show Last Week </input>
+										<input ng-model="$parent.$parent.SMDatBarChart_chkShowLastYear" ng-change="LoadSMDataBarChart()" type="checkbox">Show Last Year </input>
+										
+									<div class="row">
+										<div class="sk-wave" ng-show="isSMDataBarChartInfoLoading">
+											<div class="sk-rect sk-rect1"></div>
+											<div class="sk-rect sk-rect2"></div>
+											<div class="sk-rect sk-rect3"></div>
+											<div class="sk-rect sk-rect4"></div>
+											<div class="sk-rect sk-rect5"></div>
+										  </div>
+										
+								  
+								  
+													<div  id="SMDataBarChart_currentDate"  ng-show="!isSMDataBarChartInfoLoading" style="height: auto; width: auto" ></div>
+				
+									
+										</div>
+									
+									</div>
+								</div>
+								
+							</div>
+                                                </div>

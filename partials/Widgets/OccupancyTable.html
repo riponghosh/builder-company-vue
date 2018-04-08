@@ -1,0 +1,263 @@
+<div id="Drag_OccupancyTable" class="col-lg-6" ng-show="$parent.$parent.Widget_OccupancyTable">
+                                                    	<div class="panel panel-primary text-left no-boder">
+									<div class="panel-heading">
+											<i class="fa fa-bar-chart-o fa-fw"></i>
+											<a class="widgetTitle" ng-click="OccupancyTable_Expanded=!OccupancyTable_Expanded;">
+											Hotel Daily Statistics for {{SelectedHotel.Name}}
+											</a>
+											<!--<div class="pull-right">
+												<div class="btn-group" ng-show="OccupancyTable_Expanded">
+													<ul class="nav site-nav">
+													<li class=flyout>
+													
+														<a style="background-color:white; color:black; line-height:1.2; padding:0.2em;" href=''><strong>Actions</strong></a>
+														
+														
+														<ul class="flyout-content nav stacked">
+                                                            
+															<li><a ng-click="ShowAddOccupancyForm()" ng-show="OccupancyTable_Add">Add New</a></li>
+															<li><a ng-click="exportDataToCsv(OccupancyList,'OccupancyList',$parent.$parent.ExportColumnsOccupancytable);" ng-show="OccupancyTable_Export">Export to CSV</a></li>
+															
+														</ul>
+												
+													</li>
+													</ul>
+													
+												</div>
+												<a ng-click="ShowHelpPopup('OccupancyTable_help.html');"><img src="images/Apps-Help-icon.png" width="20px" height="25px"></a>
+											</div>-->
+
+											<div class="btn-group btn-group-warning pull-right" ng-show="OccupancyTable_Expanded">
+	  
+											  <button data-toggle="dropdown" class="btn btn-warning btn-xs dropdown-toggle" type="button">
+												  <span class="caret"></span></button>
+											  <ul class="dropdown-menu">
+												  
+												  <li ng-show="OccupancyFormType== 'LIST'"><a ng-click="ShowAddOccupancyForm()" ng-show="OccupancyTable_Add">Add New</a></li>
+															<li ng-show="OccupancyFormType== 'LIST'"><a ng-click="exportDataToCsv(OccupancyList,'OccupancyList',$parent.$parent.ExportColumnsOccupancytable);" ng-show="OccupancyTable_Export">Export to Excel</a></li>
+												  <li ng-show="OccupancyFormType== 'LIST'" class="divider"></li>
+												  <li><a ng-click="ShowHelpPopup('OccupancyTable_help.html');">Help</a></li>
+											  </ul>
+										  	</div>
+										</div>
+
+
+								<div class="panel-body yellow" ng-show="OccupancyTable_Expanded">
+									<div class="row">
+										
+										<div class="col-lg-12" ng-show="OccupancyFormType== 'LIST'">
+										<input type="text" ng-model="$parent.$parent.OccupancyFilterStartDate" height="1px" ng-click="ShowDatePicker('OccupancyFilterStartDate')" id="OccupancyFilterStartDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" /> 
+										<input type="text" height="1px" ng-model="$parent.$parent.OccupancyFilterEndDate" ng-click="ShowDatePicker('OccupancyFilterEndDate')" id="OccupancyFilterEndDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" />
+										
+										<button ng-click="ReloadOccupancyInformation()">Search</button> &nbsp; 
+										<div class="sk-wave" ng-show="isOccupancyInfoLoading">
+											<div class="sk-rect sk-rect1"></div>
+											<div class="sk-rect sk-rect2"></div>
+											<div class="sk-rect sk-rect3"></div>
+											<div class="sk-rect sk-rect4"></div>
+											<div class="sk-rect sk-rect5"></div>
+										  </div>
+										<!-- <button ng-click="ShowAddOccupancyForm()" ng-show="ShowOccupancyAdd==true;">Add</button> -->
+											<div class="table-responsive" ng-show="!isOccupancyInfoLoading" >
+												<table class="table table-bordered table-hover table-striped">
+													<thead>
+														<tr>
+															<!-- <th>Hotel Name</th> -->
+															<th>Date</th>
+															<th>Covers</th>
+															<th>Rooms</th>
+															<th>Sleepers</th>
+															<th>Functions</th>
+															<th>Delegates</th>
+															<th>Spa</th>
+															<!--<th ng-show="ShowOccupancyEdit==true && OccupancyTable_Edit"></th>-->
+                                                                                                                        <th ng-show="OccupancyTable_Edit"></th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr ng-repeat='OccupancyItem in OccupancyList | orderBy:Occupancypredicate:OccupancyPagingreverse | filter:Occupancypaginate'>
+															<!-- <td>{{OccupancyItem.hotel}}</td> -->
+															<!-- <td>{{OccupancyItem.date}}</td> --> 
+															<td>{{formatDateUK(OccupancyItem.date)}}</td>
+															<td>{{OccupancyItem.covers}}</td>
+															<td>{{OccupancyItem.rooms}}</td>
+															<td>{{OccupancyItem.sleepers}}</td>
+															<td>{{OccupancyItem.functions}}</td>
+															<td>{{OccupancyItem.delegates}}</td>
+															<td>{{OccupancyItem.spa}}</td>
+                                                                                                                        <!--<td ng-show="ShowOccupancyEdit==true && OccupancyTable_Edit">-->
+															<td ng-show="OccupancyTable_Edit">
+															<a title='Edit'  ng-click="EditOccupancy(OccupancyItem);"><img src="images/edit-icon.png" width="15px" height="17px" /></a> 
+															<!-- | <a href='' ng-click="doDeleteUser(userItem)"><img src="images/delete-icon.png" /></a> -->
+															</td>
+														</tr>
+														
+
+													</tbody>
+												</table>
+												<div>
+													<pagination total-items="$parent.$parent.OccupancytotalItems" ng-model="$parent.$parent.OccupancyPagingcurrentPage"  
+													max-size="5" boundary-links="true"  
+													items-per-page="$parent.$parent.OccupancyPagingnumPerPage" class="pagination-sm">  
+													</pagination> 
+												</div>
+
+											</div>
+											
+												
+										</div>
+
+										<div class="col-lg-12" ng-show="OccupancyFormType=='EDIT' || OccupancyFormType=='ADD'">
+										
+											                        <form name="signupForm" class="form-horizontal" role="form">
+																<div class="form-group" ng-show="1==2">
+																	<label class="col-sm-5 control-label no-padding-right" for="username">Hotel Name</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																			<input type="text" class="form-control"  ng-disabled="true" placeholder="username" name="username" ng-model="EditingOccupancy.hotel" />
+																			 <!-- <select class="form-control" name="repeatSelect" ng-show="OccupancyFormType=='ADD'" id="repeatSelect" ng-model="EditingOccupancy.hotelid" required>
+																			  <option ng-selected="option.GroupId"  ng-repeat="option in userAssignedHotels" value="{{option.GroupId}}">{{option.Name}}</option>
+																			</select> -->
+
+																		</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="email">Date</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																			<input type="text" class="form-control" ng-disabled="OccupancyFormType=='EDIT'" ng-click="ShowDatePicker('EditingOccupancydate')" id="EditingOccupancydate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" ng-model="EditingOccupancy.date" required />
+																			
+																		</span>
+																	</div>
+																</div>
+															   <div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password">Covers</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" class="form-control" name = "Covers" placeholder="Covers" ng-model="EditingOccupancy.covers" required focus/>
+																	<small class="errorMessage" data-ng-show="signupForm.Covers.$error.required"> Enter Covers.</small>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Rooms</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" class="form-control" name="Rooms" placeholder="Rooms" ng-model="EditingOccupancy.rooms" required focus/>                                
+																	<small class="errorMessage" data-ng-show="signupForm.Rooms.$error.required"> Enter Rooms.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="name">Functions</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" class="form-control" name="Functions" placeholder="Functions" ng-model="EditingOccupancy.functions" required />
+																	<small class="errorMessage" data-ng-show="signupForm.Functions.$error.required"> Enter Functions.</small>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="name">Delegates</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" class="form-control" placeholder="Delegates" name="Delegates"  ng-model="EditingOccupancy.delegates" required />
+																	<small class="errorMessage" data-ng-show="signupForm.Delegates.$error.required"> Enter Delegates.</small>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="phone">Spa</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" class="form-control" placeholder="Spa" name="Spa" ng-model="EditingOccupancy.spa" required />
+																	<small class="errorMessage" data-ng-show="signupForm.Spa.$error.required"> Enter Spa.</small>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="Sleepers">Sleepers</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" class="form-control" placeholder="Sleepers" name="Sleepers" ng-model="EditingOccupancy.sleepers" required />
+																	<small class="errorMessage" data-ng-show="signupForm.Sleepers.$error.required"> Enter Sleepers.</small>
+																</span>
+																	</div>
+																</div>
+																
+																<!-- <div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="address">Address</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" class="form-control" placeholder="Address" ng-model="user.address" />
+																</span>
+																	</div>
+																</div> -->
+																<div class="form-group">
+																	<span class="lbl col-sm-5"> </span>
+																	
+																	<span class="col-sm-7">
+																		<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveOccupancyChanges(EditingOccupancy)" data-ng-disabled="signupForm.$invalid">
+																			Save Changes
+																		</button>
+																		<button ng-click="CancelEditOccupancy()" class="width-35 btn btn-sm btn-primary" >
+																			Cancel
+																		</button>
+																	</span>
+																</div>
+																
+																<span class="lbl col-sm-5"> </span>
+																<!-- <div class="col-sm-7">Already have an account? <a href="#/login">SignIn</a> -->
+																
+																
+															</form>
+                    
+
+											</div>
+										
+									
+									</div>
+								</div>
+								
+							</div>
+							
+ </div>
+                                                
+                                                
+                                                
+                                                
+                                                <div class="col-lg-6" ng-show="OccupancyFormType=='EDIT' || OccupancyFormType=='ADD'">
+                                                    <div class="panel panel-primary text-left no-boder" ng-show="OccupancyFormType=='EDIT' || OccupancyFormType=='ADD'">
+									<div class="panel-heading">
+											<i class="fa fa-bar-chart-o fa-fw"></i><span ng-show="OccupancyFormType=='EDIT'">Edit Occupancy Information</span>
+											<span ng-show="OccupancyFormType=='ADD'">Add Occupancy Information</span>
+											<div class="pull-right">
+												<div class="btn-group">
+													<ul class="nav site-nav">
+													<li class=flyout>
+													
+														<a style="background-color:white; color:black; line-height:1.2; padding:0.2em;" href='' ng-click="CancelEditOccupancy()"><strong>Cancel</strong></a>
+	
+													</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+
+
+								<div class="panel-body yellow">
+									<div class="row">
+										
+											
+												
+										</div>
+										
+									
+								
+								
+							</div>
+							
+                                                </div>
+                                            </div>

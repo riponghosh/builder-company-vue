@@ -1,0 +1,57 @@
+<div id="divWeatherLineChart" class="{{ResizeClass($parent.$parent.WeatherLineChart_FullWidth,'weather')}}" ng-show="$parent.$parent.Widget_WeatherLineChart">
+                                                    <!--widget :  WeatherLineChart  -->
+                                                    <div  class="panel panel-primary" >
+								<div class="panel-heading">
+									<i class="fa fa-bar-chart-o fa-fw"></i>
+									<a class="widgetTitle" ng-click="WeatherChartcollapsed=(WeatherChartcollapsed==null?false:!WeatherChartcollapsed);">
+									Weather Information Chart for {{SelectedHotel.Name}}</a>
+									<div class="pull-right">
+                                                                            <a ng-click="ResizeIt('divWeatherLineChart','WeatherChart')">Resize</a>
+										<!-- <div class="btn-group" ng-show="(WeatherChartcollapsed==null?true:WeatherChartcollapsed)" >
+											<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+												Actions
+												<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu pull-right" role="menu">
+												<li><a href="#">Action</a>
+												</li>
+												<li><a href="#">Another action</a>
+												</li>
+												<li><a href="#">Something else here</a>
+												</li>
+												<li class="divider"></li>
+												<li><a href="#">Separated link</a>
+												</li>
+											</ul>
+										</div> -->
+										<a ng-click="ShowHelpPopup('WeatherLineChart_help.html');"><img src="images/Apps-Help-icon.png" width="20px" height="25px"></a>
+									</div>
+								</div>
+
+								<div class="panel-body" ng-show="(WeatherChartcollapsed==null?true:WeatherChartcollapsed)">
+									
+									<div class="sk-wave" ng-show="isWeatherInfoLoading">
+											<div class="sk-rect sk-rect1"></div>
+											<div class="sk-rect sk-rect2"></div>
+											<div class="sk-rect sk-rect3"></div>
+											<div class="sk-rect sk-rect4"></div>
+											<div class="sk-rect sk-rect5"></div>
+										  </div>
+										  
+										<!-- <div class="col-lg-12" ng-show="!isWeatherInfoLoading">
+										
+												<div class="panel-body" >
+												
+												<div  id="WeatherChart" style="width: 150px; height: 300px; margin: 0"></div>
+											</div>
+										</div> -->
+										<div  ng-show="!isWeatherInfoLoading" id="WeatherChart" style="height: auto; width: auto" ></div>
+									
+									
+									
+									
+									<!-- /.row -->
+								</div>
+								<!-- /.panel-body -->
+							</div>
+                                                </div>

@@ -1,0 +1,244 @@
+<div id="Drag_ReportFileDownloader" class="col-lg-6" ng-show="$parent.$parent.Widget_ReportFileDownloader">
+                                                        <!--widget :  ReportFileDownloader  -->
+
+							<div class="panel panel-primary" >
+								<div class="panel-heading">
+									<i class="fa fa-bar-chart-o fa-fw"></i>
+									<a class="widgetTitle" ng-click="ReportFileDownloader_Expanded=!ReportFileDownloader_Expanded;">Reports:  {{SelectedHotel.Name}}</a>
+
+										<!--<div class="btn-group btn-group-warning pull-right">
+	  
+											  <button data-toggle="dropdown" class="btn btn-warning btn-xs dropdown-toggle" type="button">
+												  <span class="caret"></span></button>
+											  <ul class="dropdown-menu">
+												  
+												  <li ng-show="ReportFileDownloader_Export"><a   ng-click="exportDataToCsv(WeatherList,'WeatherList');">Export to CSV</a></li>
+													<li><a  ng-click="EmailHtml('tblReportFileDownloaderDiv','ReportFileDownloader',$parent.$parent.ExportColumnsReportFileDownloader);">Email Me</a></li>
+												  <li class="divider"></li>
+												  <li><a ng-click="ShowHelpPopup('ReportFileDownloader_help.html');">Help</a></li>
+											  </ul>
+										  	</div>-->
+
+								</div>
+								
+								<div class="panel-body" ng-show="(ReportFileDownloader_Expanded==null?true:ReportFileDownloader_Expanded)">
+									<div class="row">
+									
+										<div class="col-lg-12" >
+											<ul class="nav nav-tabs">
+											<li ng-class="{'active' : $parent.$parent.ReportDownloadActiveTab == 1}"><a href="" ng-click="$parent.$parent.ReportDownloadActiveTab=1"><strong>Files</strong></a></li>
+											<li ng-show="!isReportFileDownloaderLoading" ng-class="{'active' : $parent.$parent.ReportDownloadActiveTab == 2}"><a href="" ng-click="$parent.$parent.ReportDownloadActiveTab=2"><strong>Upload</strong></a></li>
+											<li ng-show="!isReportFileDownloaderLoading && $parent.$parent.ReportFileDownloader_CanNotify_ReportReady" ng-class="{'active' : $parent.$parent.ReportDownloadActiveTab == 3}"><a href="" ng-click="$parent.$parent.ReportDownloadActiveTab=3"><strong>Notify</strong></a></li>
+											
+											</ul>
+								  
+										<div class="tab-content">
+											<div ng-show="$parent.$parent.ReportDownloadActiveTab==1">
+										  
+												<div class="col-lg-12" >
+													<br/>
+												<!--<input type="text" ng-model="$parent.$parent.WeatherFilterStartDate" height="1px" ng-click="ShowDatePicker('WeatherFilterStartDate')" id="WeatherFilterStartDate" ukdate="dd-MM-yyyy" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" /> 
+												<input type="text" height="1px" ng-model="$parent.$parent.WeatherFilterEndDate" ng-click="ShowDatePicker('WeatherFilterEndDate')" id="WeatherFilterEndDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" />-->
+												
+
+
+												<button ng-show="!isReportFileDownloaderLoading" type="button" ng-click="GetReportsToDownload()" class="pull-right btn btn-default btn-sm">
+										          <span class="glyphicon glyphicon-refresh"></span> Refresh
+										        </button>
+
+										        
+										        <div class = "btn-group" ng-show="$parent.$parent.ReportFileDownloader_CanEmail_File &&  !isReportFileDownloaderLoading && ReportsCheckIfChecked()">
+																		   <button type = "button" class = "btn btn-success btn-sm">With Selected</button>
+																		   
+																		   <button type = "button" class = "btn btn-success btn-sm dropdown-toggle" data-toggle = "dropdown">
+																		      <span class = "caret"></span>
+																		      <span class = "sr-only">Toggle Dropdown</span>
+																		   </button>
+																		   
+																		   <ul class = "dropdown-menu" role = "menu">
+																		      <li><a ng-click="doMailThisReportFileToMe(null)">Email File(s)</a></li>
+																			
+																		   </ul>
+																		</div>
+																		
+												
+												<div class="sk-wave" ng-show="isReportFileDownloaderLoading">
+													<div class="sk-rect sk-rect1"></div>
+													<div class="sk-rect sk-rect2"></div>
+													<div class="sk-rect sk-rect3"></div>
+													<div class="sk-rect sk-rect4"></div>
+													<div class="sk-rect sk-rect5"></div>
+												  </div>
+													<div class="table-responsive" ng-show="isReportFileDownloaderLoading==false" >
+													<div id="tblReportFileDownloaderDiv">
+														<table id="tblWeatherList" class="table table-bordered table-hover table-striped">
+															<thead>
+																<tr>
+																	<th width="1%" ng-show="$parent.$parent.ReportFileDownloader_CanEmail_File"><input ng-model="$parent.$parent.ReportsToDownloadSelectAllCheckbox" type="checkbox" ng-change="ReportsSelectUnselectAll()"></th>
+																	<th>Report Type</th>
+																	<th>File Name</th>
+																	<th width="15%" ng-show="$parent.$parent.ReportFileDownloader_CanDelete_File || $parent.$parent.ReportFileDownloader_CanEmail_File
+" width="1%"></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr ng-repeat='fileItem in ReportsToDownloadList | orderBy:Reportstodownloadpredicate:ReportstodownloadPagingreverse | filter:Reportstodownloadpaginate'>
+																	<!-- <td>{{weatherItem.Name}}</td> -->
+																	<td ng-show="$parent.$parent.ReportFileDownloader_CanEmail_File"><input ng-model="fileItem.Checked" type="checkbox"></td>
+																	<td>{{fileItem.FolderName}}</td>
+																	<td>
+																		<span ng-show="!$parent.$parent.ReportFileDownloader_CanDownload_File
+"> {{fileItem.FileName}}</span>
+																		<a ng-show="$parent.$parent.ReportFileDownloader_CanDownload_File
+" ng-click="DownloadReport(fileItem)"> {{fileItem.FileName}}</a></td>
+																	<td ng-show="$parent.$parent.ReportFileDownloader_CanDelete_File || $parent.$parent.ReportFileDownloader_CanEmail_File
+">
+<button ng-click="doMailThisReportFileToMe(fileItem)" ng-show="$parent.$parent.ReportFileDownloader_CanEmail_File"  class="btn btn-success btn-xs" data-title="Mail this file to me"  ><span class="glyphicon glyphicon-envelope"></span></button>
+<button  ng-click="doDeleteReportFile(fileItem)" ng-show="$parent.$parent.ReportFileDownloader_CanDelete_File" class="btn btn-danger btn-xs" data-title="Delete File"  ><span class="glyphicon glyphicon-trash"></span></button>
+
+																	</td>
+																</tr>
+																
+
+															</tbody>
+														</table>
+														</div>
+														<div>
+															<pagination total-items="$parent.$parent.ReportsToDownloadtotalItems" ng-model="$parent.$parent.ReportstodownloadPagingcurrentPage"  
+															max-size="5" boundary-links="true"  
+															items-per-page="$parent.$parent.ReportstodownloadPagingnumPerPage" class="pagination-sm">  
+															</pagination> 
+														</div>
+
+
+														
+
+													</div>
+														<!-- <div class="panel-body" ng-show="ShowWeatherLineChart">
+														
+														<div  id="WeatherChart" style="min-width: 150px; height: 300px; margin: 0 auto"></div>
+													</div> -->
+												</div>
+										
+										</div>
+										<div>
+											<div class="col-lg-12" ng-show="$parent.$parent.ReportDownloadActiveTab==2 && !isReportFileDownloaderLoading" >
+												<br/>
+
+												<form  ng-show="!isReportFileDownloaderLoading && $parent.$parent.ReportFileDownloader_CanUpload_File"  ng-submit="ReportFileUploadSubmit(ObservationEditingItem)" name="reportUploadFormFrm" role="form" class="form-inline pull-right">
+																			  <div class="form-group">
+
+																			Type <select  class="form-control input-sm" style="width: 120px;" id="stattype" ng-model="reportUploadForm.ReportType" ng-options="x for x in ReportsDownloadTypeList">
+																						 <!--<option  ng-repeat="opt in ReportsDownloadTypeList" value="{{opt}}" >{{opt}}</option>-->
+																						 </select>
+																						 
+																						</div>
+																						<div class="form-group">
+																			  	<input ng-model="reportUploadForm.uFile" type="file" class="form-control input-sm"  onchange="angular.element(this).scope().ReportFileUploader(this)" /> 
+																			  </div>
+																			  <div class="form-group">
+																			  <input type="submit" id="submit" value="Upload" class="width-35 btn btn-sm btn-primary" />
+																			  
+																			  
+																			  </div>
+																			  <!-- <br/>
+																			  <img ng-src="{{image_source}}" style="width:300px;">
+																				-->
+																			</form>
+											
+																		</div>
+										</div>
+										<div  ng-show="$parent.$parent.ReportFileDownloader_CanNotify_ReportReady && !isReportFileDownloaderLoading">
+												<div  ng-show="$parent.$parent.ReportDownloadActiveTab==3">
+										  
+												<div class="col-lg-12" id="reportUserEmaildiv" >
+													<br/>
+
+													<form name="ReportDownloaderNotifyForm" class="form-horizontal" role="form">
+														
+																		<div class="form-group">
+																			<label  for="ltitle">Fill the below form to Email clients to say report is ready with a link.</label>
+																			
+																		
+																		</div>
+																		<div class="form-group">
+																			<label  for="password">Subject</label>
+																			
+																			<input type="text" class="form-control" name = "Subject" placeholder="Report is ready" ng-model="ReportReadyEmailtemplate.Subject" required />
+
+																		
+																		</div>
+																		<div class="form-group">
+																			<label  for="password">Mail Content</label>
+																			<!--<div text-angular="text-angular" name="htmlcontent" ng-model="htmlcontent" ta-disabled='false'></div>
+																			<textarea style="resize:none" rows="16"  cols="40" class="form-control" placeholder="Notes" name="Notes" ng-model="HotelSettings.Notes"></textarea>-->
+
+																			<!--<wysiwyg textarea-id="question" textarea-class="form-control"  textarea-height="180px" textarea-name="textareaQuestion" textarea-required ng-model="data.text" enable-bootstrap-title="true"></wysiwyg>
+																			-->
+        
+																			<textarea ng-model="ReportReadyEmailtemplate.HtmlContent" class="form-control" id="ReportsEmaileditor" style="resize:none" rows="16"></textarea>
+
+																		</div>
+																		<div class="form-group">
+																		<button  ng-show="$parent.$parent.ReportFileDownloader_CanModify_ReportReadyTemplate" class="width-35 pull-right btn btn-sm btn-primary" ng-click="SaveReportReadyTemplate()">
+																					Save Template
+																				</button>
+																		<button type="submit" ng-disabled="ReportSendToUsersList.length==0" ng-click="SendReportReadyNotificationEmail()">Send E-mail</button>
+																		<button ng-init="showEmailList=false;" ng-click="showEmailList=true;">Email list</button>
+																	</div>
+													</form>
+
+
+													<pageslide ps-push='true' ps-open="showEmailList" ps-container='reportUserEmaildiv' ps-size="350px" >
+								                        <div style="padding:20px">
+								                            <h2>Email List</h2>
+								                            <p>
+															
+																<table ng-show="ReportSendToUsersList.length>0"  class="table table-bordered table-hover table-striped">
+																	<thead>
+																		<tr>
+																			<th width="1%"><input ng-model="$parent.$parent.ReportsToEmailListSelectAllCheckbox" type="checkbox" ng-change="ReportsToEmailListSelectUnselectAll()"></th>
+																			<th>Email</th>
+																			
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat='emailItem in ReportSendToUsersList | orderBy:ReportsToEmailListpredicate:ReportsToEmailListPagingreverse | filter:ReportsToEmailListpaginate'>
+																			
+																			<td ><input ng-model="emailItem.Checked" type="checkbox"></td>
+																			<td>{{emailItem.Email}}</td>
+																			
+																		</tr>
+																		
+
+																	</tbody>
+																</table>
+																<div ng-show="ReportSendToUsersList.length>0">
+															<pagination total-items="$parent.$parent.ReportsToEmailListtotalItems" ng-model="$parent.$parent.ReportsToEmailListPagingcurrentPage"  
+															max-size="5" boundary-links="true"  
+															items-per-page="$parent.$parent.ReportsToEmailListPagingnumPerPage" class="pagination-sm">  
+															</pagination> 
+														</div>
+																<span ng-show="ReportSendToUsersList.length==0">No Users Found to Email</span>
+								                            </p>
+								                        </div>
+								                    </pageslide>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+									
+									</div>
+									
+									
+									<!-- /.row -->
+								</div>
+								
+								<!-- /.panel-body -->
+							</div>
+						
+                                                </div>
+
+
+

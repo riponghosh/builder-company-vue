@@ -1,0 +1,376 @@
+body{
+	padding-top: 51px;
+}
+
+/* ng-cloak */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng.ng-cloak {
+    display: none;
+}
+ul{
+	list-style: none;
+}
+a{
+	color: #333;
+}
+.widgetTitle{
+	color: white;
+}
+a.widgetTitle:hover{
+	color: white;
+}
+a:hover{
+	cursor: pointer;
+}
+ul.simple-post-list .post-image {
+	float: left;
+	margin-right: 12px;
+}
+ul.simple-post-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.callout-box{
+	background-color: #546489;
+	color: #fff;
+	padding: 10px 20px;
+}
+.body-title{
+	border: 1px solid #e3e3e3;
+	border-left: 5px solid #234383;
+	padding: 0 20px 20px;
+}
+.featured-box{
+	border: 1px solid #e3e3e3;
+	border-top: 5px solid #234383;
+	padding: 0 20px 20px;
+}
+.breadcrumbs {
+position: relative;
+border-bottom: 1px solid #E5E5E5;
+background-color: #F5F5F5;
+}
+.breadcrumb{
+	margin-bottom: 0;
+}
+.cart-btn{
+	border-radius:0;
+}
+.navbar {
+	border-radius: 0;
+	
+background: #FCFCFC;
+color: #fff;border: 0;
+
+}
+/* Removed width:auto from navbar-collapse classs; */
+.navbar-collapse {
+border-top: 0;
+box-shadow: none;
+}
+.navbar .navbar-brand-Title {
+/*color: #FFF;
+font-size: 24px;
+text-shadow: none;
+padding-bottom: 10px;*/
+}
+
+.navbar .navbar-brand {
+/*color: #FFF;
+font-size: 20px;
+text-shadow: none;
+padding-bottom: 10px;*/
+}
+
+.form-group-addon{
+	padding-left: -20px;
+}
+
+.panel-heading a.collapsed:after {
+    content:"\e080";
+}
+
+
+
+.UserProfilePhoto {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+
+/* for charts */
+.wrapper {
+    display: table;
+    width: 100%;
+    float:none;
+    clear:both;
+}
+.wrapper:after {
+    visibility:hidden;
+    display:block;
+    font-size:0;
+    content:" ";
+    clear:both;
+    height:0;
+}
+.element {
+    display: table-cell;
+    width: 50%;
+}
+#chart {
+    width: 100%;
+}
+.legend {
+    display: table-cell;
+    width: 50%;
+    vertical-align: middle;
+}
+
+
+
+
+
+
+
+
+
+
+.panel-table .panel-body{
+  padding:0;
+}
+
+.panel-table .panel-body .table-bordered{
+  border-style: none;
+  margin:0;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr > th:first-of-type {
+    text-align:center;
+    width: 100px;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr > th:last-of-type,
+.panel-table .panel-body .table-bordered > tbody > tr > td:last-of-type {
+  border-right: 0px;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr > th:first-of-type,
+.panel-table .panel-body .table-bordered > tbody > tr > td:first-of-type {
+  border-left: 0px;
+}
+
+.panel-table .panel-body .table-bordered > tbody > tr:first-of-type > td{
+  border-bottom: 0px;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr:first-of-type > th{
+  border-top: 0px;
+}
+
+.panel-table .panel-footer .pagination{
+  margin:0; 
+}
+
+/*
+used to vertically center elements, may need modification if you're not using default sizes.
+*/
+.panel-table .panel-footer .col{
+ line-height: 34px;
+ height: 34px;
+}
+
+.panel-table .panel-heading .col h3{
+ line-height: 30px;
+ height: 30px;
+}
+
+.panel-table .panel-body .table-bordered > tbody > tr > td{
+  line-height: 34px;
+}
+
+
+
+
+
+
+.ngdialog.ngdialog-theme-plain.custom-width .ngdialog-content {
+    width: 70%;
+}
+
+
+
+
+
+
+
+/*input[type=checkbox],*/
+input[type=radio] {
+        opacity: 0;
+        position: absolute;
+        z-index: 12;
+        width: 18px;
+        height: 18px;
+}
+
+/*input[type=checkbox]:checked,*/
+input[type=radio]:checked,
+/*input[type=checkbox]:focus,*/
+input[type=radio]:focus {
+        outline: none !important;
+}
+
+/*input[type=checkbox]+.lbl,*/
+input[type=radio]+.lbl {
+        position: relative;
+        z-index: 11;
+        display: inline-block;
+        margin: 0;
+        line-height: 20px;
+        min-height: 14px;
+        min-width: 14px;
+        font-weight: normal;
+}
+
+/*input[type=checkbox]+.lbl.padding-16::before,*/
+input[type=radio]+.lbl.padding-16::before {
+        margin-right: 16px;
+}
+
+/*input[type=checkbox]+.lbl.padding-12::before,*/
+input[type=radio]+.lbl.padding-12::before {
+        margin-right: 12px;
+}
+
+/*input[type=checkbox]+.lbl.padding-8::before,*/
+input[type=radio]+.lbl.padding-8::before {
+        margin-right: 8px;
+}
+
+/*input[type=checkbox]+.lbl.padding-4::before,*/
+input[type=radio]+.lbl.padding-4::before {
+        margin-right: 4px;
+}
+
+/*input[type=checkbox]+.lbl.padding-0::before,*/
+input[type=radio]+.lbl.padding-0::before {
+        margin-right: 0px;
+}
+
+/*input[type=checkbox]+.lbl::before,*/
+input[type=radio]+.lbl::before {
+        font-family: fontAwesome;
+        font-weight: normal;
+        font-size: 11px;
+        color: #2091cf;
+        content: "\a0";
+        background-color: #FAFAFA;
+        border: 1px solid #CCC;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        border-radius: 0;
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        height: 13px;
+        line-height: 13px;
+        min-width: 13px;
+        margin-right: 1px;
+        margin-top: -5px;
+}
+
+/*input[type=checkbox]:checked+.lbl::before,*/
+input[type=radio]:checked+.lbl::before {
+        display: inline-block;
+        content: '\f00c';
+        background-color: #F5F8FC;
+        border-color: #adb8c0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+}
+
+/*input[type=checkbox]:hover+.lbl::before,*/
+input[type=radio]:hover+.lbl::before,
+/*input[type=checkbox]+.lbl:hover::before,*/
+input[type=radio]+.lbl:hover::before {
+        border-color: #1c7aad;
+}
+
+/*input[type=checkbox]:active+.lbl::before,*/
+input[type=radio]:active+.lbl::before,
+/*input[type=checkbox]:checked:active+.lbl::before,*/
+input[type=radio]:checked:active+.lbl::before {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/*input[type=checkbox]:disabled+.lbl::before,*/
+input[type=radio]:disabled+.lbl::before,
+/*input[type=checkbox][disabled]+.lbl::before,*/
+input[type=radio][disabled]+.lbl::before,
+/*input[type=checkbox].disabled+.lbl::before,*/
+input[type=radio].disabled+.lbl::before {
+        background-color: #DDD !important;
+        border-color: #CCC !important;
+        box-shadow: none !important;
+        color: #BBB;
+}
+
+input[type=radio]+.lbl::before {
+        border-radius: 32px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 36px;
+}
+
+input[type=radio]:checked+.lbl::before {
+        content: "\2022";
+}
+
+
+
+.ta-editor {
+  min-height: 300px;
+  height: auto;
+  overflow: auto;
+  font-family: inherit;
+  font-size: 100%;
+}
+
+
+
+
+.ng-pageslide {
+                background: #eee;
+            }
+
+            body.ng-pageslide-body-open::before {
+                content: '.';
+                display: block;
+                position: absolute;
+                top: 0;
+                background-color: rgb(0,0,0);
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 1;
+                opacity: 0.5;
+                transition: opacity 1s;
+                opacity: 0.5;
+                
+                pointer-events: all;
+            }
+
+            body.ng-pageslide-body-closed::before {
+                transition: opacity 1s;
+                content: '.';
+                display: block;
+                position: absolute;
+                top: 0;
+                background-color: rgb(0,0,0);
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 1;
+                opacity: 0;
+                pointer-events: none;
+            }

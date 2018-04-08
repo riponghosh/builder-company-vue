@@ -1,0 +1,196 @@
+<div id="Drag_LogActivity" class="col-lg-6" ng-show="$parent.$parent.Widget_LogActivity">
+							<div class="panel panel-primary text-left no-boder">
+									<div class="panel-heading">
+											<i class="fa fa-bar-chart-o fa-fw"></i>
+											<a class="widgetTitle" ng-click="LogActivityTablecollapsed=(LogActivityTablecollapsed==null?false:!LogActivityTablecollapsed);">
+											LogActivity Information  
+											</a>
+											<!--
+											<div class="pull-right">
+												<div class="btn-group" ng-show="(LogActivityTablecollapsed==null?true:LogActivityTablecollapsed)">
+													<ul class="nav site-nav">
+													<li class=flyout>
+													
+														<a style="background-color:white; color:black; line-height:1.2; padding:0.2em;" href=''><strong>Actions</strong></a>
+														
+														
+														<ul class="flyout-content nav stacked">
+
+															<li ng-show="$parent.$parent.LogActivity_Export && $parent.$parent.isLogActivityLoading==false  && $parent.$parent.LogActivityErrorMessage==''"><a  ng-click="exportDataToCsv(LogActivityList,'LogActivityList',$parent.$parent.ExportColumnsLogActivity);">Export to CSV</a></li>
+															
+															<li ng-show="$parent.$parent.LogActivity_Export && $parent.$parent.isLogActivityLoading==false  && $parent.$parent.LogActivityErrorMessage==''"><a  ng-click="exportDataToPDF('LogActivityForPDFExport');">Export to PDF</a></li>
+															
+															
+														</ul>
+												
+													</li>
+													</ul>
+													
+												</div>
+												<a ng-click="ShowHelpPopup('LogActivityTable_help.html');"><img src="images/Apps-Help-icon.png" width="20px" height="25px"></a>
+											</div>
+											-->
+											<div class="btn-group btn-group-warning pull-right">
+	  
+											  <button data-toggle="dropdown" class="btn btn-warning btn-xs dropdown-toggle" type="button">
+												  <span class="caret"></span></button>
+											  <ul class="dropdown-menu">
+												  
+												  <li ng-show="$parent.$parent.LogActivity_Export && $parent.$parent.isLogActivityLoading==false  && $parent.$parent.LogActivityErrorMessage==''"><a  ng-click="exportDataToCsv(LogActivityList,'LogActivityList',$parent.$parent.ExportColumnsLogActivity);">Export to Excel</a></li>
+															
+															<!--<li ng-show="$parent.$parent.LogActivity_Export && $parent.$parent.isLogActivityLoading==false  && $parent.$parent.LogActivityErrorMessage==''"><a  ng-click="exportDataToPDF('LogActivityForPDFExport');">Export to PDF</a></li>
+												  <li><export-to-pdf file-name="logActivity" elem-id="LogActivityForPDFExport"></export-to-pdf></li>-->
+												  
+												  <li ng-show="$parent.$parent.LogActivity_Export && !$parent.$parent.isLogActivityLoading  && $parent.$parent.LogActivityErrorMessage==''"><a onclick="javascript:HtmlExportToPDF('LogActivityForPDFExport','LogActivity');">Export to PDF</a></li>
+												  <li class="divider"></li>
+												  <li><a ng-click="ShowHelpPopup('LogActivityTable_help.html');">Help</a></li>
+											  </ul>
+										  	</div>
+										</div>
+
+
+								<div class="panel-body yellow" ng-show="(LogActivityTablecollapsed==null?true:LogActivityTablecollapsed)">
+									<div class="row">
+										<div class="col-lg-12">
+										
+										  <div class="sk-wave" ng-show="$parent.$parent.isLogActivityLoading && $parent.$parent.LogActivityErrorMessage==''">
+											<div class="sk-rect sk-rect1"></div>
+											<div class="sk-rect sk-rect2"></div>
+											<div class="sk-rect sk-rect3"></div>
+											<div class="sk-rect sk-rect4"></div>
+											<div class="sk-rect sk-rect5"></div>
+										  </div>
+										  <div  ng-show="$parent.$parent.LogActivityErrorMessage!=''">{{$parent.$parent.LogActivityErrorMessage}}</div>
+
+										  
+											<div ng-show="!$parent.$parent.isLogActivityLoading  && $parent.$parent.LogActivityErrorMessage==''" class="col-lg-12" ng-init="activeLogActivityTab=1">
+
+												
+											<ul class="nav nav-tabs">
+												<li ng-class="{'active' : activeLogActivityTab == 1}"><a href="" ng-click="activeLogActivityTab=1"><strong>Data</strong></a></li>
+												<li ng-class="{'active' : activeLogActivityTab == 2}"><a href="" ng-click="activeLogActivityTab=2"><strong>Chart</strong></a></li>
+												<div ng-int="LogActivityDefaultOption=1" class="form-inline pull-right" ng-show="!$parent.$parent.isLogActivityLoading  && $parent.$parent.LogActivityErrorMessage==''">
+										  	<input class="form-control" type="text" ng-model="$parent.$parent.LogActivityFilterStartDate" height="1px" width="20px" ng-click="ShowDatePicker('LogActivityFilterStartDate')" id="LogActivityFilterStartDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" /> 
+											<input class="form-control" width="20px" type="text" height="1px" ng-model="$parent.$parent.LogActivityFilterEndDate" ng-click="ShowDatePicker('LogActivityFilterEndDate')" id="LogActivityFilterEndDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" />
+											<!--<button   ng-click="LoadLogActivity()">Search</button>--> 	
+											<button type="button" class="btn btn-sm btn-info" ng-click="LoadLogActivity()">
+										      <span class="glyphicon glyphicon-search"></span> Search
+										    </button>
+											
+											<input type="checkbox" ng-model="$parent.$parent.LogActivity_chkShowAll" ng-change="LoadLogActivity()" />All
+											<!--<input type="checkbox" ng-checked="LogActivityDefaultOption==2" ng-click="LogActivityDefaultOption=2;LoadLogActivity()"/>Selected Hotel-->
+										  </div>
+											</ul>
+										
+										<div class="tab-content" ng-show="!$parent.$parent.isLogActivityLoading  && $parent.$parent.LogActivityErrorMessage==''">
+											
+											<div ng-show="activeLogActivityTab==1">
+
+												<div class="table-responsive" ng-show="!$parent.$parent.isLogActivityLoading  && $parent.$parent.LogActivityErrorMessage==''">
+
+															<div class="pull-right">
+																<select ng-model="$parent.$parent.LogActivityPagingnumPerPage" class="btn btn-default">
+																<option>5</option>
+																<option>10</option>
+																<option>15</option>
+																<option>25</option>
+																<option>50</option>
+																<option>100</option>
+																<option>200</option>
+																</select> Records per page.
+															</div>
+
+													<input class="form-control" type="text" placeholder="Enter to search" ng-model="LogActivitySearch.Text" />
+													<table class="table table-bordered table-hover table-striped">
+														<thead>
+															<tr>
+																<!-- <th>Hotel Name</th> -->
+																<th width="22%" ><a ng-click="LogActivityorder('CreatedDate')">Date</a>
+																	<span class="glyphicon sort-icon" ng-show="$parent.$parent.LogActivitypredicate=='CreatedDate'" ng-class="{'glyphicon-chevron-up':$parent.$parent.LogActivityPagingreverse,'glyphicon-chevron-down':!$parent.$parent.LogActivityPagingreverse}"></span>
+																</th>
+																<th width="40%" ><a ng-click="LogActivityorder('Description')">Activity</a>
+																		<span class="glyphicon sort-icon" ng-show="$parent.$parent.LogActivitypredicate=='Description'" ng-class="{'glyphicon-chevron-up':$parent.$parent.LogActivityPagingreverse,'glyphicon-chevron-down':!$parent.$parent.LogActivityPagingreverse}"></span>
+																</th>
+																<th width="20%"><a ng-click="LogActivityorder('Username')">User</a>
+																		<span class="glyphicon sort-icon" ng-show="$parent.$parent.LogActivitypredicate=='Username'" ng-class="{'glyphicon-chevron-up':$parent.$parent.LogActivityPagingreverse,'glyphicon-chevron-down':!$parent.$parent.LogActivityPagingreverse}"></span>
+																</th>
+																<th width="20%" ><a ng-click="LogActivityorder('HotelName')">Hotel</a>
+																		<span class="glyphicon sort-icon" ng-show="$parent.$parent.LogActivitypredicate=='HotelName'" ng-class="{'glyphicon-chevron-up':$parent.$parent.LogActivityPagingreverse,'glyphicon-chevron-down':!$parent.$parent.LogActivityPagingreverse}"></span>
+																</th>
+																
+															</tr>
+														</thead>
+														<tbody>
+															
+															
+															<tr dir-paginate='LogActivityItem in $parent.$parent.LogActivityList | orderBy:$parent.$parent.LogActivitypredicate:$parent.$parent.LogActivityPagingreverse | filter:LogActivitySearch.Text|itemsPerPage:$parent.$parent.LogActivityPagingnumPerPage'>
+																<!-- <td>{{LogActivityItem.hotel}}</td> -->
+																<td>{{formatDateTimeUK(LogActivityItem.CreatedDate)}}</td>
+																<td>{{LogActivityItem.Description}}</td>
+																<td>{{LogActivityItem.Username}}</td>
+																<td>{{LogActivityItem.HotelName}}</td>
+																
+															</tr>
+
+														</tbody>
+													</table>
+													<div>
+														<dir-pagination-controls
+												          max-size="10"
+												          direction-links="true"
+												          boundary-links="true" >
+												        </dir-pagination-controls> 
+													</div>
+
+												</div>
+
+												<div ng-show="1==2" id="LogActivityForPDFExport">
+													
+												<table width="100%" style="border:1px solid black">
+														<thead>
+															<tr>
+																<!-- <th>Hotel Name</th> -->
+																<th width="30px">Date</th>
+																<th>Activity</th>
+																<th>User</th>
+																<th>Hotel</th>
+																
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat='LogActivityItem in $parent.$parent.LogActivityList | orderBy:$parent.$parent.LogActivitypredicate:$parent.$parent.LogActivityPagingreverse | filter:LogActivitySearch.Text'>
+																<!-- <td>{{LogActivityItem.hotel}}</td> -->
+																<td>{{formatDateTimeUK(LogActivityItem.CreatedDate)}}</td>
+																<td>{{LogActivityItem.Description}}</td>
+																<td>{{LogActivityItem.Username}}</td>
+																<td>{{LogActivityItem.HotelName}}</td>
+																
+															</tr>
+															
+
+														</tbody>
+													</table>
+												
+												</div>
+
+											</div>
+
+											<div ng-show="activeLogActivityTab==2">
+												<div  id="LogActivityChart"  ng-show="!isLogActivityLoading && LogActivityList.isChart" style="height: auto; width: auto" ></div>
+
+											</div>
+										</div>
+									</div>
+
+											
+											<!--<export-to-pdf file-name="logActivity" elem-id="LogActivityForPDFExport"></export-to-pdf>-->
+												
+										</div>
+										
+									
+									</div>
+								</div>
+								
+							</div>
+
+						</div>

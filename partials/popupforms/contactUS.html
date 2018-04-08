@@ -1,0 +1,58 @@
+<div id="slideit">
+		<!-- Open/close buttons -->
+		<input id="open-item" name="forms" type="radio" />
+		<input id="close-item" name="forms" type="radio" checked="checked" />
+		<!-- Open label -->
+		<label for="open-item" class="open">Contact us</label>
+		<section>
+			<!-- Close label -->
+			<label for="close-item" class="close">&times;</label>
+			<!-- Heading -->
+			<span class="title">Contact us</span>
+			<!-- Info text and form elements -->
+			<div class="wrap">
+				<!-- Info text -->
+				<p class="info">Contact us for help, additional info or assistance and we'll be with you in no time!</p>
+				<!-- Form -->
+				<form name="contact" id="contact">
+				<div class="field">
+						<select name="To" ng-model="$parent.ContactFormMessage.RoleID" id="RoleID" class="grayed" onClick="this.className=this.options[this.selectedIndex].className">
+							<option value="" default="default" selected="selected" disabled="disabled">Choose the groupt to send to</option>
+							<!--<option value="Remote support">Remote support</option>
+							<option value="Technical assistance">Technical assistance</option>
+							<option value="Presales questions">Presales questions</option>-->
+							<option  ng-repeat="option2 in ToGroupListForContactMessages" value="{{option2.ID}}">{{option2.Name}}</option>
+						</select>
+						<div id="select-arrow"></div>
+						<svg id="select-arrow-svg">
+						<span class="tip">Choose the groupt to send to</span>
+					</div>
+					<div class="field">
+						<select name="subject" ng-model="$parent.ContactFormMessage.Subject" id="subject" class="grayed" onClick="this.className=this.options[this.selectedIndex].className">
+							<option value="" default="default" selected="selected" disabled="disabled">Subject</option>
+							<option value="Remote support">Remote support</option>
+							<option value="Technical assistance">Technical assistance</option>
+							<!--<option value="Presales questions">Presales questions</option>-->
+						</select>
+						<div id="select-arrow"></div>
+						<svg id="select-arrow-svg">
+						<span class="tip">Choose subject</span>
+					</div>
+					<!--<div class="field">
+						<input name="name" placeholder="Name" type="text" id="name" required />
+						<span class="tip">Enter your name</span>
+					</div>
+					<div class="field">
+						<input name="email" placeholder="Email" type="email" id="email" required />
+						<span class="tip">Enter your email</span>
+					</div>-->
+					<div class="field">
+						<textarea name="message" ng-model="$parent.ContactFormMessage.Message" placeholder="Message" id="message" required /></textarea>
+						<span class="tip">Your message</span>
+					</div>
+					<input type="submit" ng-click="SaveContactFormMessage($parent.ContactFormMessage);" data-ng-disabled="contact.$invalid" value="Send" class="send" form="contact" />
+					<input type="reset" value="&#8226; Reset form" class="reset">
+				</form>
+			</div>
+		</section>
+	</div>

@@ -1,0 +1,395 @@
+
+<script type="text/ng-template" id="custom-datepicker.html">
+    <div class="enhanced-datepicker">
+        <div class="proxied-field-wrap">
+            <input type="text" ui-date-format="yy-mm-dd" ng-model="ngModel" ui-date="dateOptions"/>
+        </div>
+        <label>
+            <button class="btn" type="button"><i class="icon-calendar"></i></button>
+            <span class="datepicker-date">{{ngModel | date:'d MMM yyyy'}}</span>
+        </label>
+    </div>
+</script>
+
+	<script type="text/ng-template" id="menuTreeWithChild">
+		
+		<input ng-show="channel.GroupId>1" type="checkbox" ng-model="channel.isChecked"  ng-click="ClickChannel(channel);"  value="{{channel.GroupId}}" /> 
+		<a href='' ng-click="channel.isChecked=!channel.isChecked; ClickChannel(channel);">{{ channel.Name }}</a>
+        
+        <!-- Flyout -->
+        <ul class="flyout-content nav stacked">
+			<!-- class="flyout-alt" -->
+			<li  ng-class="getMenuCss(channel)" ng-repeat="channel in channel.Channels" ng-include="'menuTreeWithChild'" ></li>
+		</ul>
+        
+    </script>
+	
+	<script type="text/ng-template" id="template/menuTree">
+		
+		<a href='' ng-click="channel.isChecked=!channel.isChecked; ClickChannel(channel);">
+		<input ng-show="channel.GroupId>1" type="checkbox" ng-model="channel.isChecked"   />
+
+		<!--<font ng-show="channel.Name=='Macdonald Hotels'" color="{{ ShowHotelColor(channel.color) }}"> {{SelectedHotel.Name}}</font>-->
+		<font  color="{{ ShowHotelColor(channel.color) }}"> {{ channel.Name }}</font>
+
+		</a>
+
+		
+        <!-- Flyout -->
+        <ul class="flyout-content nav stacked">
+			<!-- class="flyout-alt" -->
+			<li  ng-class="getMenuCss(channel)" ng-repeat="channel in channel.Channels" ng-include="'template/menuTree'" ></li>
+		</ul>
+        
+    </script>
+
+    
+
+	
+<div class="breadcrumbs" id="breadcrumbs">
+
+	<table width="100%" border="0"><tr>
+	
+	<td width="10px"> 
+	
+		<ul class="nav site-nav">
+
+		<li class=flyout ng-repeat="channel in Channels" ng-include="'template/menuTree'" ></li>
+		</ul>
+    
+	
+
+	</td>
+	
+	<td width="13%">
+	    <ul class="breadcrumb">
+
+	        <strong>{{SelectedHotel.Name}}</strong>
+	    </ul>
+      
+	</td>
+	<!--<td width="1%">|</td>-->
+	
+	<!-- <td><button id='btn-Convert-Html2Image' ng-click="ConvertToPDF('TopSectionForPrint')">PDF</button> </td> -->
+	<td>
+								<!-- <ul class="nav site-nav">
+									<li class=flyout>
+									
+										<a style="background-color:white; color:black; line-height:1.2; padding:0.2em;" href=''><strong>Actions</strong></a>
+										
+										
+										<ul class="flyout-content nav stacked">
+											<li><a onClick="$('#tblDashboard').tableExport({ type: 'pdf', pdfFontSize: '7', escape: 'false' });">Export to PDF</a></li>
+											
+										</ul>
+								
+									</li>
+									</ul> -->
+	</td>
+	<td width="2px" align="left">
+		<span id="notification_li" ng-show="MessagingIsOn">
+		<span ng-show="ContactFormMessageNewCount>0" id="notification_count">{{GetAllContactFormMessagesCount()}}</span>
+		<a ng-click="ContactFormMessageCountShow=true;" href="#" id="notificationLink"><img width="19px" height="20px" src="images/notification.png"/></a>
+		<div id="notificationContainer">
+		<div id="notificationTitle">Notifications</div>
+		<div id="notificationsBody" class="notifications" ng-include = "'partials/notification/ContactFormMessageList.html'">
+
+		</div>
+		<div id="notificationFooter">
+		<a href="#message">See All</a>
+		</div>
+		</div>
+
+		</span>
+	</td>
+<td width="35%">&nbsp;&nbsp;</td>
+  <td>
+    <div >
+          <div class="sidebar">
+          <div class="mini-submenu">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </div>
+          <div class="col-sm-10 list-group" style="position: absolute; z-index: 2; width: 250px; border: 2px">
+              <span href="#" class="list-group-item active">
+                  Settings
+                  <span class="pull-right" id="slide-submenu">
+                      <i class="fa fa-times"><font color="white">close</font></i>
+                  </span>
+              </span>
+              
+              <!--<a class="list-group-item">
+              <div class="btn-group btn-toggle"> 
+                <button class="btn btn-xs btn-default">SHOW</button>
+                <button class="btn btn-xs btn-success active">HIDE</button>
+              </div>
+                  Hotel Settings 
+              </a>
+              <!--<a href="#" class="list-group-item">
+                  <i class="fa fa-search"></i> Lorem ipsum
+              </a>-->
+              <a  ng-show="Widget_ExcelTable && ExcelTable_PrintPage" ng-click="ExcelFormType='PRINT';ShowExcelPrintPageForm()" class="list-group-item">
+                  <i class="fa fa-user"></i>Daily Operations Meeting : Energy Details
+              </a>
+             <!-- <a href="#" class="list-group-item">
+                  <i class="fa fa-folder-open-o"></i> Lorem ipsum <span class="badge">14</span>
+              </a>
+              <a href="#" class="list-group-item">
+                  <i class="fa fa-bar-chart-o"></i> Lorem ipsumr <span class="badge">14</span>
+              </a>
+              <a href="#" class="list-group-item">
+                  <i class="fa fa-envelope"></i> Lorem ipsum
+              </a>-->
+          </div>        
+        </div>
+      </div>
+  </td>
+  
+  
+  
+  
+	<td align="right">
+        
+	From : <input type="text" ng-model="RootStartDate" height="1px"  ng-click="ShowDatePicker('RootStartDate')" id="RootStartDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" /> 
+	To : <input type="text" height="1px" ng-model="RootEndDate"  ng-click="ShowDatePicker('RootEndDate')" id="RootEndDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" />
+	<button ng-disabled="trafficCop.pending.all>0" class="width-35 btn btn-sm btn-primary" ng-click="SetDateToAllWidgets();">Set</button>
+	<!--<strong>Total</strong>: {{ trafficCop.pending.all }}-->
+	<button ng-disabled="trafficCop.pending.all>0" id="create_pdf">PDF</button> 
+
+	
+	</td>
+	
+	<td align="center">
+
+	<!--Hotel : <strong>{{SelectedHotel.Name}}</strong>-->
+
+	&nbsp;
+
+	</td>
+	</tr>
+	</table>
+
+</div>
+
+
+
+
+<nav ng-show="1==2" class="main-menu">
+            <ul>
+                <li>
+                    <a href="http://justinniconrrow.com">
+                        <i class="nicon nicon-home nicon-2x"></i>
+                        <span class="nav-text">
+                            Dashboard
+                        </span>
+                    </a>
+                  
+                </li>
+                <li class="has-subnav">
+                    <a href="#">
+                        <i class="nicon nicon-laptop nicon-2x"></i>
+                        <span class="nav-text">
+                            UI Components
+                        </span>
+                    </a>
+                    
+                </li>
+                <li class="has-subnav">
+                    <a href="#">
+                       <i class="nicon nicon-list nicon-2x"></i>
+                        <span class="nav-text">
+                            Forms
+                        </span>
+                    </a>
+                    
+                </li>
+                <li class="has-subnav">
+                    <a href="#">
+                       <i class="nicon nicon-folder-open nicon-2x"></i>
+                        <span class="nav-text">
+                            Pages
+                        </span>
+                    </a>
+                   
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="nicon nicon-bar-chart-o nicon-2x"></i>
+                        <span class="nav-text">
+                            Graphs and Statistics
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="nicon nicon-font nicon-2x"></i>
+                        <span class="nav-text">
+                            Typography and Icons
+                        </span>
+                    </a>
+                </li>
+                <li>
+                   <a href="#">
+                       <i class="nicon nicon-table nicon-2x"></i>
+                        <span class="nav-text">
+                            Tables
+                        </span>
+                    </a>
+                </li>
+                <li>
+                   <a href="#">
+                        <i class="nicon nicon-map-marker nicon-2x"></i>
+                        <span class="nav-text">
+                            Maps
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                       <i class="nicon nicon-info nicon-2x"></i>
+                        <span class="nav-text">
+                            Documentation
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="logout">
+                <li>
+                   <a href="#">
+                         <i class="nicon nicon-power-off nicon-2x"></i>
+                        <span class="nav-text">
+                            Logout
+                        </span>
+                    </a>
+                </li>  
+            </ul>
+        </nav>
+
+
+
+<div class="page-content" id="TopSectionForPrint">
+
+			<div class="row">
+				<div class="space-6"></div>
+				<div class="col-sm-10 col-sm-offset-1">
+					<div id="login-box" class="login-box visible widget-box no-border">
+						<div class="widget-body">
+							
+						<!-- vipin -->
+						  
+				<div id="page-wrapper">
+
+				
+						
+						<div ng-repeat="x in AllWidgetsList" ng-include= "x.TemplatePath"></div>
+						
+            <!--<div  ng-include= "partials/test.html"></div>-->
+
+				</div>
+				<!-- end page-wrapper -->
+						<!-- end vipin -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+</div>
+
+<div id="snackbar">{{snackbarTextMessage}}</div>
+
+<div ng-show="!isUserAadmin && MessagingIsOn"   ng-include = "'partials/popupforms/contactUS.html'"></div>
+
+<!-- /.page-content -->
+
+
+<script type="text/javascript" src="plugins/htmltopdf/htmltopdf.js"></script>
+
+
+
+  <!--<div id="test">
+  <div class="user">
+        <img src="images/users/avatar.png" alt="Esempio" class="img-thumbnail"><br>
+        <a href="" target="_blank" class="navbar-link">{{snackbarTextMessage}}</a>
+    </div>
+    <!--<h2>My Widgets</h2>-->
+    <!--<div class="list-group">
+      <a  class="list-group-item">
+			<!--<div class="btn-group btn-toggle"> 
+	    		<button class="btn btn-xs btn-default">ON</button>
+	    		<button class="btn btn-xs btn-success active">OFF</button>
+	    	</div>-->
+     <!-- Hotel Settings
+			
+     <!-- </a>
+      <a  class="list-group-item">
+      	<!--<div class="btn-group btn-toggle"> 
+	    		<button class="btn btn-xs btn-default">ON</button>
+	    		<button class="btn btn-xs btn-success active">OFF</button>
+	    	</div>-->
+
+	  <!--  	Excel 
+	  <!-- </a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#subTest" class="list-group-item">Sub menù test</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta Porta Porta sdaf s fs hfuis uif ac consectetur ac</a>
+    </div>
+
+    
+
+  </div>
+
+<!--
+  <div ng-show="1==2" id="test2">
+    <div class="list-group">
+      <a href="#" class="list-group-item active">Cras justo odio</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#subRight" class="list-group-item">Sub Menu</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+    </div>
+
+    
+  </div>
+  -->

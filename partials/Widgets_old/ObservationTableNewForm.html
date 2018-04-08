@@ -1,0 +1,1404 @@
+<div class="col-lg-12" ng-show="$parent.$parent.ObservationFormType=='ADD' || $parent.$parent.ObservationFormType=='EDIT'">
+							<div class="panel panel-primary" >
+								<div class="panel-heading">
+									<i class="fa fa-bar-chart-o fa-fw"></i>
+									<a ng-show="$parent.$parent.ObservationFormType=='ADD'" class="widgetTitle" ng-click="ObsTablecollapsed=(ObsTablecollapsed==null?false:!ObsTablecollapsed);">
+									Add Observations Information for {{SelectedHotel.Name}}
+									</a>
+									<a ng-show="$parent.$parent.ObservationFormType=='EDIT' && ObservationEditingItem.CanEdit==1" class="widgetTitle" ng-click="ObsTablecollapsed=(ObsTablecollapsed==null?false:!ObsTablecollapsed);">
+									Edit Observations Information for {{SelectedHotel.Name}}
+									</a>
+									
+									<a ng-show="$parent.$parent.ObservationFormType=='EDIT' && ObservationEditingItem.CanEdit==0" class="widgetTitle" ng-click="ObsTablecollapsed=(ObsTablecollapsed==null?false:!ObsTablecollapsed);">
+									View Observations Information for {{SelectedHotel.Name}}
+									</a>
+									<div class="pull-right">
+										<div class="btn-group" ng-show="(ObservationsTablecollapsed==null?true:ObservationsTablecollapsed)">
+											<ul class="nav site-nav">
+											<li class=flyout>
+											
+												<a style="background-color:white; color:black; line-height:1.2; padding:0.2em;" href=''><strong>Actions</strong></a>
+												
+												<ul class="flyout-content nav stacked">
+													<li><a style="background-color:#BADA55;" ng-show="$parent.$parent.ObservationFormType=='ADD' || $parent.$parent.ObservationFormType=='EDIT'" ng-click="$parent.$parent.ObservationFormType='LIST'">Cancel</a></li>
+													
+												</ul>
+										
+											</li>
+											</ul>
+
+										</div>
+										
+									</div>
+								</div>
+
+						
+								<div class="panel-body" ng-show="(ObsTablecollapsed==null?true:ObsTablecollapsed)">
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="table-responsive" >
+												
+												<div class="col-lg-12" ng-init="activeObservationTab=1">
+												<ul class="nav nav-tabs">
+												<li ng-class="{'active' : activeObservationTab == 1}"><a href="" ng-click="activeObservationTab=1"><strong>Information</strong></a></li>
+												<li ng-class="{'active' : activeObservationTab == 2}" ng-show="ObservationEditingItem.ImageSet!=null && $parent.$parent.ObservationFormType=='EDIT'"><a href="" ng-click="activeObservationTab=2"><strong>Images</strong></a></li>
+												</ul>
+									  
+<!-- FORM HERE-->										
+<!-- 											
+												<div class="tab-content">
+													<div ng-show="activeObservationTab==1">
+													<br/>
+																<form name="ObservationNewOBSForm"  class="form-horizontal" role="form">
+														<fieldset>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="username">Priority Number</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																			<select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="obtype" ng-model="ObservationEditingItem.PriorityNumber">
+																			  <option  ng-repeat="option2 in ObservationPriorityNumbers" value="{{option2.num}}" ng-selected="$index==0" >{{option2.num}}</option>
+																			</select>
+																		</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="username">Type</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																			<select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="obtype" ng-model="ObservationEditingItem.ObservationTypeID" required>
+																			  <option  ng-repeat="option2 in ObservationsTypesList" value="{{option2.ID}}" ng-selected="$index==0" >{{option2.Name}}</option>
+																			</select>
+																		</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="username">Category</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																			<select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="cattype" ng-model="ObservationEditingItem.CategoryID"  required>
+																			  <option  ng-repeat="opt in ObservationsCategoryList" value="{{opt.ID}}" ng-selected="$index==0" >{{opt.Name}}</option>
+																			</select>
+																		</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="email">Status</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																			<select ng-disabled="ObservationEditingItem.CanEdit=='0'"  class="form-control" id="stattype" ng-model="ObservationEditingItem.StatusID"  required>
+																			  <option  ng-repeat="opt in ObservationsStatusList" value="{{opt.ID}}" ng-selected="$index==0" >{{opt.Name}}</option>
+																			</select>
+																		</span>
+																	</div>
+																</div>
+															   <div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password">Funding</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																			<select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="funtype" ng-model="ObservationEditingItem.FundingID"  required>
+																			  <option  ng-repeat="opt in ObservationsFundingList" value="{{opt.ID}}" ng-selected="$index==0" >{{opt.Name}}</option>
+																			</select>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Date Set</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input type="text" ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" ng-click="ShowDatePicker('ObservationEditingItemDiscoveredDate')" id="ObservationEditingItemDiscoveredDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" ng-model="ObservationEditingItem.DiscoveredDate" required />                                
+																	<small class="errorMessage" data-ng-show="ObservationNewOBSForm.DiscoveredDate.$error.required"> Enter Date Set.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Where</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																		<select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="functype" ng-model="ObservationEditingItem.where" ng-change="LoadCircuitsForSelectedFG(ObservationEditingItem.where)"  required>
+																			  <option  ng-repeat="opt in SelectedHotelFuntionalGroups" value="{{opt.GroupId}}" ng-selected="opt.GroupId==ObservationEditingItem.where" >{{opt.Name}}</option>
+																		</select>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">What</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																		<input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="What" placeholder="What" ng-model="ObservationEditingItem.what" />                                
+																		<small class="errorMessage" data-ng-show="ObservationNewOBSForm.what.$error.required"> Enter What.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Circuit</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																		<!-- <input type="text" class="form-control" name="Circuit" placeholder="Circuit" ng-model="ObservationEditingItem.Circuit" />                                
+	<!--																	<small class="errorMessage" data-ng-show="ObservationNewOBSForm.Circuit.$error.required"> Enter Circuit.</small> -->
+	<!--																	<select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="functype" ng-model="ObservationEditingItem.Circuit"  required>
+																			  <option  ng-repeat="opt in SelectedHotelFuntionalGroupsCircuits" value="{{opt.GroupId}}" ng-selected="opt.GroupId==ObservationEditingItem.Circuit" >{{opt.Name}}</option>
+																		</select>
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Short Description</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																		<input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="ShortDescription" placeholder="ShortDescription" ng-model="ObservationEditingItem.ShortDescription" />                                
+																		<small class="errorMessage" data-ng-show="ObservationNewOBSForm.ShortDescription.$error.required"> Enter ShortDescription.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Description</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																		<input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="Description" placeholder="Description" ng-model="ObservationEditingItem.Description" />                                
+																		<small class="errorMessage" data-ng-show="ObservationNewOBSForm.Description.$error.required"> Enter Description.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Action required</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																		<input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="ActionRequired" placeholder="Action required" ng-model="ObservationEditingItem.ActionRequired" />                                
+																		<small class="errorMessage" data-ng-show="ObservationNewOBSForm.ActionRequired.$error.required"> Enter ActionRequired.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Success Close Criteria</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																		<input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="SuccessCloseCriteria" placeholder="Success Close Criteria" ng-model="ObservationEditingItem.SuccessCloseCriteria" />                                
+																		<small class="errorMessage" data-ng-show="ObservationNewOBSForm.SuccessCloseCriteria.$error.required"> Enter SuccessCloseCriteria.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Date Hotel Completed</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																		<input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" ng-click="ShowDatePicker('ObservationEditingItemDateHotelCompleted')" id="ObservationEditingItemDateHotelCompleted" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" ng-model="ObservationEditingItem.DateHotelCompleted"  />                                
+																		<small class="errorMessage" data-ng-show="ObservationNewOBSForm.DateHotelCompleted.$error.required"> Enter DateHotelCompleted.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Date Rp Actioned</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																		<input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" ng-click="ShowDatePicker('ObservationEditingItemDateRpActioned')" id="ObservationEditingItemDateRpActioned" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" ng-model="ObservationEditingItem.DateRpActioned"  />                                
+																		<small class="errorMessage" data-ng-show="ObservationNewOBSForm.DateRpActioned.$error.required"> Enter DateRpActioned.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="password2">Annual Saving</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="ValuePerAnnum" placeholder="Annual Saving" ng-model="ObservationEditingItem.ValuePerAnnum"  />                                
+																	<small class="errorMessage" data-ng-show="ObservationNewOBSForm.ValuePerAnnum.$error.required"> Enter Annual Saving.</small>
+
+																</span>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-5 control-label no-padding-right" for="name">Calcs</label>
+																	<div class="col-sm-7">
+																		<span class="block input-icon input-icon-right">
+																	<input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="Calcs" placeholder="Calcs" ng-model="ObservationEditingItem.Calcs"  />
+																	<small class="errorMessage" data-ng-show="ObservationNewOBSForm.Calcs.$error.required"> Enter Calcs.</small>
+																</span>
+																	</div>
+																</div>
+																
+																
+																<div class="form-group">
+																	<span class="lbl col-sm-5"> </span>
+																	
+																	<span class="col-sm-7">
+																		<button ng-show="$parent.$parent.ObservationFormType=='ADD'" type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveOBSChanges(ObservationEditingItem)" data-ng-disabled="ObservationNewOBSForm.$invalid">
+																			Add New Observation
+																		</button>
+																		<button ng-show="$parent.$parent.ObservationFormType=='EDIT' && ObservationEditingItem.CanEdit==1" type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveOBSChanges(ObservationEditingItem)" data-ng-disabled="ObservationNewOBSForm.$invalid">
+																			Save Changes
+																		</button>
+																		<!-- <button class="width-35 pull-right btn btn-sm btn-primary"  ng-click="ObservationFormType='LIST'">
+																			Cancel
+<!--																		</button> -->
+<!--																	</span>
+																</div>
+																
+																	
+																</fieldset>
+																
+																
+															</form>
+															
+															
+													</div>  -->
+	<!-- TO HERE 	
+	
+	<div class="tab-content">
+<div ng-show="activeObservationTab==1">
+<br/>
+<form name="ObservationNewOBSForm"  class="form-horizontal" role="form">
+<fieldset>
+<div class="form-group">-->
+	
+	
+	
+	
+		
+													
+	<!-- FROM HERE 2-->
+
+
+        <div class="tab-content">
+        <div ng-show="activeObservationTab==1">
+<br/>
+<form name="ObservationNewOBSForm"  class="form-horizontal" role="form">
+<fieldset>
+
+            <div class="form-group">                 
+<!-- ROW 1 START-->              
+                <label for="username" class="col-lg-1 col-md-1 col-sm-1 control-label">Priority Number</label> 
+                <div class="col-lg-3 col-md-3 col-sm-3">      
+                <select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="obtype" ng-model="ObservationEditingItem.PriorityNumber">
+                <option  ng-repeat="option2 in ObservationPriorityNumbers" value="{{option2.num}}" ng-selected="$index==0" >{{option2.num}}</option>
+                </select>
+                </div>
+
+
+                <label for="password2" class="col-lg-1 col-md-1 col-sm-1 control-label">Date Set</label>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                <input type="text" ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" ng-click="ShowDatePicker('ObservationEditingItemDiscoveredDate')" id="ObservationEditingItemDiscoveredDate" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" ng-model="ObservationEditingItem.DiscoveredDate" required />                                
+				<small class="errorMessage" data-ng-show="ObservationNewOBSForm.DiscoveredDate.$error.required"> Enter Date Set.</small>
+                </div>
+
+                <label for="username" class="col-lg-1 col-md-1 col-sm-1 control-label">Type</label>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                <select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="obtype" ng-model="ObservationEditingItem.ObservationTypeID" required>
+				<option  ng-repeat="option2 in ObservationsTypesList" value="{{option2.ID}}" ng-selected="$index==0" >{{option2.Name}}</option>
+				</select>														
+                </div>
+              </div>
+<!-- ROW 1 END--> 
+            <div class="form-group">
+                 <label for="username" class="col-lg-1 col-md-1 col-sm-1 control-label">Category</label>
+                 <div class="col-lg-3 col-md-3 col-sm-3">
+                 <select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="cattype" ng-model="ObservationEditingItem.CategoryID"  required>
+				 <option  ng-repeat="opt in ObservationsCategoryList" value="{{opt.ID}}" ng-selected="$index==0" >{{opt.Name}}</option>
+				 </select>
+                 </div>
+                
+                 <label for="password" class="col-lg-1 col-md-1 col-sm-1 control-label">Funding</label>
+                 <div class="col-lg-3 col-md-3 col-sm-3">
+                 <select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="funtype" ng-model="ObservationEditingItem.FundingID"  required>
+				 <option  ng-repeat="opt in ObservationsFundingList" value="{{opt.ID}}" ng-selected="$index==0" >{{opt.Name}}</option>
+				 </select>
+                 </div>
+     								                 
+                 <label for="email" class="col-lg-1 col-md-1 col-sm-1 control-label">Status</label>
+                 <div class="col-lg-3 col-md-3 col-sm-3">
+                 <select ng-disabled="ObservationEditingItem.CanEdit=='0'"  class="form-control" id="stattype" ng-model="ObservationEditingItem.StatusID"  required>
+				 <option  ng-repeat="opt in ObservationsStatusList" value="{{opt.ID}}" ng-selected="$index==0" >{{opt.Name}}</option>
+				 </select>
+                 </div>
+            </div>  
+  
+  <!-- ROW 2 END--> 
+  
+  
+          
+              <div class="form-group">
+                 <label for="password2" class="col-lg-1 col-md-1 col-sm-1 control-label">What</label>
+                 <div class="col-lg-3 col-md-3 col-sm-3">
+                 <input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="What" placeholder="What" ng-model="ObservationEditingItem.what" />                                
+				 <small class="errorMessage" data-ng-show="ObservationNewOBSForm.what.$error.required"> Enter What.</small>
+                 </div>
+
+                 <label for="password2" class="col-lg-1 col-md-1 col-sm-1 control-label">Where</label>
+                 <div class="col-lg-3 col-md-3 col-sm-3">
+                 <!--<select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="functype" ng-model="ObservationEditingItem.where" ng-change="LoadCircuitsForSelectedFG(ObservationEditingItem.where)"  required>
+				 <option  ng-repeat="opt in SelectedHotelFuntionalGroups" value="{{opt.GroupId}}" ng-selected="$index==0" >{{opt.Name}}</option>
+				 </select>-->
+				 
+				 <select class="form-control" id="functype" ng-model="ObservationEditingItem.where" ng-options="i.GroupId as (i.Name) for i in SelectedHotelFuntionalGroups" ng-change="LoadCircuitsForSelectedFG(ObservationEditingItem.where)" required>
+					
+				</select>
+                </div>
+																
+                 <label for="password2" class="col-lg-1 col-md-1 col-sm-1 control-label">Circuit</label>
+                 <div class="col-lg-3 col-md-3 col-sm-3">
+                 <!--<select ng-disabled="ObservationEditingItem.CanEdit=='0'" class="form-control" id="circuitname" ng-model="ObservationEditingItem.Circuit"  required>
+				 <option  ng-repeat="cuit in SelectedHotelFuntionalGroupsCircuits" value="{{cuit.GroupId}}" ng-selected="cuit.GroupId=='3249'" >{{cuit.Name}}</option>
+				 </select>-->
+				 
+				 <select class="form-control" id="circuitname" ng-model="ObservationEditingItem.Circuit" ng-options="i.GroupId as (i.Name) for i in SelectedHotelFuntionalGroupsCircuits" required>
+					
+				</select>
+                 </div>
+              </div>
+ <!-- ROW 3 END--> 
+
+                <div class="form-group">
+                <label for="password2" class="col-lg-1 col-md-1 col-sm-1 control-label">Short Description</label>
+                <div class="col-lg-11 col-md-11 col-sm-11">
+                <input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="ShortDescription" placeholder="ShortDescription" ng-model="ObservationEditingItem.ShortDescription" />                                
+				<small class="errorMessage" data-ng-show="ObservationNewOBSForm.ShortDescription.$error.required"> Enter ShortDescription.</small>
+                </div>
+              </div>
+<!-- ROW 4 END--> 
+
+               <div class="form-group">
+                 <label for="password2" class="col-lg-1 col-md-1 col-sm-1 control-label">Description</label>
+                 <div class="col-lg-11 col-md-11 col-sm-11">
+                 
+                 
+<!-- <input type="text" class="form-control" placeholder="Title" name="Title" ng-model="user.Notes"/> -->
+
+<!-- <input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="Description" placeholder="Description" ng-model="ObservationEditingItem.Description" /> 		-->																
+<textarea rows="4" ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="Description" placeholder="Description" ng-model="ObservationEditingItem.Description"></textarea>               
+                                                 
+				 <small class="errorMessage" data-ng-show="ObservationNewOBSForm.Description.$error.required"> Enter Description.</small>
+                 </div>
+              </div>
+<!-- ROW 5 END-->   
+
+               <div class="form-group">
+                <label for="password2" class="col-lg-1 col-md-1 col-sm-1 control-label">Action required</label>
+                <div class="col-lg-11 col-md-11 col-sm-11">
+                <input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="ActionRequired" placeholder="Action required" ng-model="ObservationEditingItem.ActionRequired" />                                
+				<small class="errorMessage" data-ng-show="ObservationNewOBSForm.ActionRequired.$error.required"> Enter ActionRequired.</small>
+                </div>
+              </div>
+<!-- ROW 6 END-->
+
+                <div class="form-group">
+                <label for="password2" class="col-lg-1 col-md-1 col-sm-1 control-label">Success Close Criteria</label>
+                <div class="col-lg-11 col-md-11 col-sm-11">
+                <input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="SuccessCloseCriteria" placeholder="Success Close Criteria" ng-model="ObservationEditingItem.SuccessCloseCriteria" />                                
+				<small class="errorMessage" data-ng-show="ObservationNewOBSForm.SuccessCloseCriteria.$error.required"> Enter SuccessCloseCriteria.</small>
+                </div>
+              </div>
+   <!-- ROW 7 END-->      
+       
+                 <div class="form-group">
+                      <div class="col-lg-6 col-md-6 col-sm-6">
+                      <div class="form-group">
+                      <label for="password2" class="col-lg-2 col-md-2 col-sm-2 control-label">Annual Value (&pound;)</label>
+                      <div class="col-lg-10 col-md-10 col-sm-10">
+                      <input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="ValuePerAnnum" placeholder="Annual Value £" ng-model="ObservationEditingItem.ValuePerAnnum"  />                                
+					  <small class="errorMessage" data-ng-show="ObservationNewOBSForm.ValuePerAnnum.$error.required"> Enter Annual Value.</small>
+                     </div>
+                  </div>
+<!-- ROW 8 inc Calcs END--> 
+
+<!-- This section needs adding to the DB start--> 
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-lg-2 col-md-2 col-sm-2 control-label">Value is</label>
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                      <label class="checkbox-inline"><input type="checkbox" ng-model="ObservationEditingItem.ValuePerAnnumStatus_est" ng-checked="ObservationEditingItem.ValuePerAnnumStatus_est==1">est.</label>
+                      <label class="checkbox-inline"><input type="checkbox" ng-model="ObservationEditingItem.ValuePerAnnumStatus_upto"  ng-checked="ObservationEditingItem.ValuePerAnnumStatus_upto==1">up-to</label>
+                      <label class="checkbox-inline"><input type="checkbox" ng-model="ObservationEditingItem.ValuePerAnnumStatus_tbd"  ng-checked="ObservationEditingItem.ValuePerAnnumStatus_tbd==1">tbd</label>
+                      <label class="checkbox-inline"><input type="checkbox" ng-model="ObservationEditingItem.ValuePerAnnumStatus_na"  ng-checked="ObservationEditingItem.ValuePerAnnumStatus_na==1">n/a</label>
+                    </div>
+                    
+
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-lg-2 col-md-2 col-sm-2 control-label">Image Flag</label>
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                      <label class="checkbox-inline"><input type="checkbox" disabled  ng-checked="ObservationEditingItem.ImageSet!=null && ObservationEditingItem.ImageSet.length>0" />
+					  <a ng-show="ObservationEditingItem.ImageSet!=null && ObservationEditingItem.ImageSet.length>0" ng-click="activeObservationTab=2">Show Images</a></label>
+                    </div>
+                  </div>
+                </div>
+<!-- This section needs adding to the DB end--> 
+
+                 <div class="col-lg-6 col-md-6 col-sm-6">
+                        <label for="name" class="col-md-3 control-label">Calcs</label>
+                    <div class="col-md-9">
+                        <textarea rows="3" ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" name="Calcs" placeholder="Calcs" ng-model="ObservationEditingItem.Calcs"></textarea>               
+					<small class="errorMessage" data-ng-show="ObservationNewOBSForm.Calcs.$error.required"> Enter Calcs.</small>
+                    </div>
+                </div>
+              </div>
+
+
+
+            <div class="form-group">
+                  <label for="password2" class="col-lg-1 col-md-1 col-sm-1 control-label">Date Hotel Completed</label>
+                <div class="col-lg-3 col-md-3 col-sm-3"> 
+                  <input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" ng-click="ShowDatePicker('ObservationEditingItemDateHotelCompleted')" id="ObservationEditingItemDateHotelCompleted" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" ng-model="ObservationEditingItem.DateHotelCompleted"  />                                
+				  
+                </div>
+
+
+                  <label for="password2" class="col-lg-1 col-md-1 col-sm-1 control-label">Date Rp Actioned</label>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                  <input ng-disabled="ObservationEditingItem.CanEdit=='0'" type="text" class="form-control" ng-click="ShowDatePicker('ObservationEditingItemDateRpActioned')" id="ObservationEditingItemDateRpActioned" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" ng-model="ObservationEditingItem.DateRpActioned"  />                                
+				  
+                </div>            
+            </div>
+
+
+
+
+
+     <div class="form-group">
+            <div class="col-md-12 text-right">
+			<button  ng-click="$parent.$parent.ObservationFormType='LIST'">
+                   Cancel
+                   </button>&nbsp;&nbsp;
+                  <button ng-show="$parent.$parent.ObservationFormType=='ADD'" type="submit" class="width-40 pull-right btn btn-sm btn-primary" ng-click="DoSaveOBSChanges(ObservationEditingItem)" data-ng-disabled="ObservationNewOBSForm.$invalid">
+                   Save  
+                  </button>
+                  <button ng-show="$parent.$parent.ObservationFormType=='EDIT' && ObservationEditingItem.CanEdit==1" type="submit" class="width-40 pull-right btn btn-sm btn-primary" ng-click="DoSaveOBSChanges(ObservationEditingItem)" data-ng-disabled="ObservationNewOBSForm.$invalid">
+                   Save Changes
+                   </button>
+                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2"> 
+                </div>                 
+                   
+               </div>
+           </div>
+              
+     </div>
+
+<div class="col-md-9 text-right">
+                 
+       </div>           
+   
+  </fieldset>   
+  </form> 
+   
+                  
+                </div>
+              </div>
+
+
+<!-- TO HERE 2 -->												
+													
+													<div ng-show="activeObservationTab==2">	
+													<br/>
+															<form  ng-show="ObservationEditingItem.ImageSet!=null && $parent.$parent.ObservationFormType=='EDIT'" ng-submit="ObservationImagesubmit(ObservationEditingItem)" name="ObservationImageform" role="form" class="form-horizontal">
+																	  <span class="lbl col-sm-5"> <input ng-model="ObservationImageform.image" type="file" class="form-control" accept="image/*" onchange="angular.element(this).scope().ObservationImageuploadedFile(this)" /> </span>
+																	  <span class="col-sm-7">
+																	  <input type="submit" id="submit" value="Add New Image" class="width-35 pull-right btn btn-sm btn-primary" /> </span>
+																	  <!-- <br/>
+																	  <img ng-src="{{image_source}}" style="width:300px;">
+																		-->
+																	</form>
+																	
+																	<table ng-show="ObservationEditingItem.ImageSet!=null && ObservationEditingItem.ImageSet.length>0 && ObservationFormType=='EDIT'" id="tblObservationsImagesList" class="table table-bordered table-hover table-striped">
+																	<thead>
+																		
+																		<tr>
+																			<th></th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat='imgobj in ObservationEditingItem.ImageSet | orderBy:ObservationImagespredicate:ObservationImagesPagingreverse | filter:ObservationImagespaginate'>
+																			<td>
+																			 <div><img ng-src="api/v1/ObservationImages/{{imgobj.ImageFileName}}" style="width:500px;height:300px" /> </div>
+																			 <div><a ng-click="DeleteObservationImage(ObservationEditingItem,imgobj)">Delete</a></div>
+																			</td>
+																		</tr>
+																	</tbody>
+																	</table>
+																	<div ng-show="ObservationEditingItem.ImageSet!=null && ObservationEditingItem.ImageSet.length>0 && ObservationFormType=='EDIT'">
+																		<pagination total-items="$parent.$parent.ObservationImagestotalItems" ng-model="$parent.$parent.ObservationImagesPagingcurrentPage"  
+																		max-size="5" boundary-links="true"  
+																		items-per-page="$parent.$parent.ObservationImagesPagingnumPerPage" class="pagination-sm">  
+																		</pagination> 
+																	</div>
+													</div>
+													
+												</div>
+																		
+						
+														
+														
+											</div>
+												
+														
+															
+															
+														
+												
+											</div>
+										</div>
+									</div>
+								
+									
+									
+									<!-- /.row -->
+								</div>
+
+
+<div class="col-lg-12" ng-show="$parent.$parent.Widget_ObservationTable">
+
+
+
+
+
+
+
+							<div class="panel panel-primary" >
+								<div class="panel-heading">
+									<i class="fa fa-bar-chart-o fa-fw"></i>
+									<a class="widgetTitle" ng-click="ObservationsTablecollapsed=(ObservationsTablecollapsed==null?false:!ObservationsTablecollapsed);">
+									Observations Information for {{SelectedHotel.Name}}
+									</a>
+									<div class="pull-right">
+									
+										 <div class="btn-group" ng-show="(ObservationsTablecollapsed==null?true:ObservationsTablecollapsed)">
+											<ul class="nav site-nav">
+											<li class=flyout>
+											
+												<a style="background-color:white; color:black; line-height:1.2; padding:0.2em;" href=''><strong>Actions</strong></a>
+												
+												<ul class="flyout-content nav stacked">
+                                                                                                        <li><a style="background-color:#BADA55;" ng-show="ObservationDetails_SM" ng-click="ObservationDisplayType='SM'">Hotel Actions</a></li>
+													<li><a style="background-color:#BADA55;" ng-show="ObservationDetails_SM" ng-click="ObservationDisplayType='SM'">SM Items</a></li>
+													<li><a style="background-color:#BADA55;" ng-show="ObservationDetails_GM" ng-click="ObservationDisplayType='GM'">GM Items</a></li>
+													<li><a style="background-color:#BADA55;" ng-show="ObservationDetails_Obs" ng-click="ObservationDisplayType='OBS'">Observations</a></li>
+												</ul>
+										
+											</li>
+											</ul>
+
+										</div>
+										<a ng-click="ShowHelpPopup('ObservationTableNewForm_help.html');"><img src="images/Apps-Help-icon.png" width="20px" height="25px"></a>
+									</div>
+								</div>
+
+						
+								<div class="panel-body" ng-show="(ObservationsTablecollapsed==null?true:ObservationsTablecollapsed)">
+								
+								<div class="sk-wave" ng-show="isObservationInfoLoading && $parent.$parent.ObservationsErrorMessage==''">
+											<div class="sk-rect sk-rect1"></div>
+											<div class="sk-rect sk-rect2"></div>
+											<div class="sk-rect sk-rect3"></div>
+											<div class="sk-rect sk-rect4"></div>
+											<div class="sk-rect sk-rect5"></div>
+										  </div>
+								<div ng-show="$parent.$parent.ObservationsErrorMessage!=''">{{$parent.$parent.ObservationsErrorMessage}}</div>
+								<div class="col-lg-12" ng-init="ObservationDisplayType='ALL'" ng-show="!isObservationInfoLoading && $parent.$parent.ObservationsErrorMessage==''">
+											<ul class="nav nav-tabs">
+                                                                                            <li ng-class="{'active' : ObservationDisplayType=='ALL'}" ng-show="ObservationDetails_SM"><a href="" ng-click="ObservationDisplayType='ALL'"><strong>Hotel Actions</strong></a></li>
+											<li ng-class="{'active' : ObservationDisplayType=='SM'}" ng-show="ObservationDetails_SM"><a href="" ng-click="ObservationDisplayType='SM'"><strong>SM Items</strong></a></li>
+											<li ng-class="{'active' : ObservationDisplayType == 'GM'}" ng-show="ObservationDetails_GM"><a href="" ng-click="ObservationDisplayType='GM'"><strong>GM Items </strong></a></li>
+											<li ng-class="{'active' : ObservationDisplayType == 'OBS'}" ng-show="ObservationDetails_Obs"><a href="" ng-click="ObservationDisplayType='OBS'"><strong>Observations</strong></a></li>
+											<li><button class="width-35 pull-left btn btn-sm btn-primary" ng-disabled="ObservationFormType=='ADD'" ng-show="ObservationDetails_Add"  ng-click="ShowAddOBSForm()" >Add New Observation</button></li>
+											</ul>
+
+										<div class="tab-content">
+                                                                                    <div ng-show="ObservationDisplayType=='ALL'">
+													<div class="row" ng-show="ObservationDisplayType=='ALL'">
+													<br/>
+													<!--exportDataToCsv(ObservationsAllDetailsList,'All Observations',$parent.$parent.ExportColumnsObservationsALL);-->
+														List of All items. <a  ng-click="ExportOBS('#tblObservationsListForExport','All Observations');">Export to CSV</a>
+																<div class="table-responsive" >
+																	
+																	
+																	<table id="tblObservationsList" class="table table-bordered table-hover table-striped">
+																		<thead>
+																			
+																			<tr>
+																				<th width="1%"></th>
+                                                                                <th>Type</th>
+																				<th>Status</th>
+																				<th><a ng-click="ObservationAllorder('DiscoveredDate')">Date Set</a></th>
+																				<!--	<th>Date Set</th> -->
+                                                                                <th><a ng-click="ObservationAllorder('whereName')">Where</a></th>
+																				<th>What</th>
+																				<th>Short Description</th>
+																				<th><a ng-click="ObservationAllorder('ValuePerAnnum')">Annual Saving</a></th>
+																				<!-- <th>Annual Saving</th> -->
+																			    <th><a ng-click="ObservationAllorder('PriorityNumber')">PN</a></th>
+																				<!-- <th>PN</th> -->
+																				<th><a ng-click="ObservationAllorder('ID')">RefID</a></th>
+																				<!-- <th>RefID</th> -->
+																				<th width="5%"></th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr ng-repeat-start='citem in ObservationsAllDetailsList | orderBy:ObservationAllpredicate:ObservationAllPagingreverse | filter:ObservationAllpaginate'>
+																				<td>
+                                                                                                                                                        
+																					<a title='Expand' ng-show="ObsChildAllExpandID!=citem.ID" ng-click="ObsChildAllExpandID=citem.ID"><img src="images/expand.png" width="15px" height="17px" /></a>
+																					<a title='Collapse' ng-show="ObsChildAllExpandID==citem.ID"  ng-click="ObsChildAllExpandID=0"><img src="images/collapse.png" width="15px" height="17px" /></a>
+																				</td>
+                                                                                                                                                                <td>{{citem.itemType}}</td>
+																				<td>
+																				{{citem.StatusName}}
+																				
+																				</td>
+																				<td>
+																				{{formatDateUK(citem.DiscoveredDate)}}
+																				
+																				</td>
+																				
+																				<td>
+																				{{citem.whereName}}
+																				
+																				</td>
+																				<td>
+																				{{citem.what}}
+																				
+																				</td>
+																				<td>
+																				{{citem.ShortDescription}}
+																				
+																				</td>
+																			
+																				<td>
+																				&pound;{{citem.ValuePerAnnum}}
+																				
+																				</td>
+																				<td>
+																				{{citem.PriorityNumber}}
+																				
+																				</td>
+																				<td>
+																				{{citem.ID}}
+																				
+																				</td>
+																				<td>
+																				 <!-- <a ng-click="">Reply</a> 
+																				 <a ng-click="ShowEditOBSForm(citem)">Edit</a>  -->
+																				 <a title='Edit' ng-show="ObservationDetails_Edit && citem.CanEdit"  ng-click="ShowEditOBSForm(citem)"><img src="images/edit-icon.png" width="15px" height="17px" /></a> 
+																				 <a title='View' ng-show="citem.CanEdit==0"  ng-click="ShowEditOBSForm(citem)"><img src="images/view-icon.png" width="15px" height="17px" /></a>
+																				 | <a ng-show="ObservationDetails_Delete" href='' ng-click="DoDeleteOBS(citem)"><img src="images/delete-icon.png" width="15px" height="17px" /></a>
+																				</td>
+																			</tr>
+                                                                                                                                                                 
+																			<tr ng-repeat-end ng-show="ObsChildAllExpandID==citem.ID" >
+																				<td>&nbsp;</td>
+																				<td colspan=9>
+                                                                                                                                                                    
+																				<table  class="table table-bordered table-hover table-striped">
+																				<tr>
+																					
+																					<th>Hotel Response</th>
+                                                                                                                                                                        <th>User</th>
+                                                                                                                                                                        <th>Date Replied</th>
+																					<th></th>
+																				</tr>
+																				<tr ng-repeat-start='childItem in citem.Replies' ng-show="childItem.ID>0">
+																					<td>
+																					{{childItem.HotelResponse}}
+																				
+																					</td>
+																					<td>
+                                                                                                                                                                                {{childItem.UserName}}
+
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                {{childItem.CreatedDate}}
+
+                                                                                                                                                                                </td>
+																					<td></td>
+																				</tr>
+																				<tr ng-repeat-end ng-show="childItem.ID==0">
+																				<form name="ObservationAlllReplyForm"  class="form-horizontal" role="form">	
+																					<td>
+																						<input type="text" class="form-control" name="HotelResponse" placeholder="Hotel Response" ng-model="childItem.HotelResponse" required />
+																					</td>
+																					<td>
+																						<select ng-disabled="ObservationEditingItem.CanEdit=='0'"  class="form-control" id="stattype" ng-model="childItem.StatusID"  required>
+																						 <option  ng-repeat="opt in ObservationsStatusList" value="{{opt.ID}}" ng-selected="$index==0" >{{opt.Name}}</option>
+																						 </select>
+																					</td>
+																					<td>
+																					<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveOBSReplies(citem,childItem)" data-ng-disabled="ObservationGMReplyForm.$invalid">
+																								Save Reply
+																							</button>
+																							</td>
+                                                                                                                                                                                        <td></td>
+                                                                                </form>
+																				</tr>
+																				</table>
+                                                                                                                                                                        
+																				</td>
+																			</tr>
+                                                                                                                                                        
+                                                                                                                                                                 
+																		</tbody>
+																	</table>
+																	<div>
+																		<pagination total-items="$parent.$parent.ObservationAlltotalItems" ng-model="$parent.$parent.ObservationAllPagingcurrentPage"  
+																		max-size="5" boundary-links="true"  
+																		items-per-page="$parent.$parent.ObservationAllPagingnumPerPage" class="pagination-All">  
+																		</pagination> 
+																	</div>
+																	
+																	<table id="tblObservationsListForExport" ng-show="1==2" class="table table-bordered table-hover table-striped">
+																		<thead>
+																			
+																			<tr>
+																				
+																		        <th>Type</th>
+																				<th>Status</th>
+																				<th>Date Set</th>
+																				<th>Where</th>
+																				<th>What</th>
+																				<th>Short Description</th>
+																				<th>Annual Saving</th>
+																				<th>RefID</th>
+																				
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr ng-repeat-start='citem in ObservationsAllDetailsList'>                                                                                                                                         <td>{{citem.itemType}}</td>
+																				<td>{{citem.StatusName}}</td>
+																				<td>{{formatDateUK(citem.DiscoveredDate)}}</td>
+																				<td>{{citem.whereName}}</td>
+																				<td>{{citem.what}}</td>
+																				<td>{{citem.ShortDescription}}</td>
+																				<td>&pound;{{citem.ValuePerAnnum}}</td>
+																				<td>{{citem.ID}}</td>
+																			</tr>
+																		                                                                                                                                                                 
+																			<tr ng-repeat-end ng-show="ObsChildAllExpandID==citem.ID" >
+																				<td>&nbsp;</td>
+																				<td colspan=7>                                                                                                                                             
+																				<table ng-show="citem.Replies.count>1"  class="table table-bordered table-hover table-striped">
+																				<tr>
+																					<th>Hotel Response</th>
+																					<th>User Name </th>                         
+																					<th>Date Replied</th>
+																					
+																				</tr>
+																				<tr ng-repeat='childItem in citem.Replies' ng-show="childItem.ID>0">
+																					<td>
+																					{{childItem.HotelResponse}}
+																				
+																					</td>
+																					<td>
+																					{{childItem.UserName}}
+																				
+																					</td>
+																					<td>
+																					{{childItem.CreatedDate}}
+																				
+																					</td>
+																					
+																				</tr>
+																				</table>                                                                                                                                                        
+																				</td>
+																			</tr>                                                                                                                                   
+																		</tbody>
+																		</table>
+
+																</div>
+															
+														</div>
+								
+												</div>
+												<div ng-show="ObservationDisplayType=='SM' && ObservationDetails_SM">
+													<div class="row" ng-show="ObservationDisplayType=='SM'">
+													<br/>
+														List of SM items.<a   ng-click="ExportOBS('#tblObservationsSMListForExport','SM Observations');">Export to CSV</a>
+																<div class="table-responsive" >
+																	
+																	
+																	<table id="tblObservationsSMList" class="table table-bordered table-hover table-striped">
+																		<thead>
+																			
+																			<tr>
+																				<th width="1%"></th>
+																				<th>Status</th>
+																				<th><a ng-click="ObservationSMorder('DiscoveredDate')">Date Set</a></th>
+                                                                                <!--	<th>Date Set</th> -->
+                                                                                <th><a ng-click="ObservationSMorder('whereName')">Where</a></th>
+																				<th>What</th>
+																				<th>Short Description</th>
+																				<!-- <th>Annual Saving</th> -->
+                                                                                <th><a ng-click="ObservationSMorder('ValuePerAnnum')">Annual Saving</a></th>
+                                                                              
+                                                                                <th><a ng-click="ObservationSMorder('ID')">RefID</a></th>
+																				<th width="5%"></th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr ng-repeat-start='citem in ObservationsSMDetailsList | orderBy:ObservationSMpredicate:ObservationSMPagingreverse | filter:ObservationSMpaginate'>
+																				<td>
+																					<a title='Expand' ng-show="ObsChildSMExpandID!=citem.ID" ng-click="ObsChildSMExpandID=citem.ID"><img src="images/expand.png" width="15px" height="17px" /></a>
+																					<a title='Collapse' ng-show="ObsChildSMExpandID==citem.ID"  ng-click="ObsChildSMExpandID=0"><img src="images/collapse.png" width="15px" height="17px" /></a>
+																				</td>
+																				<td>
+																				{{citem.StatusName}}
+																				
+																				</td>
+																				<td>
+																				{{formatDateUK(citem.DiscoveredDate)}}
+																				
+																				</td>
+																				
+																				<td>
+																				{{citem.whereName}}
+																				
+																				</td>
+																				<td>
+																				{{citem.what}}
+																				
+																				</td>
+																				<td>
+																				{{citem.ShortDescription}}
+																				
+																				</td>
+																			
+																				<td>
+																				&pound;{{citem.ValuePerAnnum}}
+																				
+																				</td>
+																				<td>
+																				{{citem.ID}}
+																				
+																				</td>
+																				<td>
+																				 <!-- <a ng-click="">Reply</a> 
+																				 <a ng-click="ShowEditOBSForm(citem)">Edit</a>  -->
+																				 <a title='Edit' ng-show="ObservationDetails_Edit && citem.CanEdit"  ng-click="ShowEditOBSForm(citem)"><img src="images/edit-icon.png" width="15px" height="17px" /></a> 
+																				 <a title='View' ng-show="citem.CanEdit==0"  ng-click="ShowEditOBSForm(citem)"><img src="images/view-icon.png" width="15px" height="17px" /></a>
+																				 | <a ng-show="ObservationDetails_Delete" href='' ng-click="DoDeleteOBS(citem)"><img src="images/delete-icon.png" width="15px" height="17px" /></a>
+																				</td>
+																			</tr>
+																			<tr ng-repeat-end ng-show="ObsChildSMExpandID==citem.ID">
+																				<td>&nbsp;</td>
+																				<td colspan=7>
+                                                                                                                                                                    
+																				<table  class="table table-bordered table-hover table-striped">
+																				<tr>
+																					
+																					<th>Hotel Response</th>
+                                                                                                                                                                        <th>User</th>
+                                                                                                                                                                        <th>Date Replied</th>
+																					<th></th>
+																				</tr>
+																				<tr ng-repeat-start='childItem in citem.Replies' ng-show="childItem.ID>0">
+																					<td>
+																					{{childItem.HotelResponse}}
+																				
+																					</td>
+																					<td>
+                                                                                                                                                                                {{childItem.UserName}}
+
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                {{childItem.CreatedDate}}
+
+                                                                                                                                                                                </td>
+																					<td></td>
+																				</tr>
+																				<tr ng-repeat-end ng-show="childItem.ID==0">
+																				<form name="ObservationGMReplyForm"  class="form-horizontal" role="form">	
+																					<td>
+																						<input type="text" class="form-control" name="HotelResponse" placeholder="Hotel Response" ng-model="childItem.HotelResponse" required />
+																					</td>
+																					
+																					<td>
+																					<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveOBSReplies(citem,childItem)" data-ng-disabled="ObservationGMReplyForm.$invalid">
+																								Save Reply
+																							</button>
+																							</td>
+                                                                                                                                                                                        <td></td>
+                                                                                                                                                                </form>
+																				</tr>
+																				</table>
+                                                                                                                                                                        
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																	<div>
+																		<pagination total-items="$parent.$parent.ObservationSMtotalItems" ng-model="$parent.$parent.ObservationSMPagingcurrentPage"  
+																		max-size="5" boundary-links="true"  
+																		items-per-page="$parent.$parent.ObservationSMPagingnumPerPage" class="pagination-sm">  
+																		</pagination> 
+																	</div>
+																	<table id="tblObservationsSMListForExport" ng-show="1==2" class="table table-bordered table-hover table-striped">
+																		<thead>
+																			
+																			<tr>
+																				
+																		        
+																				<th>Status</th>
+																				<th>Date Set</th>
+																				<th>Where</th>
+																				<th>What</th>
+																				<th>Short Description</th>
+																				<th>Annual Saving</th>
+																				<th>RefID</th>
+																				
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr ng-repeat-start='citem in ObservationsSMDetailsList'>                                                                                                                                         
+																				<td>{{citem.StatusName}}</td>
+																				<td>{{formatDateUK(citem.DiscoveredDate)}}</td>
+																				<td>{{citem.whereName}}</td>
+																				<td>{{citem.what}}</td>
+																				<td>{{citem.ShortDescription}}</td>
+																				<td>&pound;{{citem.ValuePerAnnum}}</td>
+																				<td>{{citem.ID}}</td>
+																			</tr>
+																		                                                                                                                                                                 
+																			<tr ng-repeat-end ng-show="ObsChildAllExpandID==citem.ID" >
+																				
+																				<td colspan=7>                                                                                                                                             
+																				<table ng-show="citem.Replies.count>1"  class="table table-bordered table-hover table-striped">
+																				<tr>
+																					<th>Hotel Response</th>
+																					<th>User Name </th>                         
+																					<th>Date Replied</th>
+																					
+																				</tr>
+																				<tr ng-repeat='childItem in citem.Replies' ng-show="childItem.ID>0">
+																					<td>
+																					{{childItem.HotelResponse}}
+																				
+																					</td>
+																					<td>
+																					{{childItem.UserName}}
+																				
+																					</td>
+																					<td>
+																					{{childItem.CreatedDate}}
+																				
+																					</td>
+																					
+																				</tr>
+																				</table>                                                                                                                                                        
+																				</td>
+																			</tr>                                                                                                                                   
+																		</tbody>
+																		</table>
+																	
+																</div>
+															
+														</div>
+								
+												</div>
+												<div ng-show="ObservationDisplayType=='GM' && ObservationDetails_GM">
+														<div class="row" ng-show="ObservationDisplayType=='GM'">
+										
+																<div class="table-responsive" >
+																<br/>
+																List of GM items.<a   ng-click="ExportOBS('#tblObservationsGMListForExport','GM Observations');">Export to CSV</a>
+																	<!-- <button class="width-35 pull-left btn btn-sm btn-primary" ng-disabled="ObservationFormType=='ADD'" ng-click="ShowAddOBSForm()" >Add New Observation</button> -->
+																	<!-- <br/><br/> -->
+																	<table id="tblObservationsList" class="table table-bordered table-hover table-striped">
+																		<thead>
+																			
+																			<tr>
+																				<th width="1%"></th>
+																				<!-- <th>Date Set</th> -->
+																				<th><a ng-click="ObservationGMorder('DiscoveredDate')">Date Set</a></th>
+																				<th><a ng-click="ObservationGMorder('whereName')">Where</a></th>
+																				<th>What</th>
+																				<th>Action Required</th>
+																				<!-- <th>Date Actioned</th> -->
+																				<th><a ng-click="ObservationGMorder('DateRpActioned')">Date Actioned</a></th>
+																				<!-- <th>Value per annum</th> -->
+																				<th><a ng-click="ObservationGMorder('ValuePerAnnum')">Annual Saving</a></th>
+																				<!-- <th>RefID</th> -->
+																				<th><a ng-click="ObservationGMorder('ID')">RefID</a></th>
+																				<th width="5%"></th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr ng-repeat-start='citem in ObservationsGMDetailsList | orderBy:ObservationGMpredicate:ObservationGMPagingreverse | filter:ObservationGMpaginate'>
+																				<td>
+																					<a title='Expand' ng-show="ObsChildGMExpandID!=citem.ID" ng-click="ObsChildGMExpandID=citem.ID"><img src="images/expand.png" width="15px" height="17px" /></a>
+																					<a title='Collapse' ng-show="ObsChildGMExpandID==citem.ID"  ng-click="ObsChildGMExpandID=0"><img src="images/collapse.png" width="15px" height="17px" /></a>
+																				</td>
+																				<td>
+																				{{formatDateUK(citem.DiscoveredDate)}}
+																				
+																				</td>
+																				<td>
+																				{{citem.whereName}}
+																				
+																				</td>
+																				
+																				<td>
+																				{{citem.what}}
+																				
+																				</td>
+																				<td>
+																				{{citem.ActionRequired}}
+																				
+																				</td>
+																				<td>
+																				{{citem.DateRpActioned}}
+																				
+																				</td>
+																				<td>
+																				&pound;{{citem.ValuePerAnnum}}
+																				
+																				</td>
+																				<td>
+																				{{citem.ID}}
+																				
+																				</td>
+																				<td>
+																				<!-- <a ng-click="">Reply</a>  
+																				<a ng-click="ShowEditOBSForm(citem)">Edit</a> -->
+																				<a title='Edit' ng-show="ObservationDetails_Edit && citem.CanEdit"  ng-click="ShowEditOBSForm(citem)"><img src="images/edit-icon.png" width="15px" height="17px" /></a> 
+																				<a title='View' ng-show="!citem.CanEdit==0"  ng-click="ShowEditOBSForm(citem)"><img src="images/view-icon.png" width="15px" height="17px" /></a>
+																				 | <a ng-show="ObservationDetails_Delete" href='' ng-click="DoDeleteOBS(citem)"><img src="images/delete-icon.png" width="15px" height="17px" /></a>
+																				</td>
+																			</tr>
+																			<tr ng-repeat-end ng-show="ObsChildGMExpandID==citem.ID">
+																				<td>&nbsp;</td>
+																				<td colspan=7>
+                                                                                                                                                                    
+																				<table  class="table table-bordered table-hover table-striped">
+																				<tr>
+																					
+																					<th ng-show="1==2">Date Set</th>
+																					<th>Hotel Response</th>
+                                                                                                                                                                        <th>User</th>
+                                                                                                                                                                                <th>Date replied</th>
+																					<th></th>
+																				</tr>
+																				<tr ng-repeat-start='childItem in citem.Replies' ng-show="childItem.ID>0">
+																					<td ng-show="1==2">
+																					{{formatDateUK(childItem.DiscoveredDate)}}
+																				
+																					</td>
+																					<td>
+																					{{childItem.HotelResponse}}
+																				
+																					</td>
+                                                                                                                                                                        <td>
+                                                                                                                                                                                {{childItem.UserName}}
+
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                {{childItem.CreatedDate}}
+
+                                                                                                                                                                                </td>
+																					<td></td>
+																				</tr>
+																				<tr ng-repeat-end ng-show="childItem.ID==0">
+																					<form name="ObservationGMReplyForm"  class="form-horizontal" role="form">
+																					<td ng-show="1==2">
+																						<!--<input type="text" class="form-control" ng-click="ShowDatePicker('childItemDiscoveredDateGM')" id="childItemDiscoveredDateGM" ukdate="dd-MM-yyyy" placeholder="dd-MM-yyyy" ng-model="childItem.DiscoveredDate" />-->
+																					</td>
+																					<td>
+																						<input type="text" class="form-control" name="HotelResponse" placeholder="Hotel Response" ng-model="childItem.HotelResponse" required />               
+																					</td>
+																					<td>
+																					<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveOBSReplies(citem,childItem)" data-ng-disabled="ObservationGMReplyForm.$invalid">
+																								Save Reply
+																							</button>
+																							</td>
+                                                                                                                                                                                        <td></td>
+                                                                                                                                                                        </form>
+																				</tr>
+																				</table>
+                                                                                                                                                                    
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																	<div>
+																		<pagination total-items="$parent.$parent.ObservationGMtotalItems" ng-model="$parent.$parent.ObservationGMPagingcurrentPage"  
+																		max-size="5" boundary-links="true"  
+																		items-per-page="$parent.$parent.ObservationGMPagingnumPerPage" class="pagination-sm">  
+																		</pagination> 
+																	</div>
+																	<table id="tblObservationsGMListForExport" ng-show="1==2" class="table table-bordered table-hover table-striped">
+																		<thead>
+																			
+																			<tr>
+																				
+																		        
+																				<th>Status</th>
+																				<th>Date Set</th>
+																				<th>Where</th>
+																				<th>What</th>
+																				<th>Short Description</th>
+																				<th>Annual Saving</th>
+																				<th>RefID</th>
+																				
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr ng-repeat-start='citem in ObservationsGMDetailsList'>                                                                                                                                         
+																				<td>{{citem.StatusName}}</td>
+																				<td>{{formatDateUK(citem.DiscoveredDate)}}</td>
+																				<td>{{citem.whereName}}</td>
+																				<td>{{citem.what}}</td>
+																				<td>{{citem.ShortDescription}}</td>
+																				<td>&pound;{{citem.ValuePerAnnum}}</td>
+																				<td>{{citem.ID}}</td>
+																			</tr>
+																		                                                                                                                                                                 
+																			<tr ng-repeat-end ng-show="ObsChildAllExpandID==citem.ID" >
+																				
+																				<td colspan=7>                                                                                                                                             
+																				<table ng-show="citem.Replies.count>1"  class="table table-bordered table-hover table-striped">
+																				<tr>
+																					<th>Hotel Response</th>
+																					<th>User Name </th>                         
+																					<th>Date Replied</th>
+																					
+																				</tr>
+																				<tr ng-repeat='childItem in citem.Replies' ng-show="childItem.ID>0">
+																					<td>
+																					{{childItem.HotelResponse}}
+																				
+																					</td>
+																					<td>
+																					{{childItem.UserName}}
+																				
+																					</td>
+																					<td>
+																					{{childItem.CreatedDate}}
+																				
+																					</td>
+																					
+																				</tr>
+																				</table>                                                                                                                                                        
+																				</td>
+																			</tr>                                                                                                                                   
+																		</tbody>
+																		</table>
+																	
+																</div>
+															
+														</div>
+								
+									
+												</div>
+												<div ng-show="ObservationDisplayType=='OBS' && ObservationDetails_Obs">
+														<div class="row" ng-show="ObservationDisplayType=='OBS'">
+	
+																<div class="table-responsive" >
+																<br/>
+																List of Observation items.<a   ng-click="ExportOBS('#tblObservationsOBSListForExport','GM Observations');">Export to CSV</a>
+																	<!-- <button class="width-35 pull-left btn btn-sm btn-primary" ng-disabled="ObservationFormType=='ADD'" ng-click="ShowAddOBSForm()" >Add New Observation</button> -->
+																	<!-- <br/><br/> -->
+																	<table id="tblObservationsList" class="table table-bordered table-hover table-striped">
+																		<thead>
+																			
+																			<tr>
+																				<th width="1%"></th>
+																				<!--  <th>Date Set</th> -->
+																				<th><a ng-click="ObservationOBSorder('DiscoveredDate')">Date Set</a></th>
+																				<th><a ng-click="ObservationOBSorder('whereName')">Where</a></th>
+																				<th>What</th>
+																				<th>Action Required</th>
+																				<!--  <th>Date Actioned</th> -->
+																				<th><a ng-click="ObservationOBSorder('DateRpActioned')">Date Actioned</a></th>
+																				<!--  <th>Value per annum</th> -->
+																				<th><a ng-click="ObservationOBSorder('ValuePerAnnum')">Annual Saving</a></th>
+																				<!--  <th>RefID</th> -->
+																				<th><a ng-click="ObservationOBSorder('ID')">RefID</a></th>
+																				<th width="5%"></th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr ng-repeat-start='citem in ObservationsOBSDetailsList | orderBy:ObservationOBSpredicate:ObservationOBSPagingreverse | filter:ObservationOBSpaginate'>
+																				<td>
+																					<a title='Expand' ng-show="ObsChildOBSExpandID!=citem.ID" ng-click="ObsChildOBSExpandID=citem.ID"><img src="images/expand.png" width="15px" height="17px" /></a>
+																					<a title='Collapse' ng-show="ObsChildOBSExpandID==citem.ID"  ng-click="ObsChildOBSExpandID=0"><img src="images/collapse.png" width="15px" height="17px" /></a>
+																				</td>
+																				<td>
+																				{{formatDateUK(citem.DiscoveredDate)}}
+																				
+																				</td>
+																				<td>
+																				{{citem.whereName}}
+																				
+																				</td>
+																				
+																				<td>
+																				{{citem.what}}
+																				
+																				</td>
+																				<td>
+																				{{citem.ActionRequired}}
+																				
+																				</td>
+																				<td>
+																				{{citem.DateRpActioned}}
+																				
+																				</td>
+																				<td>
+																				&pound;{{citem.ValuePerAnnum}}
+																				
+																				</td>
+																				<td>
+																				{{citem.ID}}
+																				
+																				</td>
+																				<td>
+																				<!-- <a ng-click="">Reply</a>  
+																				<a ng-click="ShowEditOBSForm(citem)">Edit</a> -->
+																				<a title='Edit' ng-show="ObservationDetails_Edit && citem.CanEdit" ng-click="ShowEditOBSForm(citem)"><img src="images/edit-icon.png" width="15px" height="17px" /></a> 
+																				<a title='View' ng-show="!citem.CanEdit==0"  ng-click="ShowEditOBSForm(citem)"><img src="images/view-icon.png" width="15px" height="17px" /></a>
+																				 | <a ng-show="ObservationDetails_Delete" href='' ng-click="DoDeleteOBS(citem)"><img src="images/delete-icon.png" width="15px" height="17px" /></a>
+																				</td>
+																			</tr>
+																			<tr ng-repeat-end ng-show="ObsChildOBSExpandID==citem.ID">
+																				<td>&nbsp;</td>
+																				<td colspan=7>
+                                                                                                                                                                    
+                                                                                                                                                                        <table  class="table table-bordered table-hover table-striped">
+                                                                                                                                                                        <tr>
+
+                                                                                                                                                                                <th ng-show="1==2">Date Set</th>
+                                                                                                                                                                                <th>Hotel Response</th>
+                                                                                                                                                                                <th>User</th>
+                                                                                                                                                                                <th>Date replied</th>
+                                                                                                                                                                                <th></th>
+                                                                                                                                                                        </tr>
+                                                                                                                                                                        <tr ng-repeat-start='childItem in citem.Replies' ng-show="childItem.ID>0">
+                                                                                                                                                                                <td ng-show="1==2">
+                                                                                                                                                                                {{formatDateUK(childItem.DiscoveredDate)}}
+
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                {{childItem.HotelResponse}}
+
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                {{childItem.UserName}}
+
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                {{childItem.CreatedDate}}
+
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <td></td>
+                                                                                                                                                                        </tr>
+                                                                                                                                                                        <tr ng-repeat-end ng-show="childItem.ID==0">
+                                                                                                                                                                            <form name="ObservationOBSReplyForm"  class="form-horizontal" role="form">
+                                                                                                                                                                                <td ng-show="1==2">
+                                                                                                                                                                                        <!--<input type="text" class="form-control" ng-click="ShowDatePicker('childItemDiscoveredDateOBS')" id="childItemDiscoveredDateOBS" placeholder="yyyy-MM-dd" />-->
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                        <input type="text" class="form-control" name="HotelResponse" placeholder="Hotel Response" ng-model="childItem.HotelResponse" required />               
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <td>
+                                                                                                                                                                                <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveOBSReplies(citem,childItem)" data-ng-disabled="ObservationOBSReplyForm.$invalid">
+                                                                                                                                                                                                        Save Reply
+                                                                                                                                                                                                </button>
+                                                                                                                                                                                                </td>
+                                                                                                                                                                                                <td></td>
+                                                                                                                                                                            </form>
+                                                                                                                                                                        </tr>
+                                                                                                                                                                        </table>
+                                                                                                                                                                        
+
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																	<div>
+																		<pagination total-items="$parent.$parent.ObservationOBStotalItems" ng-model="$parent.$parent.ObservationOBSPagingcurrentPage"  
+																		max-size="5" boundary-links="true"  
+																		items-per-page="$parent.$parent.ObservationOBSPagingnumPerPage" class="pagination-sm">  
+																		</pagination> 
+																	</div>
+
+																	<table id="tblObservationsOBSListForExport" ng-show="1==2" class="table table-bordered table-hover table-striped">
+																		<thead>
+																			
+																			<tr>
+																				
+																		        
+																				<th>Status</th>
+																				<th>Date Set</th>
+																				<th>Where</th>
+																				<th>What</th>
+																				<th>Short Description</th>
+																				<th>Annual Saving</th>
+																				<th>RefID</th>
+																				
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr ng-repeat-start='citem in ObservationsOBSDetailsList'>                                                                                                                                        
+																				<td>{{citem.StatusName}}</td>
+																				<td>{{formatDateUK(citem.DiscoveredDate)}}</td>
+																				<td>{{citem.whereName}}</td>
+																				<td>{{citem.what}}</td>
+																				<td>{{citem.ShortDescription}}</td>
+																				<td>&pound;{{citem.ValuePerAnnum}}</td>
+																				<td>{{citem.ID}}</td>
+																			</tr>
+																		                                                                                                                                                                 
+																			<tr ng-repeat-end ng-show="ObsChildAllExpandID==citem.ID" >
+																				
+																				<td colspan=7>                                                                                                                                             
+																				<table ng-show="citem.Replies.count>1"  class="table table-bordered table-hover table-striped">
+																				<tr>
+																					<th>Hotel Response</th>
+																					<th>User Name </th>                         
+																					<th>Date Replied</th>
+																					
+																				</tr>
+																				<tr ng-repeat='childItem in citem.Replies' ng-show="childItem.ID>0">
+																					<td>
+																					{{childItem.HotelResponse}}
+																				
+																					</td>
+																					<td>
+																					{{childItem.UserName}}
+																				
+																					</td>
+																					<td>
+																					{{childItem.CreatedDate}}
+																				
+																					</td>
+																					
+																				</tr>
+																				</table>                                                                                                                                                        
+																				</td>
+																			</tr>                                                                                                                                   
+																		</tbody>
+																		</table>
+																	
+																</div>
+															
+														</div>
+								
+												</div>
+											</div>
+								</div>	
+									
+									<!-- /.row -->
+								</div>
+						</div>
+					</div>
+                    
+                    
+                    
+                    
+						</div>
+					</div>

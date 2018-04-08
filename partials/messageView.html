@@ -1,0 +1,86 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <a href="#dashboard">Dashboard</a>
+        </li>
+        <li>
+            <a href="#message">Message</a>
+        </li>
+        <li class="active">Show</li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="row">
+        <div class="space-6"></div>
+        <div class="col-sm-8 col-sm-offset-1">
+            <div id="login-box" class="login-box visible widget-box no-border">
+                <div class="widget-body">
+							
+														<div class="sk-wave" ng-show="IsMessageListLoading">
+																			<div class="sk-rect sk-rect1"></div>
+																			<div class="sk-rect sk-rect2"></div>
+																			<div class="sk-rect sk-rect3"></div>
+																			<div class="sk-rect sk-rect4"></div>
+																			<div class="sk-rect sk-rect5"></div>
+																		  </div>
+													<div class="widget-main" ng-show="!IsMessageListLoading">
+														<h4 class="header blue lighter bigger">
+															{{selectedMessage.Subject}}
+														</h4>
+														<div class="space-6"></div>
+
+														
+																					<div class="table-responsive">
+																					
+																<table class="table table-bordered table-hover" id="dataTables-example">
+																	<!--<thead>
+																		<tr>
+																			<th><a ng-click="Messagesorder('Firstname')">From</a>  </th>
+																			<th><a ng-click="Messagesorder('Subject')">Subject</a>  </th>
+																			<th><a ng-click="Messagesorder('CreatedDate')">On</a>  </th>
+																			
+																			
+																			<th>Actions</th>
+																		</tr>
+																	</thead>-->
+																	<tbody>
+																		<tr ng-repeat-start='item in messagesList | orderBy:Messagespredicate:Messagesreverse | filter:Messagespaginate| filter:Messagesearch.Text' >
+																		
+																		<td bgcolor="lightgreen"><strong>{{item.Firstname}}</strong></td>
+																		<td align="right"><strong>{{formatDateTimeUK(item.CreatedDate)}}</strong></td>
+																		</tr>
+																		<tr ng-repeat-end=""><td colspan="2">{{item.Message}}</td></tr>
+																		
+
+																		
+
+																	</tbody>
+																</table>
+																<div>&nbsp;</div>
+																<form name="sendMessageForm" class="form-horizontal" role="form">
+																
+																			<textarea required rows="8"  cols="50" class="form-control" placeholder="Enter your text" name="mtext" ng-model="EnteredMessageText"></textarea>
+																			
+																			
+																			<span class="col-sm-14">
+																			
+																				<button type="submit" ng-click="SubmitMessageThread()"  class="width-35 pull-right btn btn-sm btn-primary"  data-ng-disabled="sendMessageForm.$invalid">
+																					send
+																				</button>
+																				
+																				
+																			</span>
+																</form>
+																
+
+												
+					</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- /.page-content -->

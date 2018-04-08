@@ -1,0 +1,715 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <a href="#dashboard">Dashboard</a>
+        </li>
+        <li class="active">User Management</li>
+    </ul>
+</div>
+<div class="page-content">
+
+    <div class="row">
+        <div class="space-6"></div>
+        <div class="col-sm-8 col-sm-offset-1">
+            <div id="login-box" class="login-box visible widget-box no-border">
+                <div class="widget-body">
+							<div class="col-lg-12" ng-init="activeHotelTab=1">
+											<ul class="nav nav-tabs">
+											<li ng-class="{'active' : activeHotelTab == 1}"><a href="" ng-click="activeHotelTab=1"><strong>Users</strong></a></li>
+											<li ng-class="{'active' : activeHotelTab == 2}"><a href="" ng-click="activeHotelTab=2"><strong>Titles </strong></a></li>
+											<li ng-class="{'active' : activeHotelTab == 3}"><a href="" ng-click="activeHotelTab=3"><strong>Roles </strong></a></li>
+											
+											<li ng-class="{'active' : activeHotelTab == 4}"><a href="" ng-click="activeHotelTab=4"><strong>Settings </strong></a></li>
+											</ul>
+							<div class="tab-content">
+											<div ng-show="activeHotelTab==1">
+														<div class="sk-wave" ng-show="IsUserListLoading">
+																			<div class="sk-rect sk-rect1"></div>
+																			<div class="sk-rect sk-rect2"></div>
+																			<div class="sk-rect sk-rect3"></div>
+																			<div class="sk-rect sk-rect4"></div>
+																			<div class="sk-rect sk-rect5"></div>
+																		  </div>
+													<div class="widget-main" ng-show="!IsUserListLoading">
+														<h4 class="header blue lighter bigger">
+															List of available users 
+														</h4>
+														<div class="space-6"></div>
+
+														<select ng-model="numPerPage" class="btn btn-default">
+																<option>5</option>
+																<option>15</option>
+																<option>25</option>
+																</select> Records per page. 
+																<!--<button  class="width-35 pull-right btn btn-sm btn-primary" ng-click="doAddNewUser()" >
+																		Add New User
+																	</button>-->
+																	<a ng-show="users.length>0" class="width-35 pull-right btn btn-warning a-btn-slide-text" onclick="javascript:HtmlExportToPDF('UsersListForPDFExport','UsersList');">Export to PDF</a>
+																	<a ng-click="doAddNewUser()" class="width-35 pull-right btn btn-primary a-btn-slide-text">
+																        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																        <span><strong>Add New User</strong></span>            
+																    </a>
+														
+
+														
+														<div class="space-6"></div>
+
+																					<div class="table-responsive">
+																	
+																	<input class="form-control" type="text" placeholder="Enter to search" ng-model="search.Text" />				
+																<table class="table table-striped table-bordered table-hover" id="dataTables-example">
+																	<thead>
+																		<tr>
+																			<th><a ng-click="order('Username')">Username</a>
+																			<span class="glyphicon sort-icon" ng-show="predicate=='Username'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>  </th>
+																			<th><a ng-click="order('Firstname')">Firstname</a>  <span class="glyphicon sort-icon" ng-show="predicate=='Firstname'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+																			<th><a ng-click="order('Lastname')">Lastname</a><span class="glyphicon sort-icon" ng-show="predicate=='Lastname'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>  </th>
+																			<th><a ng-click="order('Email')">Email</a><span class="glyphicon sort-icon" ng-show="predicate=='Email'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>  </th>
+																			<th><a ng-click="order('Mobile')">Mobile</a> <span class="glyphicon sort-icon" ng-show="predicate=='Mobile'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> </th>
+																			<th><a ng-click="order('Title')">Title</a><span class="glyphicon sort-icon" ng-show="predicate=='Title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>  </th>
+																			<th><a ng-click="order('Active')">Active</a><span class="glyphicon sort-icon" ng-show="predicate=='Active'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>  </th>
+																			
+																			<th>Actions</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr dir-paginate='userItem in users | orderBy:predicate:reverse | filter:search.Text | itemsPerPage:numPerPage' pagination-id="UsersListPagination" class="odd gradeX">
+																			<td>{{userItem.Username}}</td>
+																			<td>{{userItem.Firstname}}</td>
+																			<td>{{userItem.Lastname}}</td>
+																			<td>{{userItem.Email}}</td>
+																			<td>{{userItem.Mobile}}</td>
+																			<td>{{userItem.Title}}</td>
+																			<td>
+																			
+																	    		
+																	    		
+																		    		<button ng-show="userItem.Active==0" class="btn  btn-danger btn-xs">NO</button>
+																		    	
+																		    	
+																	    		
+																		    		
+																		    		<button ng-show="userItem.Active==1" class="btn btn-xs btn-success btn-xs active">YES</button>
+																		    	
+																	    	
+																			<!--<input ng-show="1==2" type="checkbox" ng-checked="userItem.Active==1" disabled />-->
+
+																			</td>
+																			<td>
+
+																			<!--<a href='#/usermgmt/view/{{userItem.ID}}'><img src="images/edit-icon.png" width="15px" height="17px" /></a> | <a href='' ng-click="doDeleteUser(userItem)">
+																			<img src="images/delete-icon.png" width="15px" height="17px" />
+																			</a>-->
+
+																			<button ng-click="GoTo('usermgmt/view/'+userItem.ID)" class="btn btn-primary btn-xs" data-title="Edit"  ><span class="glyphicon glyphicon-pencil"></span></button>
+
+																			<button ng-click="doDeleteUser(userItem)" class="btn btn-danger btn-xs" data-title="Delete"  ><span class="glyphicon glyphicon-trash"></span></button>
+
+																			</td>
+																		</tr>
+																		
+																		
+																	</tbody>
+																</table>
+																<div>
+																
+																<div>
+																	<dir-pagination-controls
+															          max-size="10"
+															          direction-links="true"
+															          pagination-id="UsersListPagination"
+															          boundary-links="true" >
+															        </dir-pagination-controls> 
+																</div>
+														
+																<!--<pagination total-items="totalItems" ng-model="currentPage"  
+																 max-size="5" boundary-links="true"  
+																 items-per-page="numPerPage" class="pagination-sm">  
+														   </pagination> -->
+
+														   <div ng-show="1==2" id="UsersListForPDFExport">
+												
+															<table width="100%" style="border:1px solid black">
+																	<thead>
+																		<tr>
+																			<th>Username</th>
+																			<th>Firstname  </th>
+																			<th>Lastname</th>
+																			<th>Email</th>
+																			<th>Mobile</th>
+																			<th>Title</th>
+																			<th>Active</th>
+																		
+																			
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat='userItem in users'>
+																			<!-- <td>{{LogActivityItem.hotel}}</td> -->
+																			<td>{{userItem.Username}}</td>
+																			<td>{{userItem.Firstname}}</td>
+																			<td>{{userItem.Lastname}}</td>
+																			<td>{{userItem.Email}}</td>
+																			<td>{{userItem.Mobile}}</td>
+																			<td>{{userItem.Title}}</td>
+																			<td>{{userItem.ActiveText}}</td>
+																		</tr>
+																		
+
+																	</tbody>
+																</table>
+															
+															</div>
+														   </div>
+
+												</div>
+													
+												</div>
+
+
+
+
+
+
+												</div>
+												<div ng-show="activeHotelTab==2">
+							
+													<div class="sk-wave" ng-show="IsTitlesListLoading">
+																			<div class="sk-rect sk-rect1"></div>
+																			<div class="sk-rect sk-rect2"></div>
+																			<div class="sk-rect sk-rect3"></div>
+																			<div class="sk-rect sk-rect4"></div>
+																			<div class="sk-rect sk-rect5"></div>
+																		  </div>
+													<div class="widget-main" ng-show="!IsTitlesListLoading && TitleFormType=='LIST'">
+														<h4 class="header blue lighter bigger">
+															List of available Titles 
+
+														</h4>
+														<select ng-model="TitlesnumPerPage" class="btn btn-default">
+																<option>5</option>
+																<option>15</option>
+																<option>25</option>
+																</select> Records per page.<button  class="width-35 pull-right btn btn-sm btn-primary" ng-click="TitleFormType='ADD'" >
+																		Add New Title
+																	</button>
+															<div class="table-responsive">
+																<input class="form-control" type="text" placeholder="Enter to search" ng-model="Titlesearch.Text" />						
+																<table class="table table-striped table-bordered table-hover">
+																	<thead>
+																		<tr>
+																			<th><a ng-click="Titlesorder('Name')">Name</a> <span class="glyphicon sort-icon" ng-show="Titlespredicate=='Name'" ng-class="{'glyphicon-chevron-up':Titlesreverse,'glyphicon-chevron-down':!Titlesreverse}"></span> </th>
+																			<th>Actions</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr dir-paginate='titem in titles | orderBy:Titlespredicate:Titlesreverse | filter:Titlesearch.Text | itemsPerPage:TitlesnumPerPage ' pagination-id="TitleListPagination" class="odd gradeX">
+																			<td>{{titem.Name}}</td>
+																			<td><a ng-click="ShowEditTitleForm(titem)"><img src="images/edit-icon.png" width="15px" height="17px" /></a> 
+																			&nbsp; 
+																			<a title="Add/Edit Roles" ng-click="ShowEditTitleRole(titem)"><img src="images/permission.jpg" width="15px" height="17px" /></a> 
+																			<!-- | <a href='' ng-click="doDeleteUser(titem)"> -->
+																			<!-- <img src="images/delete-icon.png" width="15px" height="17px" /> -->
+																			<!-- </a> -->
+																			</td>
+																		</tr>
+																		
+																		
+																	</tbody>
+																</table>
+																<div>
+																
+																<div>
+																	<dir-pagination-controls
+															          max-size="10"
+															          direction-links="true"
+															          pagination-id="TitleListPagination"
+															          boundary-links="true" >
+															        </dir-pagination-controls> 
+																</div>
+														
+																<!--<pagination total-items="TitlestotalItems" ng-model="TitlescurrentPage"  
+																 max-size="5" boundary-links="true"  
+																 items-per-page="TitlesnumPerPage" class="pagination-sm">  
+														   </pagination> -->
+														   </div>
+
+														</div>
+													</div>
+													
+													<div class="widget-main" ng-show="!IsTitlesListLoading && TitleFormType=='PERMISSION'">
+													<br/>
+														<span class="header blue lighter bigger">
+															List of available Roles for  <strong>{{EditingTitleForRole.Name}}</strong>
+															<button  class="width-35 pull-right btn btn-sm btn-primary" ng-click="TitleFormType='LIST'" >
+																		Cancel
+																	</button>
+														</span>
+															<div class="table-responsive">
+																					
+																<table class="table table-striped table-bordered table-hover">
+																	<thead>
+																		<tr>
+																			<th><a >Name</a>  </th>
+																			<!-- <th>Assigned</th> -->
+																			<th>Assigned</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat='aroles in EditingTitleForRole.AssignedRoles' class="odd gradeX">
+																			<td>{{aroles.Name}}</td>
+																			<!-- <td><input type="checkbox" ng-change="DoSaveTitleToRole(aroles)" ng-true-value="1" ng-false-value="0" name="assigned" ng-model="aroles.Assigned" /> -->
+																			<!-- </td> -->
+																			<td><input type="checkbox" ng-change="DoSaveTitleToRole(aroles)" ng-true-value="1" ng-false-value="0"  name="active" ng-model="aroles.Active" />
+																			</td>
+																		</tr>
+																		
+																		
+																	</tbody>
+																</table>
+																
+
+														</div>
+													</div>
+													<div class="widget-main" ng-show="TitleFormType=='ADD' || TitleFormType=='EDIT'">
+														<h4 class="header blue lighter bigger" ng-show="TitleFormType=='ADD'" >
+															Add New Title 
+														</h4>
+														<h4 class="header blue lighter bigger" ng-show="TitleFormType=='EDIT'" >
+															Edit Title 
+														</h4>
+														<form name="TitleManager" class="form-horizontal" role="form">
+																		
+															<table width="98%">
+															<tr>
+																<td><input type="text" class="form-control" name ="titleName" placeholder="Name" ng-model="Title.Name" required /></td>
+																<td><button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveTitle(Title)" data-ng-disabled="TitleManager.$invalid">
+																					Save
+																				</button></td>
+																				<td><button class="width-35 pull-right btn btn-sm btn-primary" ng-click="CancelSaveTitle()">
+																					Cancel
+																				</button></td>
+															</tr>
+															</table>
+																	   
+																		
+																		
+														</form>
+													</div>
+												</div>
+												<div ng-show="activeHotelTab==3">
+												<div class="sk-wave" ng-show="IsRolesListLoading">
+																			<div class="sk-rect sk-rect1"></div>
+																			<div class="sk-rect sk-rect2"></div>
+																			<div class="sk-rect sk-rect3"></div>
+																			<div class="sk-rect sk-rect4"></div>
+																			<div class="sk-rect sk-rect5"></div>
+																		  </div>
+													<div class="widget-main" ng-show="!IsRolesListLoading && RoleFormType=='LIST'">
+														<h4 class="header blue lighter bigger">
+															List of available Roles <button  class="width-35 pull-right btn btn-sm btn-primary" ng-click="RoleFormType='ADD'" >
+																		Add New Role
+																	</button>
+														</h4>
+															<div class="table-responsive">
+																					
+																<table class="table table-striped table-bordered table-hover">
+																	<thead>
+																		<tr>
+																			<th><a ng-click="Titlesorder('Name')">Name</a>  </th>
+																			<th><a ng-click="Titlesorder('AccessToContactFormMessages')">Contact Messages</a>  </th>
+																			<th>Actions</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat='titem in roles | orderBy:Rolespredicate:reverse | filter:Rolespaginate' class="odd gradeX">
+																			<td>{{titem.Name}}</td>
+																			<td>
+
+
+<div class="btn-group btn-toggle" ng-show="titem.AccessToContactFormMessages==null || titem.AccessToContactFormMessages==0"> 
+	    		<button ng-click="SaveRoleAccessToContactFormMessages(titem)" class="btn btn-xs btn-default">ON</button>
+	    		<button ng-click="SaveRoleAccessToContactFormMessages(titem)" class="btn btn-xs btn-success active">OFF</button>
+	    	</div>
+
+	    	<div class="btn-group btn-toggle" ng-show="titem.AccessToContactFormMessages==1"> 
+	    		<button ng-click="SaveRoleAccessToContactFormMessages(titem)" class="btn btn-xs btn-success active">ON</button>
+	    		<button ng-click="SaveRoleAccessToContactFormMessages(titem)" class="btn btn-xs btn-default">OFF</button>
+	    	</div>
+
+									</td>
+																			<td><a ng-click="ShowEditRoleForm(titem)"><img src="images/edit-icon.png" width="15px" height="17px" /></a> &nbsp; 
+																			<a title="Add/Edit Permission" ng-click="ShowEditRolePermission(titem)"><img src="images/permission.jpg" width="15px" height="17px" /></a> 
+																			<a title="arrange widgets" ng-click="ArrangeWidgets(titem)">arrange</a> 
+																			<!-- | <a href='' ng-click="doDeleteUser(titem)"> -->
+																			<!-- <img src="images/delete-icon.png" width="15px" height="17px" /> -->
+																			<!-- </a> -->
+																			</td>
+																		</tr>
+																		
+																		
+																	</tbody>
+																</table>
+																<div>
+																
+														
+														
+																<pagination total-items="RolestotalItems" ng-model="RolescurrentPage"  
+																 max-size="5" boundary-links="true"  
+																 items-per-page="RolesnumPerPage" class="pagination-sm">  
+														   </pagination> 
+														   </div>
+
+														</div>
+													</div>
+													
+													<div class="widget-main" ng-show="!IsRolesListLoading && RoleFormType=='PERMISSION'">
+													<br/>
+														<span class="header blue lighter bigger">
+															List of available Permissions for  <strong>{{EditingRoleForPermission.Name}}</strong>
+															<button  class="width-35 pull-right btn btn-sm btn-primary" ng-click="RoleFormType='LIST'" >
+																		Cancel
+																	</button>
+														</span>
+															<div class="table-responsive">
+
+															<div ng-repeat='arolesPer in EditingRoleForPermission.AssignedPermissions' class="panel panel-default">
+															<div class="panel-heading">
+															 	<a ng-click="arolesPer.Expanded = (arolesPer.Expanded==1?0:1)">{{arolesPer.Name}}</a>
+																 <div class="btn-group btn-toggle pull-right" ng-show="arolesPer.Active=='0' || arolesPer.Active==null"> 
+														    		<button ng-click="arolesPer.Active='1';DoSaveRoleToPermission(arolesPer)" class="btn btn-xs btn-default">ON</button>
+														    		<button  class="btn btn-xs btn-success active">OFF</button>
+														    	</div>
+
+														    	<div class="btn-group btn-toggle pull-right" ng-show="arolesPer.Active=='1'"> 
+														    		<button class="btn btn-xs btn-success active">ON</button>
+														    		<button ng-click="arolesPer.Active='0';DoSaveRoleToPermission(arolesPer)" class="btn btn-xs btn-default">OFF</button>
+														    	</div>
+															</div>
+															<div class="panel-body" ng-show="arolesPer.Child.length>0 && arolesPer.Expanded==1">
+																
+																		<table class="table table-bordered table-hover table-striped"  >
+																			
+																			
+																				
+																				<tr ng-repeat='aper in arolesPer.Child' class="odd gradeX">
+																				<td>{{aper.Name}}
+																				<!-- <td><input type="checkbox" ng-change="DoSaveTitleToRole(aroles)" ng-true-value="1" ng-false-value="0" name="assigned" ng-model="aroles.Assigned" /> -->
+																				<!-- </td> -->
+																				
+																					<div class="btn-group btn-toggle pull-right" ng-show="aper.Active=='0' || aper.Active==null"> 
+																			    		<button ng-click="aper.Active='1';DoSaveRoleToPermission(aper)" class="btn btn-xs btn-default">ON</button>
+																			    		<button  class="btn btn-xs btn-success active">OFF</button>
+																			    	</div>
+
+																			    	<div class="btn-group btn-toggle pull-right" ng-show="aper.Active=='1'"> 
+																			    		<button  class="btn btn-xs btn-success active">ON</button>
+																			    		<button ng-click="aper.Active='0';DoSaveRoleToPermission(aper)" class="btn btn-xs btn-default">OFF</button>
+																			    	</div>
+
+																				<input ng-show="1==2" type="checkbox" ng-change="DoSaveRoleToPermission(aper)" ng-true-value="1" ng-false-value="0"  ng-model="aper.Active" />
+
+																				</td>
+																				</tr>
+
+
+																			
+																		</table>
+																		
+
+																
+															</div>
+														</div>
+																					
+																<table ng-show="1==2" class="table table-striped table-bordered table-hover">
+																	<thead>
+																		<tr>
+																			<th><a >Name</a>  </th>
+																			<!-- <th>Assigned</th> -->
+																			<th>Assigned</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat='arolesPer in EditingRoleForPermission.AssignedPermissions' class="odd gradeX">
+																			<td>{{arolesPer.Name}}</td>
+																			<!-- <td><input type="checkbox" ng-change="DoSaveTitleToRole(aroles)" ng-true-value="1" ng-false-value="0" name="assigned" ng-model="aroles.Assigned" /> -->
+																			<!-- </td> -->
+																			<td>
+																			<input type="checkbox" ng-change="DoSaveRoleToPermission(arolesPer)" ng-true-value="1" ng-false-value="0"  ng-model="arolesPer.Active" />
+																			</td>
+																		</tr>
+																		
+																		
+																	</tbody>
+																</table>
+																
+
+														</div>
+													</div>
+													<div class="widget-main" ng-show="!IsRolesListLoading && RoleFormType=='ARRANGE'">
+													<br/>
+														<span class="header blue lighter bigger">
+															List of available Widgets for  <strong>{{EditingRoleForPermission.Name}}</strong>
+															<button  class="width-35 pull-right btn btn-sm btn-primary" ng-click="RoleFormType='LIST'" >
+																		Cancel
+																	</button>
+														</span>
+															<div class="table-responsive">
+																<form name="widgetOrderForm" class="form-horizontal" role="form">					
+																<table class="table table-striped table-bordered table-hover">
+																	<thead>
+																		<tr>
+																			<th><a>Name</a>  </th>
+																			<!-- <th>Assigned</th> -->
+																			<th>Order</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat='aroles in EditingRoleForPermission.WidgetsOrder' class="odd gradeX">
+																			<td>{{aroles.Name}}</td>
+																			<!-- <td><input type="checkbox" ng-change="DoSaveTitleToRole(aroles)" ng-true-value="1" ng-false-value="0" name="assigned" ng-model="aroles.Assigned" /> -->
+																			<!-- </td> -->
+																			<td><input type="text" ng-model="aroles.WidgetOrder" required  valid-number />
+																			</td>
+																		</tr>
+																		
+																		
+																	</tbody>
+																</table>
+																<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveWidgetOrder(EditingRoleForPermission);" data-ng-disabled="widgetOrderForm.$invalid">
+																					Save
+																				</button>
+																</form>
+
+														</div>
+													</div>
+													<div class="widget-main" ng-show="RoleFormType=='ADD' || RoleFormType=='EDIT'">
+														<h4 class="header blue lighter bigger" ng-show="RoleFormType=='ADD'" >
+															Add New Role 
+														</h4>
+														<h4 class="header blue lighter bigger" ng-show="RoleFormType=='EDIT'" >
+															Edit Role 
+														</h4>
+														<form name="RoleManager" class="form-horizontal" role="form">
+																		
+															<table width="98%">
+															<tr>
+																<td><input type="text" class="form-control" name ="RoleName" placeholder="Name" ng-model="Role.Name" required /></td>
+																<td><button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveRole(Role)" data-ng-disabled="RoleManager.$invalid">
+																					Save
+																				</button></td>
+																				<td><button class="width-35 pull-right btn btn-sm btn-primary" ng-click="CancelSaveRole()">
+																					Cancel
+																				</button></td>
+															</tr>
+															</table>
+																	   
+																		
+																		
+														</form>
+													</div>
+
+													<br/><br/>
+													<div class="widget-main" ng-show="RoleToObservationFormType=='ADD' || RoleToObservationFormType=='EDIT'">
+														<h4 class="header blue lighter smaller" ng-show="RoleToObservationFormType=='ADD'" >
+															Add New Status 
+														</h4>
+														<h4 class="header blue lighter smaller" ng-show="RoleToObservationFormType=='EDIT'" >
+															Edit Status 
+														</h4>
+														<form name="RoleToObservationFormTypeManager" class="form-horizontal" role="form">
+																		
+															<table width="98%">
+															<tr>
+																<td>
+																	Status
+																	 <select class="form-control" id="RTSStatusdrp" ng-model="AddRoleToObservationStatusForm.ObservationStatusID" ng-options="i.ID as (i.Name) for i in AddRoleToObservationStatusForm.StatusDrp" ng-change="LoadCircuitsForSelectedFG(ObservationEditingItem.where)" required>
+																	 </select>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	
+																	 <input type="checkbox" ng-true-value="1" ng-false-value="0"  ng-model="AddRoleToObservationStatusForm.InDropdown" />
+																	 Show in Dropdown
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	
+																	 <input type="checkbox" ng-true-value="1" ng-false-value="0"  ng-model="AddRoleToObservationStatusForm.InView" />
+																	 Show in View
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	
+																	 <input type="checkbox" ng-true-value="1" ng-false-value="0"   ng-model="AddRoleToObservationStatusForm.CanEdit" />
+																	 Can Edit
+																</td>
+															</tr>
+															<tr>
+																<td><button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="DoSaveRoleToObservationsStatus(AddRoleToObservationStatusForm)" data-ng-disabled="RoleToObservationFormTypeManager.$invalid">
+																					Save
+																				</button></td>
+																				<td><button class="width-35 pull-right btn btn-sm btn-primary" ng-click="CancelSaveRoleToObservationSttaus()">
+																					Cancel
+																				</button></td>
+															</tr>
+															</table>
+																	   
+																		
+																		
+														</form>
+													</div>
+
+												</div>
+												<div ng-show="activeHotelTab==4">
+													<div class="row">&nbsp; </div>
+														<form name="confgForm" class="form-horizontal" role="form">
+
+													<div id="settings_Emailer" class="col-lg-6" >
+													                                                       
+
+															<div class="panel panel-primary" >
+																<div class="panel-heading">
+																	Emailer Settings
+
+																</div>
+																					
+																<div class="panel-body" >
+																	<div  class="col-lg-12">
+																		<div class="form-group">
+																			<label for="password">Host</label>
+																			<input type="text" class="form-control" name = "host" placeholder="Emailer Host" ng-model="Settings.Emailer_Host" required />
+																		</div>
+																			<div class="form-group">
+																				<label  for="password">From Name</label>
+																				<input type="text" class="form-control" name = "FromName" placeholder="From Name" ng-model="Settings.Emailer_From_Name" required />
+																			</div>
+																		<div class="form-group">
+																			<label  for="password">User Name</label>
+																			<input type="text" class="form-control" name = "Username" placeholder="Username" ng-model="Settings.Emailer_UserName" required />
+																		</div>
+																		<div class="form-group">
+																			<label  for="password">Password</label>
+																			<input type="text" class="form-control" name = "Password" placeholder="Password" ng-model="Settings.Emailer_Password" required />
+																		</div>
+																		<div class="form-group">
+																			<label  for="password">SMTP Secure</label>
+																			<input type="text" disabled class="form-control" name = "secure" placeholder="secure" ng-model="Settings.Emailer_Smtp_Secure" required />
+																		</div>
+																		<div class="form-group">
+																			<label  for="password">Port</label>
+																			<input type="text"  class="form-control" name = "port" placeholder="port" ng-model="Settings.Emailer_Port" required />
+																		</div>
+																</div>
+														
+															</div>
+						
+                                                				</div>
+
+                                                			</div>
+
+
+
+																<div id="settings_Emailer" class="col-lg-6" >
+													                                                       
+
+															<div class="panel panel-primary" >
+																<div class="panel-heading">
+																	Reports Settings
+
+																</div>
+																					
+																<div class="panel-body" >
+																	<div  class="col-lg-12">
+															
+																		
+																	   	
+																		<div class="form-group">
+																			<label  for="password">Reports Root Folder</label>
+																			<input type="text"  class="form-control" name = "reportsrootsfolder" placeholder="Path for reports" ng-model="Settings.Reports_RootFolder" required />
+																			<span>Path should not end with slash</span>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+																	    <div class="form-group pull-right">
+																			
+																				
+																			<button type="submit" ng-click="DoSaveSettings(Settings)"  data-ng-disabled="confgForm.$invalid || IsSettingsLoading">
+																					Save Changes
+																				</button>
+																		</div>
+        													 
+																		
+																		
+														</form>
+														</div>
+					
+												</div>
+													<br/>
+													<div class="widget-main" ng-show="RoleFormType=='EDIT'">
+														
+															List of Assigned observation status <button  class="width-35 pull-right btn btn-sm btn-primary" ng-click="PrepareAddRoleToObservationStatus(); RoleToObservationFormType='ADD'" >
+																		Add New Staus
+																	</button>
+														
+															<div class="table-responsive">
+																					
+																<table class="table table-striped table-bordered table-hover">
+																	<thead>
+																		<tr>
+																			<th><a ng-click="RolesToStatusorder('StatusName')">Status Name</a>  </th>
+																			<th><a ng-click="RolesToStatusorder('InDropdown')">Show In Dropdown</a>  </th>
+																			<th><a ng-click="RolesToStatusorder('InView')">Show In View</a>  </th>
+																			<th><a ng-click="RolesToStatusorder('CanEdit')">Editable</a>  </th>
+																			<th>Actions</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat='titem in ObservationStatusList | orderBy:RolesToStatuspredicate:RolesToStatusreverse | filter:RolesToStatuspaginate' class="odd gradeX">
+																			<td>{{titem.StatusName}}</td>
+																			<td><input type="checkbox" disabled ng-checked="titem.InDropdown==1" /></td>
+																			<td><input type="checkbox" disabled ng-checked="titem.InView==1" /></td>
+																			<td><input type="checkbox" disabled ng-checked="titem.CanEdit==1" /></td>
+																			<td><a ng-click="ShowEditRoleToObservationStatusForm(titem)"><img src="images/edit-icon.png" width="15px" height="17px" /></a> &nbsp; 
+																			
+																			 <a href='' ng-click="DoDeleteRoleToObservationsStatus(titem)">
+																			 <img src="images/delete-icon.png" width="15px" height="17px" /> 
+																			 </a> 
+																			</td>
+																		</tr>
+																		
+																		
+																	</tbody>
+																</table>
+																<div>
+																
+														
+														
+																<pagination total-items="RolesToStatustotalItems" ng-model="RolesToStatuscurrentPage"  
+																 max-size="5" boundary-links="true"  
+																 items-per-page="RolesToStatusnumPerPage" class="pagination-sm">  
+														   </pagination> 
+														   </div>
+
+														</div>
+													</div>
+
+													
+								
+								</div>
+					</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- /.page-content -->
