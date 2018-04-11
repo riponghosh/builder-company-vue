@@ -4,7 +4,7 @@ $t = "?t=".commonfunctions::getGUID();
 //echo $t;
 ?>
 <!DOCTYPE html>
-<html lang="en" ng-app="myApp">
+<html lang="en">
 
   <head>
     <meta charset="iso-8859-1">
@@ -74,7 +74,7 @@ $t = "?t=".commonfunctions::getGUID();
     
       <div class="container" style="margin-top:20px;">
 		
-        <div data-ng-view="" id="ng-view" class="slide-animation"></div>
+        <div data-ng-view="" id="app" class="slide-animation"></div>
 		
 
       </div>
@@ -150,7 +150,8 @@ $t = "?t=".commonfunctions::getGUID();
 <script src="js/RichTextEditor/jquery-te-1.4.0.min.js<?=$t?>"></script>
 <script src="js/pageslider/angular-pageslide-directive.js<?=$t?>"></script>
 
-   
+   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+   <script src="app.js"></script>
   <!--<script type="text/javascript" src="plugins/htmltopdf/htmltopdf.js"></script>-->
   
 </html>
