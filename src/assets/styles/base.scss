@@ -1,0 +1,175 @@
+
+$blue:#5055EC;
+$yellow:#FFF95C;
+$error:red;
+$white: #fff;
+$black: #000;
+$ultramarine: #315CFF;
+
+@mixin adaptedSquaredImg ($w:100%) {
+  width : $w;
+  padding-top: $w;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #ddd;
+}
+
+a {
+  text-decoration: none;
+}
+
+@mixin wcenter($width){
+  width: $width;
+  margin: 0 auto;
+}
+@mixin wwcenter($width){
+  width: $width;
+  margin-left: 46%
+}
+@mixin lcenter($height){
+  height: $height;
+  line-height: $height;
+}
+*{
+  font-family:Roboto;
+}
+img{
+  margin-bottom: -4px;
+}
+.inner{
+  @include wcenter(1200px);
+}
+.co_yellow{
+  background: $yellow;
+  color: black;
+}
+.co_blue{
+  background: $blue;
+  color: #fff;
+}
+.co_black{
+  color: #fff;
+  background: #000;
+}
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
+.ml_10{
+  margin-left: 10px;
+}
+.ml_20{
+  margin-left:20px ;
+}
+.ml_40{
+  margin-left:40px ;
+}
+.ml_70{
+  margin-left:70px ;
+}
+.ml_120{
+  margin-left:120px ;
+}
+.mr_0{
+  margin-right: 0px;
+}
+.mr_10{
+  margin-right: 10px;
+}
+.mr_20{
+  margin-right:20px ;
+}
+.mr_40{
+  margin-right:40px ;
+}
+.mr_60{
+  margin-right:60px ;
+}
+.mb_10{
+  margin-bottom: 10px;
+}
+.mb_20{
+  margin-bottom: 20px;
+}
+.mb_60{
+  margin-bottom: 60px;
+}
+.mb_30{
+  margin-bottom: 30px;
+}
+.mt_20{
+  margin-top: 20px;
+}
+.mt_30{
+  margin-top: 30px;
+}
+.mt_40{
+  margin-top: 40px;
+}
+
+.pt_20{
+  padding-top: 20px;
+}
+.pt_80{
+  padding-top: 80px;
+}
+.pb_30{
+  padding-bottom: 30px;
+}
+.cl{
+  overflow: hidden;
+}
+ul{
+  margin: 0px;
+  padding: 0px;
+}
+ul li {
+  list-style: none;
+}
+.fz_12{
+  font-size: 12px;
+}
+.fz_14{
+  font-size: 14px;
+}
+.fz_18{
+  font-size: 18px;
+}
+.fz_20{
+  font-size: 20px;
+}
+.fz_24{
+  font-size: 24px;
+}
+.fz_26{
+  font-size: 26px;
+}
+.fz_32{
+  font-size: 32px;
+}
+.fz_52{
+  font-size: 60px;
+}
+.fw_800{
+  font-weight: 800;
+}
+.fw_600{
+  font-weight: 600;
+}
+.fw_400{
+  font-weight: 400;
+}
+.fw_100{
+  font-weight: 100;
+}
+.fc_blue{
+  color: $blue;
+}
+.pd_user{
+  box-sizing: border-box;
+  padding: 40px 6%;
+}
+
