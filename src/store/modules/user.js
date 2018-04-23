@@ -156,7 +156,7 @@ const mutations = {
 
 const actions = {
   async login({ commit, state }, { username, password }) {
-    const data = await Vue.$http.post(`/user/login`, {
+    const data = await Vue.$http.post(`/login`, {
       username: username,
       password: password,
     })

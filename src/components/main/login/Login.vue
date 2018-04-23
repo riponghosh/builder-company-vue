@@ -6,7 +6,7 @@
       <p class="sub">Join us to work with pro freelance designers from all over the world!</p>
       <el-form label-position="top" :model="form" :rules="rules" ref="form">
         <el-form-item label="Email" prop="username">
-          <el-input v-model="form.username"></el-input>
+          <el-input v-model="form.email"></el-input>
         </el-form-item>
         <el-form-item label="Password" prop="password">
           <el-input type="password" v-model="form.password"></el-input>
@@ -27,11 +27,11 @@
         loading: false,
         error: null,
         form: {
-          username: '',
+          email: '',
           password: '',
         },
         rules: {
-          username: [
+          email: [
             { required: true, message: 'Please input email', trigger: 'blur,change' },
             { type: 'email', message: 'Invalid email address', trigger: 'blur,change' }
           ],
@@ -43,7 +43,7 @@
     },
     computed: {
       enabled() {
-        return this.form.username.length > 0 && this.form.password.length > 0
+        return this.form.email.length > 0 && this.form.password.length > 0
       },
     },
     methods: {
@@ -53,9 +53,10 @@
           this.loading = true
           this.error = null
           try {
+              this.form.email='admin';
+              this.form.password='admin';
             const error = await this.$store.dispatch('login', {
-              username: this.form.username,
-              password: this.form.password,
+              login:this.form,
             })
 
             if (error) {

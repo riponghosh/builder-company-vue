@@ -13,7 +13,7 @@ module.exports = {
         //     '^/api/' : '/app/mock/734/',
         // },
 
-        target: 'http://strip-pals.new.ivycodes.com/api',
+        target: 'http://localhost/testvue/testvue/api',
         // target: 'http://staging.sharecreators.com',
         // target: 'https://sharecreators.com',
 
