@@ -45,7 +45,60 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    
+    {
+      path: '/user',
+      component: User,
+      children: [
+        {
+          path: '/',
+          redirect: '/user/settings',
+        },
+        {
+          path: 'open-jobs/:id',
+          component: OpenJob,
+        },
+        {
+          path: 'applied-artists/:id',
+          component: AppliedArtists,
+        },
+        {
+          path: 'applied-jobs/:id',
+          component: AppliedJobs,
+        },
+        {
+          path: 'saved-artists',
+          component: SavedArtists,
+        },
+        {
+          path: 'archived-jobs',
+          component: ArchivedJobs,
+        },
+        {
+          path: 'payment',
+          component: Payment,
+        },
+        {
+          path: 'notifications',
+          component: Notifications,
+        },
+        {
+          path: 'calendar',
+          component: Calendar,
+        },
+        {
+          path: 'assistant',
+          component: Assistant,
+        },
+        {
+          path: 'settings',
+          component: Settings,
+        },
+        {
+          path: '*',
+          redirect: '/user/settings',
+        },
+      ],
+    },
     {
       path: '/',
       component: Main,

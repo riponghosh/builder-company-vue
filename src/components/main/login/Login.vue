@@ -56,7 +56,7 @@
               this.form.email='admin';
               this.form.password='admin';
             const error = await this.$store.dispatch('login', {
-              login:this.form,
+              customer:this.form,
             })
 
             if (error) {
