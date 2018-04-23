@@ -1,60 +1,76 @@
 <template>
-  <el-menu :default-active="$router.currentRoute.path" mode="horizontal" :router="true" class="menu">
-    <el-menu-item index="/" class="share-creators item">
-      <img src="~@/assets/images/logo-white.png" alt="Share Creators">
-    </el-menu-item>
+  <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" ng-show="authenticated" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+         <!-- <a class="navbar-brand" href="#">Awesome<strong>Power</strong></a>-->
+          <a  rel="home" title="AwesomePower"><img width="100px" height="50px" src="static/images/RPlogo4.png"/></a>
+          
+        </div>
 
-    <div class="menu-center">
-      <el-menu-item index="/one-stop-service" class="item">
-        One-Stop Service
-        <div class="top-bg"></div>
-      </el-menu-item>
-      <!-- <el-menu-item v-if="$store.getters.isLoggedIn" index="/user/settings" class="item">My Profile</el-menu-item> -->
-      <el-menu-item index="/jobs" class="item">
-        Jobs Board
-        <div class="top-bg"></div>
-      </el-menu-item>
-      <el-menu-item index="/artists" class="item">
-        All Artists
-        <div class="top-bg"></div>
-      </el-menu-item>
-      <el-menu-item index="/about-us" class="item">
-        About Us
-        <div class="top-bg"></div>
-      </el-menu-item>
-      <el-menu-item v-if="$store.getters.isEmployer" index="/post-job">
-        <el-button class="post-job">Post A New Job</el-button>
-      </el-menu-item>
-      <!-- <el-menu-item v-if="$store.getters.isArtist || !$store.getters.isLoggedIn" index="/user/settings">
-        <el-button class="post-job">Update Availability</el-button>
-      </el-menu-item> -->
-    </div>
+        <div id="navbar" class="navbar-collapse collapse">
+ 
+          <ul class="nav navbar-nav navbar-right">
+            <!-- <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li> -->
+            
 
-    <div class="right" v-if="$store.getters.isLoggedIn">
-      <el-menu-item index="/user" class="tool">My Creator Tool</el-menu-item>
-    </div>
-    <div class="right" v-else>
-      <el-menu-item index="/signup" class="item">Sign up</el-menu-item>
-      <el-menu-item index="/login" class="item">Login</el-menu-item>
-    </div>
-  </el-menu>
-  <!--<el-dialog-->
-  <!--title="提示"-->
-  <!--:visible.sync="dialogVisible"-->
-  <!--width="30%">-->
-  <!--<span>这是一段信息</span>-->
-  <!--<span slot="footer" class="dialog-footer">-->
-  <!--<el-button @click="dialogVisible = false">取 消</el-button>-->
-  <!--<el-button type="primary" @click="dialogVisible = false">确 定</el-button>-->
-  <!--</span>-->
-  <!--</el-dialog>-->
+            <li>
+<a  class="dropdown-toggle" style="background-color: #CED3F5;" data-toggle="dropdown" ng-show="authenticated" role="button" aria-haspopup="true" aria-expanded="false">Options   <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                
+                <li><a href="#dashboard">Dashboard</a></li>
+ <!--               <li><a href="#message">Messages</a></li> -->
+ 
+ 
+              <li ng-show="isadmin"><a href="#usermgmt" ng-show="isadmin">User Management</a></li>
+               <!--  <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li> -->
+              </ul>
+            </li>
+
+            <li class="active">
+            
+              <a  class="dropdown-toggle" data-toggle="dropdown" ng-show="authenticated" role="button" aria-haspopup="true" aria-expanded="false">Welcome <strong>{{name}}</strong>  <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+              <li><a ng-click="myprofile();">My Profile</a></li>
+              <li><a href="#logout">Logout</a></li>
+                
+               <!--  <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li> -->
+              </ul>
+            </li>
+          </ul>
+          <!-- <ul class="nav navbar-nav navbar-right">
+            <li><a href="../navbar/">Default</a></li>
+            <li><a href="../navbar-static-top/">Static top</a></li>
+            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+          </ul> -->
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
 </template>
 
 <script>
   export default {
     data() {
       return {
-        dialogVisible: false
+        dialogVisible: false,
+        name:'name'
       }
     },
     methods: {
@@ -70,87 +86,3 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  @import "../../assets/styles/base.scss";
-
-  .right {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-
-  .menu {
-    background: $black;
-    border-bottom: none;
-    text-align: center;
-    overflow: hidden;
-    li {
-      float: left;
-      height: 60px;
-    }
-    .item {
-      color: $white;
-      &:hover {
-        color: #ccc;
-        background: $black;
-      }
-    }
-    .share-creators {
-      font-size: 20px;
-      color: $white;
-      position: absolute;
-      top: 0;
-      left: 0;
-      img {
-        height: 30%;
-        margin: 0;
-      }
-    }
-    .menu-center {
-      display: inline-block;
-      height: 60px;
-    }
-    .post-job {
-      background: $ultramarine;
-      border-radius: 60px;
-      line-height: 8px;
-      color: $white;
-      border: none;
-      font-weight: 300;
-      &:hover {
-        color: $white;
-      }
-    }
-    .el-menu-item.tool {
-      background: $ultramarine;
-      color: $white;
-      &:hover {
-        background: $ultramarine;
-        color: #ccc;
-      }
-    }
-  }
-
-  .el-menu-item:hover, .el-menu-item:focus {
-    background: none;
-  }
-
-  .el-menu-item, .el-menu-item.is-active {
-    border: none;
-  }
-
-  .menu .item:hover {
-    background: none;
-  }
-
-  .is-active .top-bg {
-    position: absolute;
-    top: 27px;
-    left: 10%;
-    width: 80%;
-    z-index: -10;
-    height: 13px;
-    background: $ultramarine;
-  }
-
-</style>

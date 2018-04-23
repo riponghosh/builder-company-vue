@@ -3,7 +3,7 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <footer-bar></footer-bar>
+    <!-- <footer-bar></footer-bar> -->
   </div>
 </template>
 
@@ -17,6 +17,3 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  /*@import '../../../node_modules/fullcalendar/dist/fullcalendar.css';*/
-</style>

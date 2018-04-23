@@ -1,22 +1,59 @@
 <template>
-  <div class="bg">
-    <div class="login">
-      <span>{{ error }}</span>
-      <div class="title">SHARE CREATORS</div>
-      <p class="sub">Join us to work with pro freelance designers from all over the world!</p>
-      <el-form label-position="top" :model="form" :rules="rules" ref="form">
-        <el-form-item label="Email" prop="username">
-          <el-input v-model="form.email"></el-input>
-        </el-form-item>
-        <el-form-item label="Password" prop="password">
-          <el-input type="password" v-model="form.password"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submit" :disabled="!enabled" :loading="loading">Login</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-  </div>
+  <div class="page-content">
+
+
+<div class="space-6"></div>
+<div class="col-sm-10 col-sm-offset-1">
+    <div id="login-box" class="login-box visible widget-box no-border">
+        <div class="widget-body">
+            <div class="widget-main">
+                
+
+                <form name="loginForm" class="form-horizontal" :model="login" :rules="rules" ref="form" @submit.prevent='submit'>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="email"> Username </label>
+                        <div class="col-sm-7">
+                           <span class="block input-icon input-icon-right">
+                                <input type="text" class="form-control" placeholder="Username" name="email" v-model="login.email" required focus/>
+                                <i class="ace-icon fa fa-user"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="password"> Password </label>
+                        <div class="col-sm-7">
+                           <span class="block input-icon input-icon-right">
+                                <input type="password" class="form-control" placeholder="Password" v-model="login.password" required/>
+                                <i class="ace-icon fa fa-lock"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="space"></div>
+                     <div class="clearfix">
+                                                        <div class="row">
+                         <label class="col-sm-3 control-label no-padding-right"> </label>
+                        <div class="col-sm-7">
+                            <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                <i class="ace-icon fa fa-key"></i>
+                                Login
+                            </button>
+                                                            </div>
+                        </div>
+                    </div>
+                        <div class="space-4"></div>
+                <!-- <span class="lbl col-sm-3"> </span><div class="col-sm-7">Don't have an account? <a href="#/signup">Signup</a></div> -->
+                </form>
+
+                
+                
+            </div><!-- /widget-main -->
+
+            
+        </div><!-- /widget-body -->
+    </div><!-- /login-box -->
+
+</div><!-- /position-relative -->
+</div>
 </template>
 
 <script>
@@ -26,7 +63,7 @@
       return {
         loading: false,
         error: null,
-        form: {
+        login: {
           email: '',
           password: '',
         },
@@ -43,20 +80,18 @@
     },
     computed: {
       enabled() {
-        return this.form.email.length > 0 && this.form.password.length > 0
+        return this.login.email.length > 0 && this.login.password.length > 0
       },
     },
     methods: {
       async submit() {
-        const valid = await this.$refs.form.validate()
-        if (valid) {
+        // const valid = await this.$refs.login.validate()
+        if (1) {
           this.loading = true
           this.error = null
           try {
-              this.form.email='admin';
-              this.form.password='admin';
             const error = await this.$store.dispatch('login', {
-              customer:this.form,
+              customer:this.login,
             })
 
             if (error) {
@@ -81,68 +116,3 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  @import "../../../assets/styles/base.scss";
-
-  .login {
-    @include wcenter(420px);
-    margin-top: 140px;
-    background: #fff;
-    padding: 40px 40px;
-    box-sizing: border-box;
-  }
-
-  .bg {
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    width: 100%;
-    background: #eee;
-    z-index: 1;
-    background-image: url('../../../assets/images/sign-background.jpg');
-    background-size: cover;
-  }
-
-  .title, .sub {
-    text-align: center;
-  }
-
-  .title {
-    font-size: 1.25rem;
-    font-weight: 900;
-  }
-
-  .sub {
-    color: #ddd;
-    line-height: 24px;
-  }
-
-  .el-form {
-    .el-form-item {
-      margin-bottom: 10px;
-    }
-    /deep/ .el-input__inner {
-      border-radius: 0;
-    }
-    /deep/ .el-form-item__label {
-      padding: 0;
-      line-height: 30px;
-    }
-    .el-button {
-      background: $black;
-      height: 40px;
-      display: block;
-      width: 100%;
-      border-radius: 0;
-      border: none;
-      margin-top: 20px;
-      &.is-disabled {
-        &:hover, &:active {
-          background-color: $blue;
-        }
-      }
-    }
-  }
-
-
-</style>
