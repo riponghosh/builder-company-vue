@@ -21,7 +21,7 @@
             <li><a href="#contact">Contact</a></li> -->
             
 
-            <li>
+            <li v-if="$store.getters.isLoggedIn">
 <a  class="dropdown-toggle" style="background-color: #CED3F5;" data-toggle="dropdown" ng-show="authenticated" role="button" aria-haspopup="true" aria-expanded="false">Options   <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 
@@ -39,9 +39,9 @@
               </ul>
             </li>
 
-            <li class="active">
+            <li class="active" v-if="$store.getters.isLoggedIn">
             
-              <a  class="dropdown-toggle" data-toggle="dropdown" ng-show="authenticated" role="button" aria-haspopup="true" aria-expanded="false">Welcome <strong>{{name}}</strong>  <span class="caret"></span></a>
+              <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome <strong>{{name}}</strong>  <span class="caret"></span></a>
               <ul class="dropdown-menu">
               <li><a ng-click="myprofile();">My Profile</a></li>
               <li><a href="#logout">Logout</a></li>
@@ -72,6 +72,9 @@
         dialogVisible: false,
         name:'name'
       }
+    },
+    mounted() {
+      console.log(this.$store.getters.isLoggedIn);
     },
     methods: {
       handleClose(done) {

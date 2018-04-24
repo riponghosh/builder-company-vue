@@ -3,6 +3,7 @@ import Vue from 'vue'
 const state = {
   id: null,
   username: null,
+  customer: null,
   type: null,
   amount: null,
 
@@ -15,6 +16,7 @@ const state = {
 
 const getters = {
   isLoggedIn: (state) => {
+    console.log(state.username)
     return state.username !== null
   },
   isArtist: (state) => {
@@ -29,6 +31,7 @@ const mutations = {
   reset(state) {
     state.id = null
     state.username = null
+    state.customer = null
     state.type = null
     state.amount = null
 
@@ -41,6 +44,7 @@ const mutations = {
   login(state, { id, username, type }) {
     state.id = id
     state.username = username
+    state.customer = customer
     state.type = type
   },
   updateSideBar(state, { openJobs = [], appliedJobs = [], appliedArtists = [], amount = null }) {
@@ -156,15 +160,24 @@ const mutations = {
 
 const actions = {
   async login({ commit, state }, { customer }) {
-    console.log(customer)
+    console.log(customer.email);
+    if (customer.email=='admin'&&customer.password=='admin') {
+      state.username=customer.email;
+    }
     const data = await Vue.$http.post(`/login`, {
       customer: customer,
+      username:customer.email,
+      password:customer.password,
     })
+    console.log(state.username);
     commit('login', {
       customer: customer,
+      username:'customer.email',
+      password:'customer.password',
       type: data.type,
       id: data.id,
     })
+    console.log(state.username);
     return null
   },
   async signup({ commit, state, dispatch }, { username, password, type }) {
